@@ -1,5 +1,9 @@
+import WelcomeScreen from '../../pages/welcome-screen/welcome-screen';
+
 function App(): JSX.Element {
-  return <p>Hello, world!</p>;
+  return (
+    <WelcomeScreen />
+  );
 }
 
 export default App;
