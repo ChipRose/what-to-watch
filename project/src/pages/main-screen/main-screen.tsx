@@ -243,8 +243,8 @@ function MainScreen({ filmCount = 0 }: MainProps): JSX.Element {
           </ul>
 
           <div className='catalog__films-list'>
-            {Array.from({ length: filmCount }, () => (
-              <Card />
+            {Array.from({ length: filmCount }, (_, key) => (
+              <Card key={key} />
             ))}
           </div>
 
