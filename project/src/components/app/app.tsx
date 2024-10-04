@@ -4,11 +4,12 @@ import MyList from '../../pages/my-list/my-list';
 
 type AppProps = {
   filmCount: number;
+  favoriteFilmCount: number;
 };
 
-function App({ filmCount }: AppProps): JSX.Element {
+function App({ filmCount, favoriteFilmCount }: AppProps): JSX.Element {
   // return <MainScreen filmCount={filmCount} />;
-  return <MyList />;
+  return <MyList favoriteFilmCount={favoriteFilmCount} />;
 
 }
 
