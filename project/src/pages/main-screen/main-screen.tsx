@@ -1,11 +1,14 @@
-import Card from '../../components/card/card';
+import { FilmsList } from '../../types/film';
+
+import CardList from '../../components/cards-list/cards-list';
 import Logo from '../../components/logo/logo';
 
 type MainProps = {
   filmCount: number;
+  filmsList: FilmsList;
 };
 
-function MainScreen({ filmCount = 0 }: MainProps): JSX.Element {
+function MainScreen({ filmCount = 0, filmsList }: MainProps): JSX.Element {
   const isFooterLogo = true;
   return (
     <>
@@ -139,11 +142,7 @@ function MainScreen({ filmCount = 0 }: MainProps): JSX.Element {
             </li>
           </ul>
 
-          <div className='catalog__films-list'>
-            {Array.from({ length: filmCount }, (_, key) => (
-              <Card key={key} />
-            ))}
-          </div>
+          <CardList filmsList={filmsList} />
 
           <div className='catalog__more'>
             <button className='catalog__button' type='button'>

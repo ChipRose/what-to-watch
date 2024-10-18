@@ -1,4 +1,4 @@
-import Card from '../../components/card/card';
+// import Card from '../../components/card/card';
 import Logo from '../../components/logo/logo';
 
 type MyListProps = {
@@ -31,11 +31,11 @@ function MyListScreen({ favoriteFilmCount }: MyListProps): JSX.Element {
         <h2 className='catalog__title visually-hidden'>Catalog</h2>
 
         <div className='catalog__films-list'>
-          {
+          {/* {
             Array.from({ length: favoriteFilmCount }, (_, key) => (
               <Card key={key} />
             ))
-          }
+          } */}
         </div>
       </section>
 

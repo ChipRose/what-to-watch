@@ -1,4 +1,4 @@
-import Card from '../../components/card/card';
+// import Card from '../../components/card/card';
 import Logo from '../../components/logo/logo';
 
 type FilmScreenProps = {
@@ -108,9 +108,9 @@ function FilmScreen({ similarFilmCount }: FilmScreenProps): JSX.Element {
 
           <div className="catalog__films-list">
             {
-              Array.from({ length: similarFilmCount }, (_, key) => (
-                <Card key={key} />
-              ))
+              // Array.from({ length: similarFilmCount }, (_, key) => (
+              //   <Card key={key} />
+              // ))
             }
           </div>
         </section>

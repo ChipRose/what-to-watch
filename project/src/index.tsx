@@ -1,5 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+
+import { filmsList } from './mocks/films';
 import App from './components/app/app';
 
 const FILM_COUNT = 20;
@@ -14,6 +16,7 @@ root.render(
   <React.StrictMode>
     <App
       filmCount={FILM_COUNT}
+      filmsList={filmsList}
       favoriteFilmCount={FAVORITE_FILM_COUNT}
       similarFilmCount={SIMILAR_FILM_COUNT}
     />
