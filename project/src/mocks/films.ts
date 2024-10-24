@@ -1,6 +1,6 @@
-import { Film } from '../types/film';
+import { FilmsPreviewList } from '../types/film';
 
-export const filmsList: Film[] = [
+export const filmsList: FilmsPreviewList = [
   {
     id: 0,
     src: 'https://upload.wikimedia.org/wikipedia/commons/transcoded/b/b3/Big_Buck_Bunny_Trailer_400p.ogv/Big_Buck_Bunny_Trailer_400p.ogv.360p.webm',

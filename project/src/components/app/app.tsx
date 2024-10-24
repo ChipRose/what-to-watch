@@ -1,7 +1,8 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import { AppRoute } from '../../const/const';
-import { FilmsList } from '../../types/film';
+import { FilmsPreviewList } from '../../types/film';
+import { ReviewsList } from '../../types/review';
 
 import PrivateRoute from '../private-route/private-route';
 import MainScreen from '../../pages/main-screen/main-screen';
@@ -17,22 +18,23 @@ type AppProps = {
   filmCount: number;
   favoriteFilmCount: number;
   similarFilmCount: number;
-  filmsList: FilmsList;
+  filmsList: FilmsPreviewList;
+  reviewsList: ReviewsList;
 };
 
-function App({ filmCount, favoriteFilmCount, similarFilmCount, filmsList }: AppProps): JSX.Element {
+function App({ filmCount, favoriteFilmCount, similarFilmCount, filmsList, reviewsList }: AppProps): JSX.Element {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path={AppRoute.Main} element={<MainScreen filmCount={filmCount} filmsList={filmsList}/>} />
+        <Route path={AppRoute.Main} element={<MainScreen filmCount={filmCount} filmsList={filmsList} />} />
         <Route path={AppRoute.LogIn} element={<LoginScreen />} />
-        <Route path={AppRoute.Film} element={<FilmScreen similarFilmCount={similarFilmCount} />} />
+        <Route path={AppRoute.Film} element={<FilmScreen similarFilmCount={similarFilmCount} similarFilmsList={filmsList} />} />
         <Route path={AppRoute.Player} element={<PlayerScreen />} />
         <Route
           path={AppRoute.MyList}
           element={
             <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
-              <MyListScreen favoriteFilmCount={favoriteFilmCount} />
+              <MyListScreen favoriteFilmCount={favoriteFilmCount} favoritesFilmsList={filmsList} />
             </PrivateRoute>
           }
         />

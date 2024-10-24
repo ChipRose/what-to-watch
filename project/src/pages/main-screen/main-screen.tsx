@@ -1,11 +1,11 @@
-import { FilmsList } from '../../types/film';
+import { FilmsPreviewList } from '../../types/film';
 
 import CardList from '../../components/cards-list/cards-list';
 import Logo from '../../components/logo/logo';
 
 type MainProps = {
   filmCount: number;
-  filmsList: FilmsList;
+  filmsList: FilmsPreviewList;
 };
 
 function MainScreen({ filmCount = 0, filmsList }: MainProps): JSX.Element {

@@ -1,17 +1,38 @@
-import { FilmsList } from '../../types/film';
+import { useState } from 'react';
 
-import Card from '../card/card';
+import { FilmsPreviewList } from '../../types/film';
+
+import Card from '../small-film-card/small-film-card';
 
 type CardsListProps = {
-  filmsList: FilmsList;
+  filmsList: FilmsPreviewList;
 };
 
 function CardList({ filmsList }: CardsListProps): JSX.Element {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [activeCard, setActiveCard] = useState<number | null>(null);
+
+  const handleCardMouseMove = (id: number) => {
+    setActiveCard(id);
+  };
+
+  const handleCardMouseLeave = () => {
+    setActiveCard(null);
+  };
+
+
   return (
-    <div className='catalog__films-list'>
+    <div
+      className='catalog__films-list'
+    >
       {
-        filmsList?.map(({ cover, title, src, id }) => (
-          <Card cover={cover} title={title} src={src} key={id} />
+        filmsList?.map((film) => (
+          <Card
+            {...film}
+            key={film.id}
+            onMouseMove={handleCardMouseMove}
+            onMouseLeave={handleCardMouseLeave}
+          />
         ))
       }
     </div>

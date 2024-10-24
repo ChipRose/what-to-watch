@@ -1,11 +1,15 @@
 // import Card from '../../components/card/card';
+import { FilmsList } from '../../types/film';
+
 import Logo from '../../components/logo/logo';
+import CardList from '../../components/cards-list/cards-list';
 
 type FilmScreenProps = {
   similarFilmCount: number;
+  similarFilmsList: FilmsList;
 }
 
-function FilmScreen({ similarFilmCount }: FilmScreenProps): JSX.Element {
+function FilmScreen({ similarFilmCount, similarFilmsList }: FilmScreenProps): JSX.Element {
   const isFooterLogo = true;
   return (
     <>
@@ -106,13 +110,8 @@ function FilmScreen({ similarFilmCount }: FilmScreenProps): JSX.Element {
         <section className="catalog catalog--like-this">
           <h2 className="catalog__title">More like this</h2>
 
-          <div className="catalog__films-list">
-            {
-              // Array.from({ length: similarFilmCount }, (_, key) => (
-              //   <Card key={key} />
-              // ))
-            }
-          </div>
+          <CardList filmsList={similarFilmsList} />
+
         </section>
 
         <footer className="page-footer">
