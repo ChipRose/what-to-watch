@@ -1,9 +1,52 @@
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+
 import Logo from '../logo/logo';
 import { Film } from '../../types/film';
+import CardDescription from '../card-description/card-description';
 
 type FilmCardProps = Film & {
   isFull: boolean;
 };
+
+type TabsListProps = {
+  activeTab: number;
+  onUpdate: (id: number) => void;
+}
+
+function TabsList({ activeTab, onUpdate }: TabsListProps): JSX.Element {
+  const tabs = [
+    {
+      id: 0, title: 'Overview'
+    },
+    {
+      id: 1, title: 'Details'
+    },
+    {
+      id: 2, title: 'Reviews'
+    },
+  ];
+
+  const handleClick = (id: number) => {
+    onUpdate(id);
+  };
+
+  return (
+    <ul className="film-nav__list">
+      {
+        tabs.map(({ id, title }) => (
+          <li
+            key={id}
+            className={`film-nav__item${id === activeTab ? ' film-nav__item--active' : ''}`}
+            onClick={() => handleClick(id)}
+          >
+            <Link to="/" className="film-nav__link">{title}</Link>
+          </li>
+        ))
+      }
+    </ul>
+  );
+}
 
 function FilmCard({
   isFull,
@@ -18,6 +61,15 @@ function FilmCard({
   rating,
   ratingCount
 }: FilmCardProps): JSX.Element {
+  const ACTIVE_TAB = 0;
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [activeTab, setActiveTab] = useState<number>(ACTIVE_TAB);
+
+  const onTabClick = (id: number) => {
+    setActiveTab(id);
+  };
+
   const mainClass = `film-card ${isFull ? ' film-card--full' : ''}`;
   return (
     <section className={mainClass}>
@@ -78,34 +130,12 @@ function FilmCard({
 
           <div className="film-card__desc">
             <nav className="film-nav film-card__nav">
-              <ul className="film-nav__list">
-                <li className="film-nav__item film-nav__item--active">
-                  <a href="/" className="film-nav__link">Overview</a>
-                </li>
-                <li className="film-nav__item">
-                  <a href="/" className="film-nav__link">Details</a>
-                </li>
-                <li className="film-nav__item">
-                  <a href="/" className="film-nav__link">Reviews</a>
-                </li>
-              </ul>
+              <TabsList activeTab={activeTab} onUpdate={onTabClick} />
             </nav>
 
-            <div className="film-rating">
-              <div className="film-rating__score">{rating}</div>
-              <p className="film-rating__meta">
-                <span className="film-rating__level">Very good</span>
-                <span className="film-rating__count">{ratingCount} ratings</span>
-              </p>
-            </div>
-
-            <div className="film-card__text">
-              <p>{description}</p>
-
-              <p className="film-card__director"><strong>Director: {director}</strong></p>
-
-              <p className="film-card__starring"><strong>Starring: {starring} </strong></p>
-            </div>
+            <CardDescription
+              {...{ director, description, starring, rating, ratingCount }}
+            />
           </div>
         </div>
       </div>
