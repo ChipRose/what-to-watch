@@ -23,27 +23,39 @@ type AppProps = {
   activeFilm: Film;
 };
 
-function App({ filmCount, favoriteFilmCount, similarFilmCount, filmsList, activeFilm, reviewsList }: AppProps): JSX.Element {
+function App({
+  filmCount,
+  favoriteFilmCount,
+  similarFilmCount,
+}: AppProps): JSX.Element {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path={AppRoute.Main} element={<MainScreen filmCount={filmCount} activeFilm={activeFilm} filmsList={filmsList} />} />
+        <Route
+          path={AppRoute.Main}
+          element={<MainScreen filmCount={filmCount} />}
+        />
         <Route path={AppRoute.LogIn} element={<LoginScreen />} />
-        <Route path={AppRoute.Film} element={<FilmScreen film={activeFilm} similarFilmCount={similarFilmCount} similarFilmsList={filmsList} />} />
+        <Route path={AppRoute.Films}>
+          <Route
+            path={AppRoute.Film}
+            element={<FilmScreen similarFilmCount={similarFilmCount} />}
+          />
+          <Route
+            path={AppRoute.AddReview}
+            element={
+              <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
+                <AddReviewScreen />
+              </PrivateRoute>
+            }
+          />
+        </Route>
         <Route path={AppRoute.Player} element={<PlayerScreen />} />
         <Route
           path={AppRoute.MyList}
           element={
             <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
-              <MyListScreen favoriteFilmCount={favoriteFilmCount} favoritesFilmsList={filmsList} />
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path={AppRoute.AddReview}
-          element={
-            <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
-              <AddReviewScreen />
+              <MyListScreen favoriteFilmCount={favoriteFilmCount} />
             </PrivateRoute>
           }
         />
