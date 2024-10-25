@@ -1,12 +1,11 @@
-import { FilmsList } from '../../types/film';
+import { FilmsPreviewList } from '../../types/film';
 
 import Logo from '../../components/logo/logo';
 import CardList from '../../components/cards-list/cards-list';
 
-
 type MyListProps = {
   favoriteFilmCount: number;
-  favoritesFilmsList: FilmsList;
+  favoritesFilmsList: FilmsPreviewList;
 };
 
 function MyListScreen({ favoriteFilmCount, favoritesFilmsList }: MyListProps): JSX.Element {

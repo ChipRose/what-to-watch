@@ -1,4 +1,5 @@
 import { FilmPreview } from '../../types/film';
+import { Link } from 'react-router-dom';
 
 type CardProps = FilmPreview & {
   onMouseMove: (id: number) => void;
@@ -9,13 +10,13 @@ function SmallFilmCard({
   id,
   cover,
   title,
-  src,
   onMouseMove,
   onMouseLeave
 }: CardProps): JSX.Element {
   const handleMouseMove = () => {
     onMouseMove(id);
   };
+  const FILMS_ROUTE = 'films/';
 
   return (
     <article
@@ -32,9 +33,9 @@ function SmallFilmCard({
         />
       </div>
       <h3 className="small-film-card__title">
-        <a className="small-film-card__link" href={src}>
+        <Link className="small-film-card__link" to={`${FILMS_ROUTE}${id}`}>
           {title}
-        </a>
+        </Link>
       </h3>
     </article>
   );

@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 
-import { filmsList } from './mocks/films';
+import { filmsList, activeFilm } from './mocks/films';
 import { reviewsList } from './mocks/review';
 
 import App from './components/app/app';
@@ -19,6 +19,7 @@ root.render(
     <App
       filmCount={FILM_COUNT}
       filmsList={filmsList}
+      activeFilm={activeFilm}
       reviewsList={reviewsList}
       favoriteFilmCount={FAVORITE_FILM_COUNT}
       similarFilmCount={SIMILAR_FILM_COUNT}

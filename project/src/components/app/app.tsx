@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import { AppRoute } from '../../const/const';
-import { FilmsPreviewList } from '../../types/film';
+import { FilmsPreviewList, Film } from '../../types/film';
 import { ReviewsList } from '../../types/review';
 
 import PrivateRoute from '../private-route/private-route';
@@ -20,15 +20,16 @@ type AppProps = {
   similarFilmCount: number;
   filmsList: FilmsPreviewList;
   reviewsList: ReviewsList;
+  activeFilm: Film;
 };
 
-function App({ filmCount, favoriteFilmCount, similarFilmCount, filmsList, reviewsList }: AppProps): JSX.Element {
+function App({ filmCount, favoriteFilmCount, similarFilmCount, filmsList, activeFilm, reviewsList }: AppProps): JSX.Element {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path={AppRoute.Main} element={<MainScreen filmCount={filmCount} filmsList={filmsList} />} />
+        <Route path={AppRoute.Main} element={<MainScreen filmCount={filmCount} activeFilm={activeFilm} filmsList={filmsList} />} />
         <Route path={AppRoute.LogIn} element={<LoginScreen />} />
-        <Route path={AppRoute.Film} element={<FilmScreen similarFilmCount={similarFilmCount} similarFilmsList={filmsList} />} />
+        <Route path={AppRoute.Film} element={<FilmScreen film={activeFilm} similarFilmCount={similarFilmCount} similarFilmsList={filmsList} />} />
         <Route path={AppRoute.Player} element={<PlayerScreen />} />
         <Route
           path={AppRoute.MyList}
