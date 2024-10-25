@@ -65,7 +65,8 @@ function App({
             <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
               <AddReviewScreen />
             </PrivateRoute>
-          }/>
+          }
+        />
         <Route path={'*'} element={<NotFoundScreen />} />
       </Routes>
     </BrowserRouter>
