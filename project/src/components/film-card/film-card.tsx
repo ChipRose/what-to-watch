@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import { Film, FilmDescription } from '../../types/film';
 import { FilmReviewsList } from '../../types/review';
 
+import { filmCardTabs } from '../../const/const';
+
 import CardDescription from '../card-description/card-description';
 import Header from '../header/header';
 
@@ -17,18 +19,6 @@ type TabsListProps = {
   onUpdate: (id: number) => void;
 }
 
-const tabs = [
-  {
-    id: 0, title: 'Overview'
-  },
-  {
-    id: 1, title: 'Details', component: (descriptionProps: FilmDescription): JSX.Element => <CardDescription {...descriptionProps} />
-  },
-  {
-    id: 2, title: 'Reviews'
-  },
-];
-
 function TabsList({ activeTab, onUpdate }: TabsListProps): JSX.Element {
 
   const handleClick = (id: number) => {
@@ -38,11 +28,11 @@ function TabsList({ activeTab, onUpdate }: TabsListProps): JSX.Element {
   return (
     <ul className="film-nav__list">
       {
-        tabs.map(({ id, title }) => (
+        filmCardTabs.map(({ id:tabId, title }) => (
           <li
-            key={id}
-            className={`film-nav__item${id === activeTab ? ' film-nav__item--active' : ''}`}
-            onClick={() => handleClick(id)}
+            key={tabId}
+            className={`film-nav__item${tabId === activeTab ? ' film-nav__item--active' : ''}`}
+            onClick={() => handleClick(tabId)}
           >
             <Link to="#" className="film-nav__link">{title}</Link>
           </li>

@@ -1,4 +1,8 @@
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+
 import { FilmsPreviewList, Film } from '../../types/film';
+import { genreTabs } from '../../const/const';
 
 import CardList from '../../components/cards-list/cards-list';
 import Logo from '../../components/logo/logo';
@@ -9,7 +13,49 @@ type MainProps = {
   activeFilm: Film;
 };
 
+type TabsProps = {
+  activeTab: number;
+  onUpdate: (id: number) => void;
+};
+
+function TabsList({ activeTab, onUpdate }: TabsProps) {
+
+  const handleClick = (id: number) => {
+    onUpdate(id);
+  };
+
+  return (
+    <ul className='catalog__genres-list'>
+      {
+        genreTabs?.map(({ id: tabId, title }) => (
+          <li
+            className={`catalog__genres-item ${tabId === activeTab ? 'catalog__genres-item--active' : ''}`}
+            key={tabId}
+          >
+            <Link
+              to='/'
+              className='catalog__genres-link'
+              onClick={() => handleClick(tabId)}
+            >
+              {title}
+            </Link>
+          </li>
+        ))
+      }
+
+    </ul>
+  );
+}
+
 function MainScreen({ filmsList, activeFilm }: MainProps): JSX.Element {
+  const ACTIVE_TAB = 0;
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [activeTab, setActiveTab] = useState<number>(ACTIVE_TAB);
+
+  const onTabClick = (id: number) => {
+    setActiveTab(id);
+  };
 
   return (
     <>
@@ -20,7 +66,7 @@ function MainScreen({ filmsList, activeFilm }: MainProps): JSX.Element {
 
         <h1 className="visually-hidden">WTW</h1>
 
-        <Header/>
+        <Header />
 
         <div className="film-card__wrap">
           <div className="film-card__info">
@@ -58,58 +104,7 @@ function MainScreen({ filmsList, activeFilm }: MainProps): JSX.Element {
         <section className='catalog'>
           <h2 className='catalog__title visually-hidden'>Catalog</h2>
 
-          <ul className='catalog__genres-list'>
-            <li className='catalog__genres-item catalog__genres-item--active'>
-              <a href='/' className='catalog__genres-link'>
-                All genres
-              </a>
-            </li>
-            <li className='catalog__genres-item'>
-              <a href='/' className='catalog__genres-link'>
-                Comedies
-              </a>
-            </li>
-            <li className='catalog__genres-item'>
-              <a href='/' className='catalog__genres-link'>
-                Crime
-              </a>
-            </li>
-            <li className='catalog__genres-item'>
-              <a href='/' className='catalog__genres-link'>
-                Documentary
-              </a>
-            </li>
-            <li className='catalog__genres-item'>
-              <a href='/' className='catalog__genres-link'>
-                Dramas
-              </a>
-            </li>
-            <li className='catalog__genres-item'>
-              <a href='/' className='catalog__genres-link'>
-                Horror
-              </a>
-            </li>
-            <li className='catalog__genres-item'>
-              <a href='/' className='catalog__genres-link'>
-                Kids & Family
-              </a>
-            </li>
-            <li className='catalog__genres-item'>
-              <a href='/' className='catalog__genres-link'>
-                Romance
-              </a>
-            </li>
-            <li className='catalog__genres-item'>
-              <a href='/' className='catalog__genres-link'>
-                Sci-Fi
-              </a>
-            </li>
-            <li className='catalog__genres-item'>
-              <a href='/' className='catalog__genres-link'>
-                Thrillers
-              </a>
-            </li>
-          </ul>
+          <TabsList activeTab={activeTab} onUpdate={onTabClick} />
 
           <CardList filmsList={filmsList} />
 
