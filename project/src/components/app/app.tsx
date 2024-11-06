@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import { AppRoute } from '../../const/const';
 import { FilmsPreviewList, Film } from '../../types/film';
-import { ReviewsList } from '../../types/review';
+import { FilmReviewsList } from '../../types/review';
 
 import PrivateRoute from '../private-route/private-route';
 import MainScreen from '../../pages/main-screen/main-screen';
@@ -15,16 +15,14 @@ import NotFoundScreen from '../../pages/not-found-screen/not-found-screen';
 import { AuthorizationStatus } from '../../const/const';
 
 type AppProps = {
-  filmCount: number;
   favoriteFilmCount: number;
   similarFilmCount: number;
   filmsList: FilmsPreviewList;
-  reviewsList: ReviewsList;
+  reviewsList: FilmReviewsList;
   activeFilm: Film;
 };
 
 function App({
-  filmCount,
   favoriteFilmCount,
   similarFilmCount,
   filmsList,
@@ -35,11 +33,11 @@ function App({
   return (
     <BrowserRouter>
       <Routes>
-        <Route path={AppRoute.Main} element={<MainScreen filmCount={filmCount} activeFilm={activeFilm} filmsList={filmsList} />} />
+        <Route path={AppRoute.Main} element={<MainScreen activeFilm={activeFilm} filmsList={filmsList} />} />
 
         <Route path={AppRoute.LogIn} element={<LoginScreen />} />
         <Route path={AppRoute.Films}>
-          <Route path={AppRoute.Film} element={<FilmScreen film={activeFilm} similarFilmCount={similarFilmCount} similarFilmsList={filmsList} />} />
+          <Route path={AppRoute.Film} element={<FilmScreen film={activeFilm} similarFilmCount={similarFilmCount} similarFilmsList={filmsList} reviewsList={reviewsList} />} />
 
           <Route
             path={AppRoute.AddReview}

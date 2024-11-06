@@ -6,15 +6,18 @@ export type FilmPreview = {
   title: string;
 }
 
-export type FilmsPreviewList = FilmPreview[]
-
-export type Film = FilmPreview & {
-  hero:string;
+export type FilmDescription = {
+  director: string;
+  description: string;
+  starring: string[];
   rating: number;
   ratingCount: number;
-  description: string;
-  director: string;
-  starring: string[];
+}
+
+export type FilmsPreviewList = FilmPreview[]
+
+export type Film = FilmPreview & FilmDescription & {
+  hero: string;
   runTime: number;
   genre: string;
   realized: number;

@@ -7,4 +7,4 @@ export type Review = {
   date: Date;
 }
 
-export type ReviewsList = Review[]
+export type FilmReviewsList = Review[]

@@ -6,7 +6,6 @@ import { reviewsList } from './mocks/review';
 
 import App from './components/app/app';
 
-const FILM_COUNT = 20;
 const FAVORITE_FILM_COUNT = 12;
 const SIMILAR_FILM_COUNT = 4;
 
@@ -17,7 +16,6 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <App
-      filmCount={FILM_COUNT}
       filmsList={filmsList}
       activeFilm={activeFilm}
       reviewsList={reviewsList}

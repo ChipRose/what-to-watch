@@ -1,4 +1,5 @@
 import { FilmsPreviewList, Film } from '../../types/film';
+import { FilmReviewsList } from '../../types/review';
 
 import Logo from '../../components/logo/logo';
 import CardList from '../../components/cards-list/cards-list';
@@ -7,16 +8,17 @@ import FilmCard from '../../components/film-card/film-card';
 type FilmScreenProps = {
   similarFilmCount: number;
   similarFilmsList: FilmsPreviewList;
+  reviewsList: FilmReviewsList;
   film: Film;
 }
 
-function FilmScreen({ similarFilmCount, film, similarFilmsList }: FilmScreenProps): JSX.Element {
+function FilmScreen({ similarFilmCount, film, similarFilmsList, reviewsList }: FilmScreenProps): JSX.Element {
   const isFooterLogo = true;
   const isFull = true;
 
   return (
     <>
-      <FilmCard isFull={isFull} {...film} />
+      <FilmCard isFull={isFull} {...film} reviewsList={reviewsList} />
 
       <div className="page-content">
         <section className="catalog catalog--like-this">

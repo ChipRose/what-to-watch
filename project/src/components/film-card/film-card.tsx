@@ -1,12 +1,15 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
+import { Film, FilmDescription } from '../../types/film';
+import { FilmReviewsList } from '../../types/review';
+
 import Logo from '../logo/logo';
-import { Film } from '../../types/film';
 import CardDescription from '../card-description/card-description';
 
 type FilmCardProps = Film & {
   isFull: boolean;
+  reviewsList: FilmReviewsList;
 };
 
 type TabsListProps = {
@@ -14,18 +17,19 @@ type TabsListProps = {
   onUpdate: (id: number) => void;
 }
 
+const tabs = [
+  {
+    id: 0, title: 'Overview'
+  },
+  {
+    id: 1, title: 'Details', component: (descriptionProps: FilmDescription): JSX.Element => <CardDescription {...descriptionProps} />
+  },
+  {
+    id: 2, title: 'Reviews'
+  },
+];
+
 function TabsList({ activeTab, onUpdate }: TabsListProps): JSX.Element {
-  const tabs = [
-    {
-      id: 0, title: 'Overview'
-    },
-    {
-      id: 1, title: 'Details'
-    },
-    {
-      id: 2, title: 'Reviews'
-    },
-  ];
 
   const handleClick = (id: number) => {
     onUpdate(id);
@@ -40,7 +44,7 @@ function TabsList({ activeTab, onUpdate }: TabsListProps): JSX.Element {
             className={`film-nav__item${id === activeTab ? ' film-nav__item--active' : ''}`}
             onClick={() => handleClick(id)}
           >
-            <Link to="/" className="film-nav__link">{title}</Link>
+            <Link to="#" className="film-nav__link">{title}</Link>
           </li>
         ))
       }
@@ -59,9 +63,11 @@ function FilmCard({
   description,
   starring,
   rating,
-  ratingCount
+  ratingCount,
+  reviewsList
 }: FilmCardProps): JSX.Element {
   const ACTIVE_TAB = 0;
+  const descriptionProps: FilmDescription = { director, description, starring, rating, ratingCount };
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [activeTab, setActiveTab] = useState<number>(ACTIVE_TAB);
@@ -71,6 +77,7 @@ function FilmCard({
   };
 
   const mainClass = `film-card ${isFull ? ' film-card--full' : ''}`;
+
   return (
     <section className={mainClass}>
       <div className="film-card__hero">
@@ -132,10 +139,10 @@ function FilmCard({
             <nav className="film-nav film-card__nav">
               <TabsList activeTab={activeTab} onUpdate={onTabClick} />
             </nav>
-
-            <CardDescription
-              {...{ director, description, starring, rating, ratingCount }}
-            />
+            {
+              // tabs?.find(({ id: tabId }) => tabId === activeTab)?.component({director, description, starring, rating, ratingCount} )
+            }
+            <CardDescription {...descriptionProps} />
           </div>
         </div>
       </div>

@@ -4,12 +4,11 @@ import CardList from '../../components/cards-list/cards-list';
 import Logo from '../../components/logo/logo';
 
 type MainProps = {
-  filmCount: number;
   filmsList: FilmsPreviewList;
   activeFilm: Film;
 };
 
-function MainScreen({ filmCount = 0, filmsList, activeFilm }: MainProps): JSX.Element {
+function MainScreen({ filmsList, activeFilm }: MainProps): JSX.Element {
   const isFooterLogo = true;
   // const isFull = false;
 

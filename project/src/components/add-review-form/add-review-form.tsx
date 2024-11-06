@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { ChangeTextareaEvent, ChangeInputEvent } from '../../types/form';
 
 type FormData = {
@@ -30,7 +30,7 @@ function RatingScale({ rating, onUpdate }: RatingScaleProps): JSX.Element {
     <div id='rating' className="rating__stars">
       {
         starsProps?.map(({ value, name, id }) => (
-          <>
+          <React.Fragment key={id}>
             <input
               className="rating__input"
               id={id}
@@ -41,7 +41,7 @@ function RatingScale({ rating, onUpdate }: RatingScaleProps): JSX.Element {
               onChange={handleInputChange}
             />
             <label className="rating__label" htmlFor={id}>{name}</label>
-          </>
+          </React.Fragment>
         ))
       }
     </div>
@@ -71,7 +71,8 @@ function AddReviewForm(): JSX.Element {
         <div className="add-review__text">
           <textarea
             className="add-review__textarea"
-            name="review-text" id="review-text"
+            name="review-text"
+            id="reviewText"
             placeholder="Review text"
             onChange={handleTextAreaChange}
           >
