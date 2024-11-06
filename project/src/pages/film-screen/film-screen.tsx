@@ -13,7 +13,6 @@ type FilmScreenProps = {
 }
 
 function FilmScreen({ similarFilmCount, film, similarFilmsList, reviewsList }: FilmScreenProps): JSX.Element {
-  const isFooterLogo = true;
   const isFull = true;
 
   return (
@@ -29,7 +28,7 @@ function FilmScreen({ similarFilmCount, film, similarFilmsList, reviewsList }: F
         </section>
 
         <footer className="page-footer">
-          <Logo isLight={isFooterLogo} />
+          <Logo variant='light' />
 
           <div className="copyright">
             <p>© 2019 What to watch Ltd.</p>
