@@ -1,6 +1,6 @@
-import { FilmList, Film } from '../types/film';
+import { FilmList, FilmFullInfo } from '../types/film';
 
-export const activeFilm: Film = {
+export const activeFilm: FilmFullInfo = {
   id: 0,
   rating: 9,
   ratingCount: 200,

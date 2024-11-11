@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import { FilmsPreviewList, Film } from '../../types/film';
+import { FilmsPreviewList, FilmFullInfo } from '../../types/film';
 import { genreTabs } from '../../const/const';
 
 import CardList from '../../components/cards-list/cards-list';
@@ -10,7 +10,7 @@ import Header from '../../components/header/header';
 
 type MainProps = {
   filmsList: FilmsPreviewList;
-  activeFilm: Film;
+  activeFilm: FilmFullInfo;
 };
 
 type TabsProps = {

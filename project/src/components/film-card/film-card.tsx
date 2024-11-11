@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import { Film, FilmDescription } from '../../types/film';
+import { FilmFullInfo, FilmDescription } from '../../types/film';
 import { FilmReviewsList } from '../../types/review';
 
 import { filmCardTabs } from '../../const/const';
@@ -9,7 +9,7 @@ import { filmCardTabs } from '../../const/const';
 import CardDescription from '../card-description/card-description';
 import Header from '../header/header';
 
-type FilmCardProps = Film & {
+type FilmCardProps = FilmFullInfo & {
   isFull: boolean;
   reviewsList: FilmReviewsList;
 };

@@ -1,4 +1,4 @@
-export type FilmPreview = {
+export type Film = {
   id: number;
   src: string;
   cover: string;
@@ -14,9 +14,9 @@ export type FilmDescription = {
   ratingCount: number;
 }
 
-export type FilmsPreviewList = FilmPreview[]
+export type FilmsPreviewList = Film[]
 
-export type Film = FilmPreview & FilmDescription & {
+export type FilmFullInfo = Film & FilmDescription & {
   hero: string;
   runTime: number;
   genre: string;
@@ -25,4 +25,4 @@ export type Film = FilmPreview & FilmDescription & {
   reviews: number[];
 }
 
-export type FilmList = Film[]
+export type FilmList = FilmFullInfo[]

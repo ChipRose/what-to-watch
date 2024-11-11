@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import { AppRoute } from '../../const/const';
-import { FilmsPreviewList, Film } from '../../types/film';
+import { FilmsPreviewList, FilmFullInfo } from '../../types/film';
 import { FilmReviewsList } from '../../types/review';
 
 import PrivateRoute from '../private-route/private-route';
@@ -19,7 +19,7 @@ type AppProps = {
   similarFilmCount: number;
   filmsList: FilmsPreviewList;
   reviewsList: FilmReviewsList;
-  activeFilm: Film;
+  activeFilm: FilmFullInfo;
 };
 
 function App({

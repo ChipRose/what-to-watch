@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import { FilmsPreviewList } from '../../types/film';
 
-import Card from '../small-film-card/small-film-card';
+import SmallFilmCard from '../small-film-card/small-film-card';
 
 type CardsListProps = {
   filmsList: FilmsPreviewList;
@@ -11,13 +11,20 @@ type CardsListProps = {
 function CardList({ filmsList }: CardsListProps): JSX.Element {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [activeCard, setActiveCard] = useState<number | null>(null);
+  const [isPlaying, setIsPlaying] = useState<boolean>(false);
 
   const handleCardMouseMove = (id: number) => {
+
+    // eslint-disable-next-line
+    console.log(id);
+
     setActiveCard(id);
+    setIsPlaying(true);
   };
 
   const handleCardMouseLeave = () => {
     setActiveCard(null);
+    setIsPlaying(false);
   };
 
 
@@ -27,9 +34,10 @@ function CardList({ filmsList }: CardsListProps): JSX.Element {
     >
       {
         filmsList?.map((film) => (
-          <Card
+          <SmallFilmCard
             {...film}
             key={film.id}
+            isPlaying={isPlaying}
             onMouseMove={handleCardMouseMove}
             onMouseLeave={handleCardMouseLeave}
           />

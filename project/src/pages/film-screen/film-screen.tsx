@@ -1,4 +1,4 @@
-import { FilmsPreviewList, Film } from '../../types/film';
+import { FilmsPreviewList, FilmFullInfo } from '../../types/film';
 import { FilmReviewsList } from '../../types/review';
 
 import Logo from '../../components/logo/logo';
@@ -9,7 +9,7 @@ type FilmScreenProps = {
   similarFilmCount: number;
   similarFilmsList: FilmsPreviewList;
   reviewsList: FilmReviewsList;
-  film: Film;
+  film: FilmFullInfo;
 }
 
 function FilmScreen({ similarFilmCount, film, similarFilmsList, reviewsList }: FilmScreenProps): JSX.Element {
