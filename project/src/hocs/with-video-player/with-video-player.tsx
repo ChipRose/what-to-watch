@@ -3,7 +3,7 @@ import VideoPlayer from '../../components/video-player/video-player';
 
 type HOCProps = {
   renderPlayer: (
-    src: string,
+    previewSrc: string,
     id: number,
     poster: string,
   ) => void;
@@ -37,10 +37,10 @@ function withAudioPlayer<T>(Component: ComponentType<T>)
     return (
       <Component
         {...props as T}
-        renderPlayer={(src: string, playerIndex: number, poster: string) => (
+        renderPlayer={(previewSrc: string, playerIndex: number, poster: string) => (
           <VideoPlayer
             playerIndex={playerIndex}
-            src={src}
+            previewSrc={previewSrc}
             poster={poster}
             isPlaying={playerIndex === activePlayerId}
             onMouseEnter={onMouseEnter}

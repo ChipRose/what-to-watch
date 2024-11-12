@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 
 type VideoPlayerProps = {
   playerIndex: number;
-  src: string;
+  previewSrc: string;
   poster: string;
   width?: number;
   height?: number;
@@ -11,7 +11,7 @@ type VideoPlayerProps = {
   onMouseLeave: () => void;
 }
 
-function VideoPlayer({ playerIndex, src, poster, isPlaying, onMouseEnter, onMouseLeave, ...props }: VideoPlayerProps): JSX.Element {
+function VideoPlayer({ playerIndex, previewSrc, poster, isPlaying, onMouseEnter, onMouseLeave, ...props }: VideoPlayerProps): JSX.Element {
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
   const [isLoading, setIsLoading] = useState(true);
@@ -48,7 +48,7 @@ function VideoPlayer({ playerIndex, src, poster, isPlaying, onMouseEnter, onMous
       onMouseLeave={onMouseLeave}
       muted
     >
-      <source src={src} />
+      <source src={previewSrc} />
     </video>
   );
 }
