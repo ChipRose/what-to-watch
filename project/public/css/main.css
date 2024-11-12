@@ -1307,7 +1307,7 @@ main {
   position: relative;
   z-index: 1;
   height: 175px; }
-  .small-film-card__image::after {
+  /* .small-film-card__image::after {
     content: '';
     position: absolute;
     z-index: 1;
@@ -1316,7 +1316,8 @@ main {
     left: 0;
     right: 0;
     background-image: -webkit-gradient(linear, left top, left bottom, color-stop(25%, rgba(0, 0, 0, 0)), color-stop(97%, rgba(0, 0, 0, 0.63)));
-    background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 25%, rgba(0, 0, 0, 0.63) 97%); }
+    background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 25%, rgba(0, 0, 0, 0.63) 97%);
+  } */
 
 .small-film-card__title {
   position: absolute;

@@ -1,7 +1,6 @@
 export type Film = {
   id: number;
   src: string;
-  cover: string;
   poster: string;
   title: string;
 }
@@ -18,6 +17,7 @@ export type FilmsPreviewList = Film[]
 
 export type FilmFullInfo = Film & FilmDescription & {
   hero: string;
+  cover: string;
   runTime: number;
   genre: string;
   realized: number;

@@ -7,3 +7,4 @@ export const getCustomFormat = (date: Date): string => {
 
   return format.replace('mm', month).replace('day', day).replace('yyyy', year.toString());
 };
+
