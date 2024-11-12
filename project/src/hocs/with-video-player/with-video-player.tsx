@@ -1,4 +1,4 @@
-import { ComponentType, useState, useRef } from 'react';
+import { ComponentType, useState } from 'react';
 import VideoPlayer from '../../components/video-player/video-player';
 
 type HOCProps = {
@@ -16,20 +16,19 @@ function withAudioPlayer<T>(Component: ComponentType<T>)
 
   function WithAudioPlayer(props: ComponentProps): JSX.Element {
     const TIME_DELAY = 1000;
-    const hoverTimeout = useRef<NodeJS.Timeout | null>(null);
+    let hoverTimeout: ReturnType<typeof setTimeout>;
 
     const [activePlayerId, setActivePlayerId] = useState<number>(-1);
 
     const onMouseEnter = (playerIndex: number) => {
-      hoverTimeout.current = setTimeout(() => {
+      hoverTimeout = setTimeout(() => {
         setActivePlayerId(playerIndex);
       }, TIME_DELAY);
     };
 
     const onMouseLeave = () => {
-      if (hoverTimeout.current) {
-        clearTimeout(hoverTimeout.current);
-        hoverTimeout.current = null;
+      if (hoverTimeout) {
+        clearTimeout(hoverTimeout);
       }
       setActivePlayerId(-1);
     };
