@@ -1,24 +1,4 @@
-import { FilmList, FilmFullInfo } from '../types/film';
-
-export const activeFilm: FilmFullInfo = {
-  id: 0,
-  rating: 9,
-  ratingCount: 200,
-  src: 'https://upload.wikimedia.org/wikipedia/commons/transcoded/b/b3/Big_Buck_Bunny_Trailer_400p.ogv/Big_Buck_Bunny_Trailer_400p.ogv.360p.webm',
-  previewSrc: 'https://upload.wikimedia.org/wikipedia/commons/transcoded/b/b3/Big_Buck_Bunny_Trailer_400p.ogv/Big_Buck_Bunny_Trailer_400p.ogv.360p.webm',
-  cover: 'img/the-grand-budapest-hotel-cover.jpg',
-  poster: 'img/fantastic-beasts-the-crimes-of-grindelwald.jpg',
-  hero: 'img/bg-the-grand-budapest-hotel.jpg',
-  title: 'Fantastic Beasts: The Crimes of Grindelwald',
-  description: 'In the 1930s, the Grand Budapest Hotel is a popular European ski resort, presided over by concierge Gustave H. (Ralph Fiennes). Zero, a junior lobby boy, becomes Gustave&apos;s friend and protege.',
-  director: 'Wes Anderson',
-  starring: ['Bill Murray', 'Edward Norton', 'Jude Law', 'Willem Dafoe'],
-  runTime: 120,
-  genre: 'drama',
-  realized: 2014,
-  similarList: [1, 2, 3],
-  reviews: [0],
-};
+import { FilmList } from '../types/film';
 
 export const filmsList: FilmList = [
   {
@@ -31,7 +11,7 @@ export const filmsList: FilmList = [
     hero: 'img/bg-the-grand-budapest-hotel.jpg',
     cover: 'img/bg-the-grand-budapest-hotel.jpg',
     title: 'Fantastic Beasts: The Crimes of Grindelwald',
-    description: 'In the 1930s, the Grand Budapest Hotel is a popular European ski resort, presided over by concierge Gustave H. (Ralph Fiennes). Zero, a junior lobby boy, becomes Gustave&apos;s friend and protege.',
+    description: 'Fantastic Beasts. Fantastic Beasts. Fantastic Beasts. Fantastic Beasts.Fantastic Beasts.',
     director: 'Wes Anderson',
     starring: ['Bill Murray', 'Edward Norton', 'Jude Law', 'Willem Dafoe'],
     runTime: 120,
@@ -50,7 +30,7 @@ export const filmsList: FilmList = [
     hero: 'img/bg-the-grand-budapest-hotel.jpg',
     cover: 'img/bg-the-grand-budapest-hotel.jpg',
     title: 'Bohemian Rhapsody',
-    description: 'In the 1930s, the Grand Budapest Hotel is a popular European ski resort, presided over by concierge Gustave H. (Ralph Fiennes). Zero, a junior lobby boy, becomes Gustave&apos;s friend and protege.',
+    description: 'Bohemian Rhapsody. Bohemian Rhapsody. Bohemian Rhapsody.  Bohemian Rhapsody.',
     director: 'Wes Anderson',
     starring: ['Bill Murray', 'Edward Norton', 'Jude Law', 'Willem Dafoe'],
     runTime: 120,

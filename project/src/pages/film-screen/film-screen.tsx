@@ -1,4 +1,5 @@
-import { FilmsPreviewList, FilmFullInfo } from '../../types/film';
+import { useParams } from 'react-router-dom';
+import { FilmsPreviewList, FilmList } from '../../types/film';
 import { FilmReviewsList } from '../../types/review';
 
 import Logo from '../../components/logo/logo';
@@ -9,15 +10,24 @@ type FilmScreenProps = {
   similarFilmCount: number;
   similarFilmsList: FilmsPreviewList;
   reviewsList: FilmReviewsList;
-  film: FilmFullInfo;
+  filmsList: FilmList;
 }
 
-function FilmScreen({ similarFilmCount, film, similarFilmsList, reviewsList }: FilmScreenProps): JSX.Element {
+type RouteParams = {
+  id: string;
+}
+
+function FilmScreen({ similarFilmCount, filmsList, similarFilmsList, reviewsList }: FilmScreenProps): JSX.Element {
   const isFull = true;
+  const { id } = useParams<RouteParams>();
+  const activeFilm = filmsList?.find(({ id: filmId }) => filmId === Number(id)) || filmsList[0];
+  // eslint-disable-next-line
+  console.log(activeFilm);
+
 
   return (
     <>
-      <FilmCard isFull={isFull} {...film} reviewsList={reviewsList} />
+      <FilmCard isFull={isFull} {...activeFilm} reviewsList={reviewsList} />
 
       <div className="page-content">
         <section className="catalog catalog--like-this">

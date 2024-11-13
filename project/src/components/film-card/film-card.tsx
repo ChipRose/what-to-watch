@@ -1,50 +1,23 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
 
 import { FilmFullInfo, FilmDescription } from '../../types/film';
 import { FilmReviewsList } from '../../types/review';
+import { filmCardTabs, TabsComponent } from '../../const/const';
 
-import { filmCardTabs } from '../../const/const';
-
-import CardDescription from '../card-description/card-description';
+import TabsList from '../tabs-list/tabs-list';
+// import CardDescription from '../card-description/card-description';
 import Header from '../header/header';
+// import CardDescription from '../card-description/card-description';
 
 type FilmCardProps = FilmFullInfo & {
   isFull: boolean;
   reviewsList: FilmReviewsList;
 };
 
-type TabsListProps = {
-  activeTab: number;
-  onUpdate: (id: number) => void;
-}
-
-function TabsList({ activeTab, onUpdate }: TabsListProps): JSX.Element {
-
-  const handleClick = (id: number) => {
-    onUpdate(id);
-  };
-
-  return (
-    <ul className="film-nav__list">
-      {
-        filmCardTabs.map(({ id:tabId, title }) => (
-          <li
-            key={tabId}
-            className={`film-nav__item${tabId === activeTab ? ' film-nav__item--active' : ''}`}
-            onClick={() => handleClick(tabId)}
-          >
-            <Link to="#" className="film-nav__link">{title}</Link>
-          </li>
-        ))
-      }
-    </ul>
-  );
-}
 
 function FilmCard({
   isFull,
-  poster,
+  cover,
   hero,
   title,
   genre,
@@ -57,6 +30,7 @@ function FilmCard({
   reviewsList
 }: FilmCardProps): JSX.Element {
   const ACTIVE_TAB = 0;
+
   const descriptionProps: FilmDescription = { director, description, starring, rating, ratingCount };
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -65,6 +39,7 @@ function FilmCard({
   const onTabClick = (id: number) => {
     setActiveTab(id);
   };
+  const Component = TabsComponent[0].component;
 
   const mainClass = `film-card ${isFull ? ' film-card--full' : ''}`;
 
@@ -77,7 +52,7 @@ function FilmCard({
 
         <h1 className="visually-hidden">WTW</h1>
 
-        <Header/>
+        <Header />
 
         <div className="film-card__wrap">
           <div className="film-card__desc">
@@ -109,17 +84,16 @@ function FilmCard({
       <div className="film-card__wrap film-card__translate-top">
         <div className="film-card__info">
           <div className="film-card__poster film-card__poster--big">
-            <img src={poster} alt={title} width="218" height="327" />
+            <img src={cover} alt={title} width="218" height="327" />
           </div>
 
           <div className="film-card__desc">
             <nav className="film-nav film-card__nav">
-              <TabsList activeTab={activeTab} onUpdate={onTabClick} />
+              <TabsList activeTab={activeTab} tabsList={filmCardTabs} onUpdate={onTabClick} />
             </nav>
             {
-              // tabs?.find(({ id: tabId }) => tabId === activeTab)?.component({director, description, starring, rating, ratingCount} )
+              <Component {...descriptionProps} />
             }
-            <CardDescription {...descriptionProps} />
           </div>
         </div>
       </div>

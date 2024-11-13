@@ -1,3 +1,5 @@
+import CardDescription from '../components/card-description/card-description';
+
 export enum AppRoute {
   Main = '/',
   LogIn = '/login',
@@ -24,6 +26,12 @@ export const filmCardTabs = [
   {
     id: 2, title: 'Reviews'
   },
+];
+
+export const TabsComponent = [
+  { id: 0, component: CardDescription },
+  { id: 1, component: CardDescription },
+  { id: 2, component: CardDescription },
 ];
 
 export const genreTabs = [
