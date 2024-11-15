@@ -1,19 +1,18 @@
-import { useState } from 'react';
 
-import { FilmFullInfo, FilmDescription } from '../../types/film';
+import { FilmFullInfo, FilmDetails, FilmDescription } from '../../types/film';
 import { FilmReviewsList } from '../../types/review';
-import { filmCardTabs, TabsComponent } from '../../const/const';
 
 import TabsList from '../tabs-list/tabs-list';
-// import CardDescription from '../card-description/card-description';
+import TabDescription from '../tab-description/tab-description';
+import TabDetails from '../tab-details/tab-details';
 import Header from '../header/header';
+import { FilmTabs } from '../../types/tabs';
 // import CardDescription from '../card-description/card-description';
 
 type FilmCardProps = FilmFullInfo & {
   isFull: boolean;
   reviewsList: FilmReviewsList;
 };
-
 
 function FilmCard({
   isFull,
@@ -27,19 +26,29 @@ function FilmCard({
   starring,
   rating,
   ratingCount,
+  runTime,
   reviewsList
 }: FilmCardProps): JSX.Element {
-  const ACTIVE_TAB = 0;
-
-  const descriptionProps: FilmDescription = { director, description, starring, rating, ratingCount };
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [activeTab, setActiveTab] = useState<number>(ACTIVE_TAB);
-
-  const onTabClick = (id: number) => {
-    setActiveTab(id);
-  };
-  const Component = TabsComponent[0].component;
+  // eslint-disable-next-line
+  console.log({ director, starring, runTime, genre, realized });
+  const filmCardTabs: FilmTabs = [
+    {
+      id: 0,
+      title: 'Overview',
+      props: { director, description, starring, rating, ratingCount } as FilmDescription,
+      component: TabDescription,
+    },
+    {
+      id: 1,
+      title: 'Details',
+      props: { director, starring, runTime, genre, realized } as FilmDetails,
+      component: TabDetails,
+    },
+    // {
+    //   id: 2,
+    //   title: 'Reviews'
+    // },
+  ];
 
   const mainClass = `film-card ${isFull ? ' film-card--full' : ''}`;
 
@@ -87,14 +96,7 @@ function FilmCard({
             <img src={cover} alt={title} width="218" height="327" />
           </div>
 
-          <div className="film-card__desc">
-            <nav className="film-nav film-card__nav">
-              <TabsList activeTab={activeTab} tabsList={filmCardTabs} onUpdate={onTabClick} />
-            </nav>
-            {
-              <Component {...descriptionProps} />
-            }
-          </div>
+          <TabsList tabsList={filmCardTabs} />
         </div>
       </div>
     </section>

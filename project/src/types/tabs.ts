@@ -1,20 +1,15 @@
 
 import { ComponentType } from 'react';
-import { FilmDescription } from './film';
+import { FilmDescription, FilmDetails } from './film';
 
-export type Tab = {
+export type Tab<T> = {
   id: number;
   title: string;
-}
-
-export type TabContent<T> = {
-  id: number;
+  props: T;
   component: ComponentType<T>;
 }
 
-export type Tabs = Tab[]
-export type TabsContent = [
-  TabContent<FilmDescription>,
-  TabContent<FilmDescription>,
-  TabContent<FilmDescription>,
-]
+export type FilmTabs = [
+  Tab<FilmDescription>,
+  Tab<FilmDetails>
+];

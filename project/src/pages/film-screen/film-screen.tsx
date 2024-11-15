@@ -21,9 +21,6 @@ function FilmScreen({ similarFilmCount, filmsList, similarFilmsList, reviewsList
   const isFull = true;
   const { id } = useParams<RouteParams>();
   const activeFilm = filmsList?.find(({ id: filmId }) => filmId === Number(id)) || filmsList[0];
-  // eslint-disable-next-line
-  console.log(activeFilm);
-
 
   return (
     <>

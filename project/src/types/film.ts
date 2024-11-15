@@ -13,15 +13,20 @@ export type FilmDescription = {
   ratingCount: number;
 }
 
-export type FilmsPreviewList = Film[]
-
-export type FilmFullInfo = Film & FilmDescription & {
-  src: string;
-  hero: string;
-  cover: string;
+export type FilmDetails = {
+  director: string;
+  starring: string[];
   runTime: number;
   genre: string;
   realized: number;
+}
+
+export type FilmsPreviewList = Film[]
+
+export type FilmFullInfo = Film & FilmDescription & FilmDetails & {
+  src: string;
+  hero: string;
+  cover: string;
   similarList: number[];
   reviews: number[];
 }

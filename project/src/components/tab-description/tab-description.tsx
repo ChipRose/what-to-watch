@@ -1,12 +1,8 @@
-type CardDescriptionProps = {
-  rating: number;
-  ratingCount: number;
-  description: string;
-  director: string;
-  starring: string[];
-};
+import { FilmDescription } from '../../types/film';
 
-function CardDescription({ rating, ratingCount, description, director, starring }: CardDescriptionProps): JSX.Element {
+type TabDescriptionProps = FilmDescription;
+
+function TabDescription({ rating, ratingCount, description, director, starring }: TabDescriptionProps): JSX.Element {
   return (
     <>
       <div className="film-rating">
@@ -32,4 +28,4 @@ function CardDescription({ rating, ratingCount, description, director, starring 
   );
 }
 
-export default CardDescription;
+export default TabDescription;
