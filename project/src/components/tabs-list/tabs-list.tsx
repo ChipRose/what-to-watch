@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
-import { FilmTabs } from '../../types/tabs';
+import { TabsType } from '../../types/tabs';
+
 import { Link } from 'react-router-dom';
 
 type TabsListProps = {
-  tabsList: FilmTabs;
+  tabsList: TabsType;
 }
 
 function TabsList({ tabsList }: TabsListProps): JSX.Element {
@@ -17,13 +18,6 @@ function TabsList({ tabsList }: TabsListProps): JSX.Element {
     }
   };
 
-  const ActiveTab = tabsList.find(({ id: tabId }) => tabId === activeTab);
-  const ActiveComponent = ActiveTab ? ActiveTab.component : tabsList[0].component;
-  const activeProps = ActiveTab ? ActiveTab.props : tabsList[0].props;
-
-  // eslint-disable-next-line
-  console.log(ActiveComponent, activeProps);
-
   useEffect(() => {
     // eslint-disable-next-line
     console.log(activeTab);
@@ -32,7 +26,6 @@ function TabsList({ tabsList }: TabsListProps): JSX.Element {
   return (
     <div className="film-card__desc">
       <nav className="film-nav film-card__nav">
-
         <ul className="film-nav__list">
           {
             tabsList?.map(({ id: tabId, title }) => (
@@ -47,7 +40,7 @@ function TabsList({ tabsList }: TabsListProps): JSX.Element {
           }
         </ul>
       </nav>
-      <ActiveComponent {...activeProps} />
+      {tabsList.find(({ id: componentId }) => componentId === activeTab)?.component}
     </div >
   );
 }

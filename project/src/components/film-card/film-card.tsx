@@ -1,12 +1,12 @@
 
-import { FilmFullInfo, FilmDetails, FilmDescription } from '../../types/film';
+import { FilmDescription, FilmDetails, FilmFullInfo } from '../../types/film';
+import { TabsType } from '../../types/tabs';
 import { FilmReviewsList } from '../../types/review';
 
 import TabsList from '../tabs-list/tabs-list';
 import TabDescription from '../tab-description/tab-description';
 import TabDetails from '../tab-details/tab-details';
 import Header from '../header/header';
-import { FilmTabs } from '../../types/tabs';
 // import CardDescription from '../card-description/card-description';
 
 type FilmCardProps = FilmFullInfo & {
@@ -16,39 +16,30 @@ type FilmCardProps = FilmFullInfo & {
 
 function FilmCard({
   isFull,
-  cover,
-  hero,
-  title,
-  genre,
-  realized,
-  director,
-  description,
-  starring,
-  rating,
-  ratingCount,
-  runTime,
-  reviewsList
+  reviewsList,
+  ...filmProps
 }: FilmCardProps): JSX.Element {
-  // eslint-disable-next-line
-  console.log({ director, starring, runTime, genre, realized });
-  const filmCardTabs: FilmTabs = [
-    {
-      id: 0,
-      title: 'Overview',
-      props: { director, description, starring, rating, ratingCount } as FilmDescription,
-      component: TabDescription,
-    },
-    {
-      id: 1,
-      title: 'Details',
-      props: { director, starring, runTime, genre, realized } as FilmDetails,
-      component: TabDetails,
-    },
-    // {
-    //   id: 2,
-    //   title: 'Reviews'
-    // },
-  ];
+  const { hero, title, cover } = filmProps;
+
+  const getTabsList = ({ ...film }: FilmFullInfo): TabsType => {
+    const { director, description, starring, rating, ratingCount, runTime, genre, realized } = film;
+
+    const descriptionProps: FilmDescription = { director, description, starring, rating, ratingCount };
+    const detailsProps: FilmDetails = { director, starring, runTime, genre, realized };
+    const tabsList: TabsType = [
+      {
+        id: 0,
+        title: 'Overview',
+        component: <TabDescription {...descriptionProps} />,
+      },
+      {
+        id: 1,
+        title: 'Details',
+        component: <TabDetails {...detailsProps} />,
+      },
+    ];
+    return tabsList;
+  };
 
   const mainClass = `film-card ${isFull ? ' film-card--full' : ''}`;
 
@@ -67,8 +58,8 @@ function FilmCard({
           <div className="film-card__desc">
             <h2 className="film-card__title">{title}</h2>
             <p className="film-card__meta">
-              <span className="film-card__genre">{genre}</span>
-              <span className="film-card__year">{realized}</span>
+              <span className="film-card__genre">{filmProps.genre}</span>
+              <span className="film-card__year">{filmProps.realized}</span>
             </p>
 
             <div className="film-card__buttons">
@@ -96,7 +87,7 @@ function FilmCard({
             <img src={cover} alt={title} width="218" height="327" />
           </div>
 
-          <TabsList tabsList={filmCardTabs} />
+          <TabsList tabsList={getTabsList({ ...filmProps })} />
         </div>
       </div>
     </section>

@@ -1,10 +1,6 @@
-type TabDetailsProps = {
-  director: string;
-  starring: string[];
-  runTime: number;
-  genre: string;
-  realized: number;
-}
+import { FilmDetails } from '../../types/film';
+
+type TabDetailsProps = FilmDetails
 
 function TabDetails({ director, starring, runTime, genre, realized }: TabDetailsProps): JSX.Element {
   return (
