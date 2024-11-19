@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import { AppRoute } from '../../const/const';
 import { FilmList } from '../../types/film';
-import { FilmReviewsList } from '../../types/review';
+import { ReviewsType } from '../../types/review';
 
 import PrivateRoute from '../private-route/private-route';
 import MainScreen from '../../pages/main-screen/main-screen';
@@ -18,7 +18,7 @@ type AppProps = {
   favoriteFilmCount: number;
   similarFilmCount: number;
   filmsList: FilmList;
-  reviewsList: FilmReviewsList;
+  reviewsList: ReviewsType;
 };
 
 function App({
@@ -37,7 +37,15 @@ function App({
 
         <Route path={AppRoute.LogIn} element={<LoginScreen />} />
         <Route path={AppRoute.Films}>
-          <Route path={AppRoute.Film} element={<FilmScreen filmsList={filmsList} similarFilmCount={similarFilmCount} similarFilmsList={filmsList} reviewsList={reviewsList} />} />
+          <Route path={AppRoute.Film}
+            element={
+              <FilmScreen
+                filmsList={filmsList}
+                similarFilmsList={filmsList}
+                reviewsList={reviewsList}
+              />
+            }
+          />
 
           <Route
             path={AppRoute.AddReview}

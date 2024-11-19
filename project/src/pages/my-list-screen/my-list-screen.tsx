@@ -2,7 +2,7 @@ import { FilmsPreviewList } from '../../types/film';
 
 import Logo from '../../components/logo/logo';
 import Header from '../../components/header/header';
-import CardList from '../../components/cards-list/cards-list';
+import Catalog from '../../components/catalog/catalog';
 
 type MyListProps = {
   favoriteFilmCount: number;
@@ -18,7 +18,7 @@ function MyListScreen({ favoriteFilmCount, favoritesFilmsList }: MyListProps): J
       <section className='catalog'>
         <h2 className='catalog__title visually-hidden'>Catalog</h2>
 
-        <CardList filmsList={favoritesFilmsList} />
+        <Catalog filmsList={favoritesFilmsList} />
 
       </section>
 

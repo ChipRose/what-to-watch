@@ -1,35 +1,37 @@
-import { Review } from '../../types/review';
+import { ReviewType } from '../../types/review';
+
 import { getCustomFormat } from '../../util/util';
 
-type ReviewCardProps = {
-  review: Review;
+type ReviewProps = {
+  review: ReviewType;
 }
 
-function ReviewCard({ review }: ReviewCardProps): JSX.Element {
+function Review({ review }: ReviewProps): JSX.Element {
+  const { text, author, date, rating } = review;
 
   return (
     <div className="review">
       <blockquote className="review__quote">
         <p className="review__text">
           {
-            review?.text
+            text
           }
         </p>
 
         <footer className="review__details">
           <cite className="review__author">{
-            review?.author
+            author
           }
           </cite>
           <time className="review__date" dateTime={review?.date?.toString()}>
-            {getCustomFormat(review?.date)}
+            {getCustomFormat(date)}
           </time>
         </footer>
       </blockquote>
 
-      <div className="review__rating">{review?.rating}</div>
+      <div className="review__rating">{rating}</div>
     </div>
   );
 }
 
-export default ReviewCard;
+export default Review;

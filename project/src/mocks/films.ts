@@ -1,4 +1,5 @@
 import { FilmList } from '../types/film';
+// import ReviewsList from '../components/reviews-list/reviews-list';
 
 export const filmsList: FilmList = [
   {
@@ -9,7 +10,7 @@ export const filmsList: FilmList = [
     previewSrc: 'https://upload.wikimedia.org/wikipedia/commons/transcoded/b/b3/Big_Buck_Bunny_Trailer_400p.ogv/Big_Buck_Bunny_Trailer_400p.ogv.360p.webm',
     poster: 'img/fantastic-beasts-the-crimes-of-grindelwald.jpg',
     hero: 'img/bg-the-grand-budapest-hotel.jpg',
-    cover: 'img/bg-the-grand-budapest-hotel.jpg',
+    cover: 'img/the-grand-budapest-hotel-poster.jpg',
     title: 'Fantastic Beasts: The Crimes of Grindelwald',
     description: 'Fantastic Beasts. Fantastic Beasts. Fantastic Beasts. Fantastic Beasts.Fantastic Beasts.',
     director: 'Wes Anderson',
@@ -28,7 +29,7 @@ export const filmsList: FilmList = [
     previewSrc: 'https://upload.wikimedia.org/wikipedia/commons/transcoded/b/b3/Big_Buck_Bunny_Trailer_400p.ogv/Big_Buck_Bunny_Trailer_400p.ogv.360p.webm',
     poster: 'img/bohemian-rhapsody.jpg',
     hero: 'img/bg-the-grand-budapest-hotel.jpg',
-    cover: 'img/bg-the-grand-budapest-hotel.jpg',
+    cover: 'img/the-grand-budapest-hotel-poster.jpg',
     title: 'Bohemian Rhapsody',
     description: 'Bohemian Rhapsody. Bohemian Rhapsody. Bohemian Rhapsody.  Bohemian Rhapsody.',
     director: 'Wes Anderson',

@@ -1,15 +1,14 @@
 import { useParams } from 'react-router-dom';
 import { FilmsPreviewList, FilmList } from '../../types/film';
-import { FilmReviewsList } from '../../types/review';
+import { ReviewsType } from '../../types/review';
 
 import Logo from '../../components/logo/logo';
-import CardList from '../../components/cards-list/cards-list';
+import Catalog from '../../components/catalog/catalog';
 import FilmCard from '../../components/film-card/film-card';
 
 type FilmScreenProps = {
-  similarFilmCount: number;
   similarFilmsList: FilmsPreviewList;
-  reviewsList: FilmReviewsList;
+  reviewsList: ReviewsType;
   filmsList: FilmList;
 }
 
@@ -17,7 +16,7 @@ type RouteParams = {
   id: string;
 }
 
-function FilmScreen({ similarFilmCount, filmsList, similarFilmsList, reviewsList }: FilmScreenProps): JSX.Element {
+function FilmScreen({ filmsList, similarFilmsList, reviewsList }: FilmScreenProps): JSX.Element {
   const isFull = true;
   const { id } = useParams<RouteParams>();
   const activeFilm = filmsList?.find(({ id: filmId }) => filmId === Number(id)) || filmsList[0];
@@ -30,7 +29,7 @@ function FilmScreen({ similarFilmCount, filmsList, similarFilmsList, reviewsList
         <section className="catalog catalog--like-this">
           <h2 className="catalog__title">More like this</h2>
 
-          <CardList filmsList={similarFilmsList} />
+          <Catalog filmsList={similarFilmsList} />
 
         </section>
 

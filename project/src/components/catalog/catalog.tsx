@@ -3,13 +3,13 @@ import { FilmsPreviewList } from '../../types/film';
 import withVideoPlayer from '../../hocs/with-video-player/with-video-player';
 import SmallFilmCard from '../small-film-card/small-film-card';
 
-type CardsListProps = {
+type CatalogProps = {
   filmsList: FilmsPreviewList;
 };
 
 const SmallFilmCardWrapped = withVideoPlayer(SmallFilmCard);
 
-function CardList({ filmsList }: CardsListProps): JSX.Element {
+function Catalog({ filmsList }: CatalogProps): JSX.Element {
 
   return (
     <div
@@ -28,4 +28,4 @@ function CardList({ filmsList }: CardsListProps): JSX.Element {
   );
 }
 
-export default CardList;
+export default Catalog;

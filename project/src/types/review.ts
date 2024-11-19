@@ -1,10 +1,10 @@
-export type Review = {
+export type ReviewType = {
   id: number;
-  filmId: number;
+  connectId: number;
   rating: number;
   text: string;
   author: string;
   date: Date;
 }
 
-export type FilmReviewsList = Review[]
+export type ReviewsType = ReviewType[]

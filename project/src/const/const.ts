@@ -14,17 +14,13 @@ export enum AuthorizationStatus {
   Unknown = 'UNKNOWN',
 }
 
-export const filmCardTabs = [
-  {
-    id: 0, title: 'Overview'
-  },
-  {
-    id: 1, title: 'Details'
-  },
-  {
-    id: 2, title: 'Reviews'
-  },
-];
+export enum Estimation {
+  Bad = 'Bad',
+  Normal = 'Normal',
+  Good = 'Good',
+  VeryGood = 'Very good',
+  Awesome = 'Awesome',
+}
 
 export const genreTabs = [
   {

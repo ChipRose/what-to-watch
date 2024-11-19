@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { FilmsPreviewList, FilmFullInfo } from '../../types/film';
 import { genreTabs } from '../../const/const';
 
-import CardList from '../../components/cards-list/cards-list';
+import Catalog from '../../components/catalog/catalog';
 import Logo from '../../components/logo/logo';
 import Header from '../../components/header/header';
 
@@ -106,7 +106,7 @@ function MainScreen({ filmsList, activeFilm }: MainProps): JSX.Element {
 
           <TabsList activeTab={activeTab} onUpdate={onTabClick} />
 
-          <CardList filmsList={filmsList} />
+          <Catalog filmsList={filmsList} />
 
           <div className='catalog__more'>
             <button className='catalog__button' type='button'>

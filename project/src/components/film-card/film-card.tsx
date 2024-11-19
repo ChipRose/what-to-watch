@@ -1,17 +1,20 @@
 
 import { FilmDescription, FilmDetails, FilmFullInfo } from '../../types/film';
 import { TabsType } from '../../types/tabs';
-import { FilmReviewsList } from '../../types/review';
+import { ReviewsType } from '../../types/review';
+
+import { getItemsById } from '../../util/util';
 
 import TabsList from '../tabs-list/tabs-list';
 import TabDescription from '../tab-description/tab-description';
 import TabDetails from '../tab-details/tab-details';
+import TabReviews from '../tab-reviews/tab-reviews';
 import Header from '../header/header';
 // import CardDescription from '../card-description/card-description';
 
 type FilmCardProps = FilmFullInfo & {
   isFull: boolean;
-  reviewsList: FilmReviewsList;
+  reviewsList: ReviewsType;
 };
 
 function FilmCard({
@@ -22,10 +25,12 @@ function FilmCard({
   const { hero, title, cover } = filmProps;
 
   const getTabsList = ({ ...film }: FilmFullInfo): TabsType => {
-    const { director, description, starring, rating, ratingCount, runTime, genre, realized } = film;
+    const { director, description, starring, rating, ratingCount, runTime, genre, realized, reviews } = film;
 
     const descriptionProps: FilmDescription = { director, description, starring, rating, ratingCount };
     const detailsProps: FilmDetails = { director, starring, runTime, genre, realized };
+    const reviewProps: ReviewsType = getItemsById(reviews, reviewsList);
+
     const tabsList: TabsType = [
       {
         id: 0,
@@ -36,6 +41,11 @@ function FilmCard({
         id: 1,
         title: 'Details',
         component: <TabDetails {...detailsProps} />,
+      },
+      {
+        id: 2,
+        title: 'Reviews',
+        component: <TabReviews reviewsList={reviewProps} />,
       },
     ];
     return tabsList;
