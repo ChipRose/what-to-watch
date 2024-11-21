@@ -23,13 +23,12 @@ export type FilmDetailsType = {
   realized: number;
 };
 
-
 export type FilmType = FilmPreviewType & Omit<FilmDescriptionType, 'rating' | 'ratingCount'> & FilmDetailsType & {
   src: string;
   hero: string;
   cover: string;
-  similarList: number[];
 };
 
-
 export type FilmsType = FilmType[];
+
+export type GroupedFilmsType<T> = Record<string, T[]>

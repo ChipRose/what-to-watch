@@ -41,7 +41,6 @@ function App({
             element={
               <FilmScreen
                 filmsList={filmsList}
-                similarFilmsList={filmsList}
                 reviewsList={reviewsList}
               />
             }

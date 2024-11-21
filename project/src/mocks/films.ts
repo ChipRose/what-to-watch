@@ -16,7 +16,6 @@ export const filmsList: FilmsType = [
     runTime: 120,
     genre: 'Drama',
     realized: 2014,
-    similarList: [1, 2, 3],
   },
   {
     id: 1,
@@ -32,7 +31,6 @@ export const filmsList: FilmsType = [
     runTime: 120,
     genre: 'Crime',
     realized: 2014,
-    similarList: [1, 2, 3],
   },
   {
     id: 2,
@@ -48,7 +46,6 @@ export const filmsList: FilmsType = [
     runTime: 120,
     genre: 'Drama',
     realized: 2014,
-    similarList: [1, 2, 3],
   },
   {
     id: 3,
@@ -64,7 +61,6 @@ export const filmsList: FilmsType = [
     runTime: 120,
     genre: 'Crime',
     realized: 2024,
-    similarList: [1, 2, 3],
   },
   {
     id: 4,
@@ -80,7 +76,6 @@ export const filmsList: FilmsType = [
     runTime: 120,
     genre: 'Drama',
     realized: 2024,
-    similarList: [1, 2, 3],
   },
   {
     id: 5,
@@ -96,7 +91,6 @@ export const filmsList: FilmsType = [
     runTime: 120,
     genre: 'Horror',
     realized: 2004,
-    similarList: [1, 4],
   },
   {
     id: 6,
@@ -112,7 +106,6 @@ export const filmsList: FilmsType = [
     runTime: 120,
     genre: 'Drama',
     realized: 2000,
-    similarList: [1, 4],
   },
   {
     id: 7,
@@ -128,7 +121,36 @@ export const filmsList: FilmsType = [
     runTime: 120,
     genre: 'Horror',
     realized: 2004,
-    similarList: [2, 4],
+  },
+  {
+    id: 7,
+    src: 'https://upload.wikimedia.org/wikipedia/commons/transcoded/b/b3/Big_Buck_Bunny_Trailer_400p.ogv/Big_Buck_Bunny_Trailer_400p.ogv.360p.webm',
+    previewSrc: 'https://upload.wikimedia.org/wikipedia/commons/transcoded/b/b3/Big_Buck_Bunny_Trailer_400p.ogv/Big_Buck_Bunny_Trailer_400p.ogv.360p.webm',
+    poster: 'img/revenant.jpg',
+    hero: 'img/bg-the-grand-budapest-hotel.jpg',
+    cover: 'img/bg-the-grand-budapest-hotel.jpg',
+    title: 'Revenant',
+    description: 'In the 1930s, the Grand Budapest Hotel is a popular European ski resort, presided over by concierge Gustave H. (Ralph Fiennes). Zero, a junior lobby boy, becomes Gustave&apos;s friend and protege.',
+    director: 'Wes Anderson',
+    starring: ['Bill Murray', 'Edward Norton', 'Jude Law', 'Willem Dafoe'],
+    runTime: 120,
+    genre: 'Drama',
+    realized: 2000,
+  },
+  {
+    id: 8,
+    src: 'https://upload.wikimedia.org/wikipedia/commons/transcoded/b/b3/Big_Buck_Bunny_Trailer_400p.ogv/Big_Buck_Bunny_Trailer_400p.ogv.360p.webm',
+    previewSrc: 'https://upload.wikimedia.org/wikipedia/commons/transcoded/b/b3/Big_Buck_Bunny_Trailer_400p.ogv/Big_Buck_Bunny_Trailer_400p.ogv.360p.webm',
+    poster: 'img/revenant.jpg',
+    hero: 'img/bg-the-grand-budapest-hotel.jpg',
+    cover: 'img/bg-the-grand-budapest-hotel.jpg',
+    title: 'Revenant',
+    description: 'In the 1930s, the Grand Budapest Hotel is a popular European ski resort, presided over by concierge Gustave H. (Ralph Fiennes). Zero, a junior lobby boy, becomes Gustave&apos;s friend and protege.',
+    director: 'Wes Anderson',
+    starring: ['Bill Murray', 'Edward Norton', 'Jude Law', 'Willem Dafoe'],
+    runTime: 120,
+    genre: 'Drama',
+    realized: 2000,
   },
 ];
 
