@@ -15,9 +15,11 @@ type MainProps = {
   activeFilm: FilmType;
 };
 
-const getTabsList = (film: FilmsType): TabsType => {
-  const filmsByGenre = groupByProperty(film, 'genre');
-  const genres = Object.keys(filmsByGenre);
+const getTabsList = (films: FilmsType): TabsType => {
+  const filmsByGenre = groupByProperty(films, 'genre');
+  const tempGenres = Object.keys(filmsByGenre);
+  filmsByGenre['All genres'] = films;
+  const genres = ['All genres', ...tempGenres];
 
   const tabsList = Array.from(genres, (genre, index) => ({
     id: index,
