@@ -1,20 +1,53 @@
 
-import { FilmDescription, FilmDetails, FilmFullInfo } from '../../types/film';
+import { FilmDescriptionType, FilmDetailsType, FilmType } from '../../types/film';
 import { TabsType } from '../../types/tabs';
 import { ReviewsType } from '../../types/review';
 
-import { getItemsById } from '../../util/util';
+import { TabsModification } from '../../const/const';
+
+import { calcArraySumProps } from '../../util/util';
 
 import TabsList from '../tabs-list/tabs-list';
 import TabDescription from '../tab-description/tab-description';
 import TabDetails from '../tab-details/tab-details';
 import TabReviews from '../tab-reviews/tab-reviews';
 import Header from '../header/header';
-// import CardDescription from '../card-description/card-description';
 
-type FilmCardProps = FilmFullInfo & {
+type FilmCardProps = FilmType & {
   isFull: boolean;
   reviewsList: ReviewsType;
+};
+
+type TabsListProps = FilmType & {
+  reviewsList: ReviewsType;
+}
+
+const getTabsList = ({ reviewsList, ...film }: TabsListProps): TabsType => {
+  const { director, description, starring, runTime, genre, realized } = film;
+  const rating = calcArraySumProps(reviewsList, 'rating').average;
+  const ratingCount = calcArraySumProps(reviewsList, 'rating').lenght;
+  const descriptionProps: FilmDescriptionType = { director, description, starring, rating, ratingCount };
+  const detailsProps: FilmDetailsType = { director, starring, runTime, genre, realized };
+  const reviewProps: ReviewsType = reviewsList;
+
+  const tabsList: TabsType = [
+    {
+      id: 0,
+      title: 'Overview',
+      component: <TabDescription {...descriptionProps} />,
+    },
+    {
+      id: 1,
+      title: 'Details',
+      component: <TabDetails {...detailsProps} />,
+    },
+    {
+      id: 2,
+      title: 'Reviews',
+      component: <TabReviews reviewsList={reviewProps} />,
+    },
+  ];
+  return tabsList;
 };
 
 function FilmCard({
@@ -22,34 +55,8 @@ function FilmCard({
   reviewsList,
   ...filmProps
 }: FilmCardProps): JSX.Element {
-  const { hero, title, cover } = filmProps;
+  const { hero, title, cover, genre, realized } = filmProps;
 
-  const getTabsList = ({ ...film }: FilmFullInfo): TabsType => {
-    const { director, description, starring, rating, ratingCount, runTime, genre, realized, reviews } = film;
-
-    const descriptionProps: FilmDescription = { director, description, starring, rating, ratingCount };
-    const detailsProps: FilmDetails = { director, starring, runTime, genre, realized };
-    const reviewProps: ReviewsType = getItemsById(reviews, reviewsList);
-
-    const tabsList: TabsType = [
-      {
-        id: 0,
-        title: 'Overview',
-        component: <TabDescription {...descriptionProps} />,
-      },
-      {
-        id: 1,
-        title: 'Details',
-        component: <TabDetails {...detailsProps} />,
-      },
-      {
-        id: 2,
-        title: 'Reviews',
-        component: <TabReviews reviewsList={reviewProps} />,
-      },
-    ];
-    return tabsList;
-  };
 
   const mainClass = `film-card ${isFull ? ' film-card--full' : ''}`;
 
@@ -68,8 +75,8 @@ function FilmCard({
           <div className="film-card__desc">
             <h2 className="film-card__title">{title}</h2>
             <p className="film-card__meta">
-              <span className="film-card__genre">{filmProps.genre}</span>
-              <span className="film-card__year">{filmProps.realized}</span>
+              <span className="film-card__genre">{genre}</span>
+              <span className="film-card__year">{realized}</span>
             </p>
 
             <div className="film-card__buttons">
@@ -97,7 +104,7 @@ function FilmCard({
             <img src={cover} alt={title} width="218" height="327" />
           </div>
 
-          <TabsList tabsList={getTabsList({ ...filmProps })} />
+          <TabsList type={TabsModification.Navigation} tabsList={getTabsList({ reviewsList, ...filmProps })} />
         </div>
       </div>
     </section>

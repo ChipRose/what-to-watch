@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom';
 
-import { Film } from '../../types/film';
+import { FilmPreviewType } from '../../types/film';
 import { AppRoute } from '../../const/const';
 
-type CardProps = Film & {
+type CardProps = FilmPreviewType & {
   playerIndex: number;
   renderPlayer: (previewSrc: string, playerIndex: number, poster: string) => JSX.Element;
 };

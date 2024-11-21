@@ -1,15 +1,17 @@
 import { useParams } from 'react-router-dom';
-import { FilmsPreviewList, FilmList } from '../../types/film';
+import { FilmsPreviewType, FilmsType } from '../../types/film';
 import { ReviewsType } from '../../types/review';
+
+import { getItemsByKey } from '../../util/util';
 
 import Logo from '../../components/logo/logo';
 import Catalog from '../../components/catalog/catalog';
 import FilmCard from '../../components/film-card/film-card';
 
 type FilmScreenProps = {
-  similarFilmsList: FilmsPreviewList;
+  similarFilmsList: FilmsPreviewType;
   reviewsList: ReviewsType;
-  filmsList: FilmList;
+  filmsList: FilmsType;
 }
 
 type RouteParams = {
@@ -19,11 +21,13 @@ type RouteParams = {
 function FilmScreen({ filmsList, similarFilmsList, reviewsList }: FilmScreenProps): JSX.Element {
   const isFull = true;
   const { id } = useParams<RouteParams>();
-  const activeFilm = filmsList?.find(({ id: filmId }) => filmId === Number(id)) || filmsList[0];
+  const pageId = Number(id);
+  const activeFilm = filmsList?.find(({ id: filmId }) => filmId === pageId) || filmsList[0];
+  const reviews: ReviewsType = getItemsByKey([pageId], reviewsList, 'filmId');
 
   return (
     <>
-      <FilmCard isFull={isFull} {...activeFilm} reviewsList={reviewsList} />
+      <FilmCard isFull={isFull} {...activeFilm} reviewsList={reviews} />
 
       <div className="page-content">
         <section className="catalog catalog--like-this">

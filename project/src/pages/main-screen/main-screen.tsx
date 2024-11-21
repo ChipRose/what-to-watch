@@ -1,62 +1,33 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { FilmsType, FilmType } from '../../types/film';
+import { TabsType } from '../../types/tabs';
 
-import { FilmsPreviewList, FilmFullInfo } from '../../types/film';
-import { genreTabs } from '../../const/const';
+import { TabsModification } from '../../const/const';
+
+import { groupByProperty } from '../../util/util';
 
 import Catalog from '../../components/catalog/catalog';
 import Logo from '../../components/logo/logo';
 import Header from '../../components/header/header';
+import TabsList from '../../components/tabs-list/tabs-list';
 
 type MainProps = {
-  filmsList: FilmsPreviewList;
-  activeFilm: FilmFullInfo;
+  filmsList: FilmsType;
+  activeFilm: FilmType;
 };
 
-type TabsProps = {
-  activeTab: number;
-  onUpdate: (id: number) => void;
+const getTabsList = (film: FilmsType): TabsType => {
+  const filmsByGenre = groupByProperty(film, 'genre');
+  const genres = Object.keys(filmsByGenre);
+
+  const tabsList = Array.from(genres, (genre, index) => ({
+    id: index,
+    title: genre,
+    component: <Catalog filmsList={filmsByGenre[genre]} />
+  }));
+  return tabsList;
 };
-
-function TabsList({ activeTab, onUpdate }: TabsProps) {
-
-  const handleClick = (id: number) => {
-    onUpdate(id);
-  };
-
-  return (
-    <ul className='catalog__genres-list'>
-      {
-        genreTabs?.map(({ id: tabId, title }) => (
-          <li
-            className={`catalog__genres-item ${tabId === activeTab ? 'catalog__genres-item--active' : ''}`}
-            key={tabId}
-          >
-            <Link
-              to='/'
-              className='catalog__genres-link'
-              onClick={() => handleClick(tabId)}
-            >
-              {title}
-            </Link>
-          </li>
-        ))
-      }
-
-    </ul>
-  );
-}
 
 function MainScreen({ filmsList, activeFilm }: MainProps): JSX.Element {
-  const ACTIVE_TAB = 0;
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [activeTab, setActiveTab] = useState<number>(ACTIVE_TAB);
-
-  const onTabClick = (id: number) => {
-    setActiveTab(id);
-  };
-
   return (
     <>
       <section className="film-card">
@@ -104,9 +75,7 @@ function MainScreen({ filmsList, activeFilm }: MainProps): JSX.Element {
         <section className='catalog'>
           <h2 className='catalog__title visually-hidden'>Catalog</h2>
 
-          <TabsList activeTab={activeTab} onUpdate={onTabClick} />
-
-          <Catalog filmsList={filmsList} />
+          <TabsList tabsList={getTabsList(filmsList)} type={TabsModification.Catalog} />
 
           <div className='catalog__more'>
             <button className='catalog__button' type='button'>

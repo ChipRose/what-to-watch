@@ -1,13 +1,14 @@
-import { Estimation } from '../const/const';
+import { Estimation, months } from '../const/const';
 
-export const getCustomFormat = (date: Date): string => {
+export const getCustomFormat = (date: string): string => {
   const format = 'mm day, yyyy';
+  const dateParsed = new Date(date);
 
-  const day = date.getDate().toString().padStart(2, '0');
-  const month = (date.getMonth() + 1).toString().padStart(2, '0');
-  const year = date.getFullYear();
+  const day = dateParsed.getDate().toString();
+  const month = months[dateParsed.getMonth()];
+  const year = dateParsed.getFullYear().toString();
 
-  return format.replace('mm', month).replace('day', day).replace('yyyy', year.toString());
+  return format.replace('mm', month).replace('day', day).replace('yyyy', year);
 };
 
 export const formatTime = (time: number): string => {
@@ -36,7 +37,38 @@ export const getEstimation = (estimation: number): string => {
   return Estimation.Awesome;
 };
 
-export const getItemsById = <T extends { connectId: number }>(
-  idList: number[],
-  array: T[]
-): T[] => array.filter((item) => idList.includes(item.connectId));
+export const getItemsByKey = <T, K extends keyof T>(
+  idList: T[K][],
+  array: T[],
+  key: K
+): T[] => (array.filter((item) => idList.includes(item[key])));
+
+export const calcArraySumProps = <T, K extends keyof T>(array: T[], key: K): { sum: number; average: number; lenght: number } => {
+  if (!array?.length) {
+    return { sum: 0, average: 0, lenght: 0 };
+  }
+
+  const sum = Number(array.reduce((accumulator, currentValue) => {
+    const value = Number(currentValue[key]) || 0;
+    return accumulator + value;
+  }, 0).toFixed(1));
+
+  const average = Number((sum / array?.length).toFixed(1));
+  const lenght = array?.length;
+
+  return { sum, average, lenght };
+};
+
+export const groupByProperty = <T, K extends keyof T>(array: T[], key: K): Record<string, T[]> => (
+  array?.reduce((accumulator, item) => {
+    const propertyValue = item[key];
+    if (propertyValue !== undefined && propertyValue !== null) {
+      const groupKey = propertyValue.toString();
+      if (!accumulator[groupKey]) {
+        accumulator[groupKey] = [];
+      }
+      accumulator[groupKey].push(item);
+    }
+    return accumulator;
+  }, {} as Record<string, T[]>)
+);

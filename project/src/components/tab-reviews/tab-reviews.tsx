@@ -1,4 +1,5 @@
 import { ReviewsType } from '../../types/review';
+
 import Review from '../review/review';
 
 type TabReviewsProps = {

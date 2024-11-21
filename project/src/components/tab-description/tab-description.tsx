@@ -1,6 +1,8 @@
-import { FilmDescription } from '../../types/film';
+import { FilmDescriptionType } from '../../types/film';
 
-type TabDescriptionProps = FilmDescription;
+import { getEstimation } from '../../util/util';
+
+type TabDescriptionProps = FilmDescriptionType;
 
 function TabDescription({ rating, ratingCount, description, director, starring }: TabDescriptionProps): JSX.Element {
   return (
@@ -8,7 +10,7 @@ function TabDescription({ rating, ratingCount, description, director, starring }
       <div className="film-rating">
         <div className="film-rating__score">{rating}</div>
         <p className="film-rating__meta">
-          <span className="film-rating__level">Very good</span>
+          <span className="film-rating__level">{getEstimation(rating)}</span>
           <span className="film-rating__count">{ratingCount} ratings</span>
         </p>
       </div>

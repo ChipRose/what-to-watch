@@ -1,10 +1,10 @@
 export type ReviewType = {
   id: number;
-  connectId: number;
+  filmId: number;
   rating: number;
   text: string;
   author: string;
-  date: Date;
+  date: string;
 }
 
 export type ReviewsType = ReviewType[]

@@ -1,10 +1,10 @@
-import { FilmsPreviewList } from '../../types/film';
+import { FilmsPreviewType } from '../../types/film';
 
 import withVideoPlayer from '../../hocs/with-video-player/with-video-player';
 import SmallFilmCard from '../small-film-card/small-film-card';
 
 type CatalogProps = {
-  filmsList: FilmsPreviewList;
+  filmsList: FilmsPreviewType;
 };
 
 const SmallFilmCardWrapped = withVideoPlayer(SmallFilmCard);

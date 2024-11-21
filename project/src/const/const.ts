@@ -3,7 +3,7 @@ export enum AppRoute {
   LogIn = '/login',
   MyList = '/mylist',
   Films = '/films',
-  Film = ':id',
+  FilmPreviewType = ':id',
   AddReview = ':id/review',
   Player = '/player/:id',
 }
@@ -22,45 +22,9 @@ export enum Estimation {
   Awesome = 'Awesome',
 }
 
-export const genreTabs = [
-  {
-    id: 0,
-    title: 'All genres'
-  },
-  {
-    id: 1,
-    title: 'Comedies'
-  },
-  {
-    id: 2,
-    title: 'Crime'
-  },
-  {
-    id: 3,
-    title: 'Documentary'
-  },
-  {
-    id: 4,
-    title: 'Dramas'
-  },
-  {
-    id: 5,
-    title: 'Horror'
-  },
-  {
-    id: 6,
-    title: 'Kids & Family'
-  },
-  {
-    id: 7,
-    title: 'Romance'
-  },
-  {
-    id: 8,
-    title: 'Sci-Fi'
-  },
-  {
-    id: 9,
-    title: 'Thrillers'
-  },
-];
+export const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'] as const;
+
+export enum TabsModification {
+  Catalog = 'CATALOG',
+  Navigation = 'NAVIGATION'
+}

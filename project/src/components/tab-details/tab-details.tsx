@@ -1,8 +1,8 @@
-import { FilmDetails } from '../../types/film';
+import { FilmDetailsType } from '../../types/film';
 
 import { formatTime } from '../../util/util';
 
-type TabDetailsProps = FilmDetails
+type TabDetailsProps = FilmDetailsType
 
 function TabDetails({ director, starring, runTime, genre, realized }: TabDetailsProps): JSX.Element {
   return (
