@@ -31,4 +31,5 @@ export type FilmType = FilmPreviewType & Omit<FilmDescriptionType, 'rating' | 'r
 
 export type FilmsType = FilmType[];
 
-export type GroupedFilmsType<T> = Record<string, T[]>
+export type GroupedFilmsType<T> = Record<string, T[]>;
+
