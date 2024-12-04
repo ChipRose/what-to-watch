@@ -1,15 +1,8 @@
-import { FilmsPreviewType } from '../../types/film';
-
 import Logo from '../../components/logo/logo';
 import Header from '../../components/header/header';
 import Catalog from '../../components/catalog/catalog';
 
-type MyListProps = {
-  favoriteFilmCount: number;
-  favoritesFilmsList: FilmsPreviewType;
-};
-
-function MyListScreen({ favoriteFilmCount, favoritesFilmsList }: MyListProps): JSX.Element {
+function MyListScreen(): JSX.Element {
 
   return (
     <div className='user-page'>

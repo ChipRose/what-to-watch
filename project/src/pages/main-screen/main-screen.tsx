@@ -1,16 +1,17 @@
 import { useAppSelector } from '../../hooks/use-app-selector';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
+import { setCatalog, setGenre } from '../../store/actions';
 
 import Logo from '../../components/logo/logo';
 import Header from '../../components/header/header';
 import GenreList from '../../components/genre-list/genre-list';
 import Catalog from '../../components/catalog/catalog';
-import { setCatalog, setGenre } from '../../store/actions';
 
 
 function MainScreen(): JSX.Element {
   const dispatch = useAppDispatch();
   const films = useAppSelector((state) => state.films);
+  const activeFilm = useAppSelector((state) => state.activeFilm.film);
   dispatch(setCatalog(films));
   dispatch(setGenre('all'));
 
@@ -32,10 +33,10 @@ function MainScreen(): JSX.Element {
             </div>
 
             <div className="film-card__desc">
-              <h2 className="film-card__title">The Grand Budapest Hotel</h2>
+              <h2 className="film-card__title">{activeFilm.title}</h2>
               <p className="film-card__meta">
-                <span className="film-card__genre">Drama</span>
-                <span className="film-card__year">2014</span>
+                <span className="film-card__genre">{activeFilm.genre}</span>
+                <span className="film-card__year">{activeFilm.realized}</span>
               </p>
 
               <div className="film-card__buttons">

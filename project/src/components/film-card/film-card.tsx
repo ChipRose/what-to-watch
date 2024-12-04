@@ -1,7 +1,9 @@
 
-import { FilmDescriptionType, FilmDetailsType, FilmType } from '../../types/film';
-import { TabsType } from '../../types/tabs';
-import { ReviewsType } from '../../types/review';
+import { useAppSelector } from '../../hooks/use-app-selector';
+
+import type { FilmDescriptionType, FilmDetailsType, FilmType } from '../../types/film';
+import type { TabsType } from '../../types/tabs';
+import type { ReviewsType } from '../../types/review';
 
 import { calcArraySumProps } from '../../util/util';
 
@@ -11,9 +13,8 @@ import TabDetails from '../tab-details/tab-details';
 import TabReviews from '../tab-reviews/tab-reviews';
 import Header from '../header/header';
 
-type FilmCardProps = FilmType & {
+type FilmCardProps = {
   isFull: boolean;
-  reviewsList: ReviewsType;
 };
 
 type TabsListProps = FilmType & {
@@ -50,11 +51,12 @@ const getTabsList = ({ reviewsList, ...film }: TabsListProps): TabsType => {
 
 function FilmCard({
   isFull,
-  reviewsList,
-  ...filmProps
 }: FilmCardProps): JSX.Element {
-  const { hero, title, cover, genre, realized } = filmProps;
 
+  const activeFilm = useAppSelector((state) => state.activeFilm.film);
+  const activeReviews = useAppSelector((state) => state.activeFilm.reviews);
+
+  const { hero, title, cover, genre, realized } = activeFilm;
 
   const mainClass = `film-card ${isFull ? ' film-card--full' : ''}`;
 
@@ -102,7 +104,7 @@ function FilmCard({
             <img src={cover} alt={title} width="218" height="327" />
           </div>
 
-          <TabsList tabsList={getTabsList({ reviewsList, ...filmProps })} />
+          <TabsList tabsList={getTabsList({ reviewsList: activeReviews, ...activeFilm })} />
         </div>
       </div>
     </section>

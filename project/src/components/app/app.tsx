@@ -1,8 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import { AppRoute } from '../../const/const';
-import { FilmsType } from '../../types/film';
-import { ReviewsType } from '../../types/review';
 
 import PrivateRoute from '../private-route/private-route';
 import MainScreen from '../../pages/main-screen/main-screen';
@@ -14,20 +12,7 @@ import AddReviewScreen from '../../pages/add-review-screen/add-review-screen';
 import NotFoundScreen from '../../pages/not-found-screen/not-found-screen';
 import { AuthorizationStatus } from '../../const/const';
 
-type AppProps = {
-  favoriteFilmCount: number;
-  similarFilmCount: number;
-  filmsList: FilmsType;
-  reviewsList: ReviewsType;
-};
-
-function App({
-  favoriteFilmCount,
-  similarFilmCount,
-  filmsList,
-  reviewsList
-
-}: AppProps): JSX.Element {
+function App(): JSX.Element {
   return (
     <BrowserRouter>
       <Routes>
@@ -37,9 +22,7 @@ function App({
         <Route path={AppRoute.Films}>
           <Route path={AppRoute.FilmPreviewType}
             element={
-              <FilmScreen
-                reviewsList={reviewsList}
-              />
+              <FilmScreen/>
             }
           />
 
@@ -57,7 +40,7 @@ function App({
           path={AppRoute.MyList}
           element={
             <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
-              <MyListScreen favoriteFilmCount={favoriteFilmCount} favoritesFilmsList={filmsList} />
+              <MyListScreen />
             </PrivateRoute>
           }
         />
