@@ -1,16 +1,19 @@
-import type { FilmsType, FilmType } from '../../types/film';
+import { useAppSelector } from '../../hooks/use-app-selector';
+import { useAppDispatch } from '../../hooks/use-app-dispatch';
 
 import Logo from '../../components/logo/logo';
 import Header from '../../components/header/header';
 import GenreList from '../../components/genre-list/genre-list';
 import Catalog from '../../components/catalog/catalog';
+import { setCatalog, setGenre } from '../../store/actions';
 
-type MainProps = {
-  filmsList: FilmsType;
-  activeFilm: FilmType;
-};
 
-function MainScreen({ filmsList, activeFilm }: MainProps): JSX.Element {
+function MainScreen(): JSX.Element {
+  const dispatch = useAppDispatch();
+  const films = useAppSelector((state) => state.films);
+  dispatch(setCatalog(films));
+  dispatch(setGenre('all'));
+
   return (
     <>
       <section className="film-card">

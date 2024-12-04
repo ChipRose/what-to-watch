@@ -11,7 +11,7 @@ import { getItemsByKey, groupByGenre } from '../../util/util';
 import Logo from '../../components/logo/logo';
 import Catalog from '../../components/catalog/catalog';
 import FilmCard from '../../components/film-card/film-card';
-import { FilmType } from '../../types/film';
+import { FilmType, GenreNameType } from '../../types/film';
 
 type FilmScreenProps = {
   reviewsList: ReviewsType;
@@ -29,7 +29,7 @@ function FilmScreen({ reviewsList }: FilmScreenProps): JSX.Element {
 
   const films = useAppSelector((state) => state.films);
   const activeFilm = films?.find(({ id: filmId }) => filmId === pageId) as FilmType || films[0];
-  const activeGenre = useAppSelector((state) => state.activeGenre);
+  const activeGenre = activeFilm.genre.toLowerCase() as GenreNameType || films[0].genre.toLowerCase();
   const similarFilms = groupByGenre(films)[activeGenre];
 
   const dispatch = useAppDispatch();

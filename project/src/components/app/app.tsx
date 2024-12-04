@@ -28,12 +28,10 @@ function App({
   reviewsList
 
 }: AppProps): JSX.Element {
-  const activeFilm = filmsList[0];
-
   return (
     <BrowserRouter>
       <Routes>
-        <Route path={AppRoute.Main} element={<MainScreen activeFilm={activeFilm} filmsList={filmsList} />} />
+        <Route path={AppRoute.Main} element={<MainScreen />} />
 
         <Route path={AppRoute.LogIn} element={<LoginScreen />} />
         <Route path={AppRoute.Films}>
