@@ -1,11 +1,15 @@
 
-import { FilmsType } from './film';
+import { store } from '..';
 
-import { genres } from '../const/const';
+import type { GenreNameType, FilmsType, FilmType } from './film';
 
-export type GenreNameType = typeof genres[number];
 
 export type GenreStateType = {
-  genre: GenreNameType | null;
-  films: FilmsType | [];
+  activeGenre: GenreNameType;
+  films: FilmsType;
+  catalog: FilmsType;
+  activeFilm: FilmType;
 };
+
+export type StateType = ReturnType<typeof store.getState>;
+export type AppDispatchType = typeof store.dispatch;

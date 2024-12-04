@@ -1,4 +1,4 @@
-// import { GenreTabType, GenreNameType } from '../types/film';
+import { GenreNameType, GenresTabsListType } from '../types/film';
 
 export enum AppRoute {
   Main = '/',
@@ -26,23 +26,18 @@ export enum Estimation {
 
 export const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'] as const;
 
-export enum TabsModification {
-  Catalog = 'CATALOG',
-  Navigation = 'NAVIGATION'
-}
+export const genresTabs = ['All genres', 'Comedies', 'Crime', 'Documentary', 'Dramas', 'Horror', 'Kids & Family', 'Romance', 'Sci-Fi', 'Thriller'] as const;
+export const genres = ['all', 'comedy', 'crime', 'documentary', 'drama', 'horror', 'kids & family', 'romance', 'sci-fi', 'thriller'] as const;
 
-export const genresTabsList = ['All genres', 'Comedies', 'Crime', 'Documentary', 'Dramas', 'Horror', 'Kids & Family', 'Romance', 'Sci-Fi', 'Thriller'] as const;
-export const genres = ['Comedy', 'Crime', 'Documentary', 'Drama', 'Horror', 'Kids & Family', 'Romance', 'Sci-Fi', 'Thriller'] as const;
-
-// export const genresTabs: { [key in GenreTabType]: GenreNameType } = {
-//   'All genres':null,
-//   'Comedies': genres[0],
-//   'Crime': genres[1],
-//   'Documentary': genres[2],
-//   'Dramas': genres[3],
-//   'Horror': genres[4],
-//   'Kids & Family': genres[5],
-//   'Romance': genres[6],
-//   'Sci-Fi': genres[7],
-//   'Thriller': genres[8],
-// };
+export const genreMapping: Record<GenreNameType, GenresTabsListType> = {
+  [genres[0]]: genresTabs[0],
+  [genres[1]]: genresTabs[1],
+  [genres[2]]: genresTabs[2],
+  [genres[3]]: genresTabs[3],
+  [genres[4]]: genresTabs[4],
+  [genres[5]]: genresTabs[5],
+  [genres[6]]: genresTabs[6],
+  [genres[7]]: genresTabs[7],
+  [genres[8]]: genresTabs[8],
+  [genres[9]]: genresTabs[9],
+} as const;

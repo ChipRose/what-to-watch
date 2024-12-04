@@ -123,7 +123,7 @@ export const filmsList: FilmsType = [
     realized: 2004,
   },
   {
-    id: 7,
+    id: 8,
     src: 'https://upload.wikimedia.org/wikipedia/commons/transcoded/b/b3/Big_Buck_Bunny_Trailer_400p.ogv/Big_Buck_Bunny_Trailer_400p.ogv.360p.webm',
     previewSrc: 'https://upload.wikimedia.org/wikipedia/commons/transcoded/b/b3/Big_Buck_Bunny_Trailer_400p.ogv/Big_Buck_Bunny_Trailer_400p.ogv.360p.webm',
     poster: 'img/revenant.jpg',
@@ -138,7 +138,7 @@ export const filmsList: FilmsType = [
     realized: 2000,
   },
   {
-    id: 8,
+    id: 9,
     src: 'https://upload.wikimedia.org/wikipedia/commons/transcoded/b/b3/Big_Buck_Bunny_Trailer_400p.ogv/Big_Buck_Bunny_Trailer_400p.ogv.360p.webm',
     previewSrc: 'https://upload.wikimedia.org/wikipedia/commons/transcoded/b/b3/Big_Buck_Bunny_Trailer_400p.ogv/Big_Buck_Bunny_Trailer_400p.ogv.360p.webm',
     poster: 'img/revenant.jpg',

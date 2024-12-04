@@ -1,3 +1,5 @@
+import type { FilmsType } from '../types/film';
+
 import { Estimation, months } from '../const/const';
 
 export const getCustomFormat = (date: string): string => {
@@ -59,16 +61,23 @@ export const calcArraySumProps = <T, K extends keyof T>(array: T[], key: K): { s
   return { sum, average, lenght };
 };
 
-export const groupByProperty = <T, K extends keyof T>(array: T[], key: K): Record<string, T[]> => (
-  array?.reduce((accumulator, item) => {
-    const propertyValue = item[key];
-    if (propertyValue !== undefined && propertyValue !== null) {
-      const groupKey = propertyValue.toString();
-      if (!accumulator[groupKey]) {
-        accumulator[groupKey] = [];
-      }
-      accumulator[groupKey].push(item);
+export const groupByGenre = (
+  items: FilmsType
+): Record<string, FilmsType> => {
+  const grouped = items.reduce<Record<string, FilmsType>>((acc, item) => {
+    const genreKey = item.genre.toString().toLowerCase();
+    if (!genreKey) {
+      return acc;
     }
-    return accumulator;
-  }, {} as Record<string, T[]>)
-);
+    if (!acc[genreKey]) {
+      acc[genreKey] = [];
+    }
+    acc[genreKey].push(item);
+    return acc;
+  }, {});
+
+  return {
+    all: items,
+    ...grouped,
+  };
+};

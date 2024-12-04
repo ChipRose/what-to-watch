@@ -40,7 +40,6 @@ function App({
           <Route path={AppRoute.FilmPreviewType}
             element={
               <FilmScreen
-                filmsList={filmsList}
                 reviewsList={reviewsList}
               />
             }

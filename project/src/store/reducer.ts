@@ -1,20 +1,28 @@
 import { createReducer } from '@reduxjs/toolkit';
 
-import { GenreStateType } from '../types/state';
+import type { GenreStateType } from '../types/state';
 
-import { setGenre, setFilms } from './actions';
+import { groupByGenre } from '../util/util';
+
+import { setGenre, setFilms, setCatalog } from './actions';
+import { filmsList } from '../mocks/films';
 
 const initialState: GenreStateType = {
-  genre: null,
-  films: [],
+  activeGenre: 'all',
+  films: filmsList,
+  catalog: groupByGenre(filmsList)['all'],
+  activeFilm: groupByGenre(filmsList)['all'][0]
 };
 
 export const reducer = createReducer(initialState, (builder) => {
   builder
     .addCase(setGenre, (state, action) => {
-      state.genre = action.payload;
+      state.activeGenre = action.payload;
     })
     .addCase(setFilms, (state, action) => {
       state.films = action.payload;
+    })
+    .addCase(setCatalog, (state, action) => {
+      state.catalog = action.payload;
     });
 });

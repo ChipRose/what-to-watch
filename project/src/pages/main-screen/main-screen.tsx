@@ -1,32 +1,13 @@
-import { FilmsType, FilmType } from '../../types/film';
-import { TabsType } from '../../types/tabs';
+import type { FilmsType, FilmType } from '../../types/film';
 
-import { TabsModification } from '../../const/const';
-
-import { groupByProperty } from '../../util/util';
-
-import Catalog from '../../components/catalog/catalog';
 import Logo from '../../components/logo/logo';
 import Header from '../../components/header/header';
-import TabsList from '../../components/tabs-list/tabs-list';
+import GenreList from '../../components/genre-list/genre-list';
+import Catalog from '../../components/catalog/catalog';
 
 type MainProps = {
   filmsList: FilmsType;
   activeFilm: FilmType;
-};
-
-const getTabsList = (films: FilmsType): TabsType => {
-  const filmsByGenre = groupByProperty(films, 'genre');
-  const tempGenres = Object.keys(filmsByGenre);
-  filmsByGenre['All genres'] = films;
-  const genres = ['All genres', ...tempGenres];
-
-  const tabsList = Array.from(genres, (genre, index) => ({
-    id: index,
-    title: genre,
-    component: <Catalog filmsList={filmsByGenre[genre]} />
-  }));
-  return tabsList;
 };
 
 function MainScreen({ filmsList, activeFilm }: MainProps): JSX.Element {
@@ -77,7 +58,8 @@ function MainScreen({ filmsList, activeFilm }: MainProps): JSX.Element {
         <section className='catalog'>
           <h2 className='catalog__title visually-hidden'>Catalog</h2>
 
-          <TabsList tabsList={getTabsList(filmsList)} type={TabsModification.Catalog} />
+          <GenreList />
+          <Catalog />
 
           <div className='catalog__more'>
             <button className='catalog__button' type='button'>

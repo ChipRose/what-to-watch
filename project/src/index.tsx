@@ -5,7 +5,6 @@ import { Provider } from 'react-redux';
 
 import { reducer } from './store/reducer';
 import { setFilms } from './store/actions';
-
 import { filmsList } from './mocks/films';
 import { reviewsList } from './mocks/review';
 
@@ -19,7 +18,7 @@ const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 
-const store = configureStore({ reducer });
+export const store = configureStore({ reducer });
 
 store.dispatch(setFilms(filmsList));
 

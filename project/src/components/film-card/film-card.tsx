@@ -3,8 +3,6 @@ import { FilmDescriptionType, FilmDetailsType, FilmType } from '../../types/film
 import { TabsType } from '../../types/tabs';
 import { ReviewsType } from '../../types/review';
 
-import { TabsModification } from '../../const/const';
-
 import { calcArraySumProps } from '../../util/util';
 
 import TabsList from '../tabs-list/tabs-list';
@@ -104,7 +102,7 @@ function FilmCard({
             <img src={cover} alt={title} width="218" height="327" />
           </div>
 
-          <TabsList type={TabsModification.Navigation} tabsList={getTabsList({ reviewsList, ...filmProps })} />
+          <TabsList tabsList={getTabsList({ reviewsList, ...filmProps })} />
         </div>
       </div>
     </section>
