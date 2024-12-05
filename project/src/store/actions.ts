@@ -9,13 +9,15 @@ export const Action = {
   SET_FILMS: 'films/set',
   SET_REVIEWS: 'reviews/set',
   SET_CATALOG: 'catalog/set',
+  RESET_CATALOG: 'catalog/reset',
+  RESET_APP: 'app/reset',
   SET_ACTIVE_FILM: 'activeFilm/set',
-  SET_ACTIVE_REVIEWS: 'activeReviews/set',
 };
 
 export const setGenre = createAction<GenreNameType>(Action.SET_GENRE);
 export const setFilms = createAction<FilmsType>(Action.SET_FILMS);
 export const setReviews = createAction<ReviewsType>(Action.SET_REVIEWS);
-export const setCatalog = createAction<FilmsType>(Action.SET_CATALOG);
+export const setCatalog = createAction<number>(Action.SET_CATALOG);
 export const setActiveFilm = createAction<FilmType>(Action.SET_ACTIVE_FILM);
-export const setActiveReviews = createAction<ReviewsType>(Action.SET_ACTIVE_REVIEWS);
+export const resetCatalog = createAction(Action.RESET_CATALOG);
+export const resetApp = createAction(Action.RESET_APP);

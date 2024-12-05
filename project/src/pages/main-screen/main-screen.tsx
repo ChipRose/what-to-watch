@@ -1,6 +1,8 @@
 import { useAppSelector } from '../../hooks/use-app-selector';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
-import { setCatalog, setGenre } from '../../store/actions';
+import { setGenre,setCatalog } from '../../store/actions';
+
+import { CatalogCount } from '../../const/const';
 
 import Logo from '../../components/logo/logo';
 import Header from '../../components/header/header';
@@ -10,10 +12,9 @@ import Catalog from '../../components/catalog/catalog';
 
 function MainScreen(): JSX.Element {
   const dispatch = useAppDispatch();
-  const films = useAppSelector((state) => state.films);
   const activeFilm = useAppSelector((state) => state.activeFilm.film);
-  dispatch(setCatalog(films));
   dispatch(setGenre('all'));
+  dispatch(setCatalog(CatalogCount.Init));
 
   return (
     <>

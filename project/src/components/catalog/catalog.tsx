@@ -6,7 +6,7 @@ import SmallFilmCard from '../small-film-card/small-film-card';
 const SmallFilmCardWrapped = withVideoPlayer(SmallFilmCard);
 
 function Catalog(): JSX.Element {
-  const catalog = useAppSelector((state) => state.catalog);
+  const catalog = useAppSelector((state) => state.catalog.films);
 
   return (
     <div

@@ -1,14 +1,18 @@
 
 import { store } from '..';
 
-import type { GenreNameType, FilmsType, FilmType } from './film';
+import type { GenreNameType, FilmsType, FilmType, GroupedFilmsType } from './film';
 import type { ReviewsType } from './review';
 
 export type GenreStateType = {
   activeGenre: GenreNameType;
   films: FilmsType;
+  groupedFilms: GroupedFilmsType;
   reviews: ReviewsType;
-  catalog: FilmsType;
+  catalog: {
+    count: number | null;
+    films: FilmsType;
+  };
   activeFilm: {
     film: FilmType;
     reviews: ReviewsType;

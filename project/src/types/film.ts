@@ -1,4 +1,4 @@
-import { genres, genresTabs, genreMapping } from '../const/const';
+import { genres, genresTabs } from '../const/const';
 
 export type FilmPreviewType = {
   id: number;
@@ -33,6 +33,6 @@ export type FilmType = FilmPreviewType & Omit<FilmDescriptionType, 'rating' | 'r
 
 export type FilmsType = FilmType[];
 
-export type GroupedFilmsType = Record<keyof typeof genreMapping, FilmsType>;
+export type GroupedFilmsType = Record<string, FilmsType>;
 export type GenreNameType = typeof genres[number];
 export type GenresTabsListType = typeof genresTabs[number];

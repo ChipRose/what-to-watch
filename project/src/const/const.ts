@@ -24,6 +24,11 @@ export enum Estimation {
   Awesome = 'Awesome',
 }
 
+export enum CatalogCount {
+  Init = 8,
+  Similar = 4,
+}
+
 export const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'] as const;
 
 export const genresTabs = ['All genres', 'Comedies', 'Crime', 'Documentary', 'Dramas', 'Horror', 'Kids & Family', 'Romance', 'Sci-Fi', 'Thriller'] as const;

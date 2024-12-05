@@ -1,4 +1,4 @@
-import type { FilmsType } from '../types/film';
+import type { FilmsType, GenreNameType, GroupedFilmsType } from '../types/film';
 
 import { Estimation, months } from '../const/const';
 
@@ -64,8 +64,12 @@ export const calcArraySumProps = <T, K extends keyof T>(array: T[], key: K): { s
 export const groupByGenre = (
   items: FilmsType
 ): Record<string, FilmsType> => {
-  const grouped = items.reduce<Record<string, FilmsType>>((acc, item) => {
-    const genreKey = item.genre.toString().toLowerCase();
+  if (!items?.length) {
+    return {};
+  }
+
+  const grouped = items.reduce<GroupedFilmsType>((acc, item) => {
+    const genreKey = item.genre.toString().toLowerCase() as GenreNameType | null;
     if (!genreKey) {
       return acc;
     }
@@ -74,7 +78,7 @@ export const groupByGenre = (
     }
     acc[genreKey].push(item);
     return acc;
-  }, {});
+  }, {} as GroupedFilmsType);
 
   return {
     all: items,

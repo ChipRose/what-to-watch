@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { setGenre, setFilms, setCatalog, setActiveFilm, setReviews, setActiveReviews } from './actions';
+import { setGenre, setFilms, setCatalog, setActiveFilm, setReviews, resetCatalog } from './actions';
 
 import type { GenreStateType } from '../types/state';
 import type { FilmsType } from '../types/film';
@@ -9,12 +9,16 @@ import { reviewsList } from '../mocks/review';
 
 import { groupByGenre, getItemsByKey } from '../util/util';
 
-const defaultFilmsList: FilmsType = groupByGenre(filmsList)['all'];
+const defaultFilmsList: FilmsType = groupByGenre(filmsList)['all'] || [];
 
 const initialState: GenreStateType = {
   activeGenre: 'all',
   films: filmsList,
-  catalog: defaultFilmsList,
+  groupedFilms: groupByGenre(filmsList),
+  catalog: {
+    count: 8,
+    films: defaultFilmsList,
+  },
   reviews: reviewsList,
   activeFilm: {
     film: defaultFilmsList[0],
@@ -25,21 +29,49 @@ const initialState: GenreStateType = {
 export const reducer = createReducer(initialState, (builder) => {
   builder
     .addCase(setGenre, (state, action) => {
-      state.activeGenre = action.payload;
+      const groupedFilms = state.groupedFilms;
+      const activeGenre = action.payload;
+
+      state.activeGenre = activeGenre;
+      state.catalog.films = groupedFilms[activeGenre];
     })
     .addCase(setFilms, (state, action) => {
       state.films = action.payload;
+      state.groupedFilms = groupByGenre(action.payload);
     })
     .addCase(setReviews, (state, action) => {
       state.reviews = action.payload;
     })
     .addCase(setCatalog, (state, action) => {
-      state.catalog = action.payload;
+      const count = action.payload || null;
+      const { activeGenre, groupedFilms } = state;
+      const similarFilms = groupedFilms[activeGenre] || [];
+
+      let catalogFilms = [];
+
+      if (count && similarFilms?.length) {
+        catalogFilms = similarFilms?.length > count ? similarFilms?.slice(0, count) : similarFilms;
+      } else {
+        catalogFilms = similarFilms;
+      }
+
+      state.catalog.count = count;
+      state.catalog.films = catalogFilms;
     })
     .addCase(setActiveFilm, (state, action) => {
+      const activeFilm = action.payload;
+      const activeId = activeFilm.id;
+      const reviews = state.reviews;
+      const activeReviews = getItemsByKey([activeId], reviews, 'filmId');
+
       state.activeFilm.film = action.payload;
+      state.activeFilm.reviews = activeReviews;
     })
-    .addCase(setActiveReviews, (state, action) => {
-      state.activeFilm.reviews = action.payload;
+    .addCase(resetCatalog, (state) => {
+      const { activeGenre, groupedFilms } = state;
+      const similarFilms = groupedFilms[activeGenre] || [];
+
+      state.catalog.count = null;
+      state.catalog.films = similarFilms;
     });
 });
