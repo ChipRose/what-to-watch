@@ -1,6 +1,6 @@
 import { useAppSelector } from '../../hooks/use-app-selector';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
-import { setGenre,setCatalog } from '../../store/actions';
+import { setGenre, setCatalog, loadMoreToCatalog } from '../../store/actions';
 
 import { CatalogCount } from '../../const/const';
 
@@ -8,6 +8,7 @@ import Logo from '../../components/logo/logo';
 import Header from '../../components/header/header';
 import GenreList from '../../components/genre-list/genre-list';
 import Catalog from '../../components/catalog/catalog';
+import ShowMore from '../../components/show-more/show-more';
 
 
 function MainScreen(): JSX.Element {
@@ -15,6 +16,12 @@ function MainScreen(): JSX.Element {
   const activeFilm = useAppSelector((state) => state.activeFilm.film);
   dispatch(setGenre('all'));
   dispatch(setCatalog(CatalogCount.Init));
+
+  const handleShowMoreButtonClick = () => {
+    // eslint-disable-next-line no-console
+    console.log('click');
+    dispatch(loadMoreToCatalog());
+  };
 
   return (
     <>
@@ -64,12 +71,11 @@ function MainScreen(): JSX.Element {
           <h2 className='catalog__title visually-hidden'>Catalog</h2>
 
           <GenreList />
+
           <Catalog />
 
           <div className='catalog__more'>
-            <button className='catalog__button' type='button'>
-              Show more
-            </button>
+            <ShowMore onUpdate={handleShowMoreButtonClick}/>
           </div>
         </section>
 

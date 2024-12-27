@@ -1,5 +1,7 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { setGenre, setFilms, setCatalog, setActiveFilm, setReviews, resetCatalog } from './actions';
+import { setGenre, setFilms, setCatalog, setActiveFilm, setReviews, resetCatalog, loadMoreToCatalog } from './actions';
+
+import { CatalogCount } from '../const/const';
 
 import type { GenreStateType } from '../types/state';
 import type { FilmsType } from '../types/film';
@@ -16,7 +18,7 @@ const initialState: GenreStateType = {
   films: filmsList,
   groupedFilms: groupByGenre(filmsList),
   catalog: {
-    count: 8,
+    count: CatalogCount.Init,
     films: defaultFilmsList,
   },
   reviews: reviewsList,
@@ -56,6 +58,24 @@ export const reducer = createReducer(initialState, (builder) => {
       }
 
       state.catalog.count = count;
+      state.catalog.films = catalogFilms;
+    })
+    .addCase(loadMoreToCatalog, (state) => {
+      const count = state.catalog.count || 0;
+      const activeCatalog = state.catalog.films;
+      const { activeGenre, groupedFilms } = state;
+      const similarFilms = groupedFilms[activeGenre] || [];
+
+      let catalogFilms = [];
+
+      if (similarFilms?.length && (similarFilms?.length - activeCatalog?.length > CatalogCount.Init)) {
+        catalogFilms = similarFilms?.slice(0, count + CatalogCount.Init);
+        state.catalog.count = count + CatalogCount.Init;
+      } else {
+        state.catalog.count = null;
+        catalogFilms = similarFilms;
+      }
+
       state.catalog.films = catalogFilms;
     })
     .addCase(setActiveFilm, (state, action) => {

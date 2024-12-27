@@ -1,8 +1,9 @@
 import { genreMapping } from '../../const/const';
+import { CatalogCount } from '../../const/const';
 
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { useAppSelector } from '../../hooks/use-app-selector';
-import { setGenre } from '../../store/actions';
+import { setGenre, setCatalog } from '../../store/actions';
 import { Link } from 'react-router-dom';
 
 type genreListType = Array<keyof typeof genreMapping>;
@@ -47,6 +48,7 @@ function GenreList(): JSX.Element {
   const onUpdate = (genre: GenreType) => {
     if (groupedFilms[activeGenre]?.length) {
       dispatch(setGenre(genre));
+      dispatch(setCatalog(CatalogCount.Init));
     }
   };
 
