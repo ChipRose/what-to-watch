@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useAppSelector } from '../../hooks/use-app-selector';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { setGenre, setCatalog, loadMoreToCatalog } from '../../store/actions';
@@ -14,14 +15,16 @@ import ShowMore from '../../components/show-more/show-more';
 function MainScreen(): JSX.Element {
   const dispatch = useAppDispatch();
   const activeFilm = useAppSelector((state) => state.activeFilm.film);
-  dispatch(setGenre('all'));
-  dispatch(setCatalog(CatalogCount.Init));
+  const isShowLoadMoreButton = useAppSelector((state) => !state.catalog.isAllShown);
 
   const handleShowMoreButtonClick = () => {
-    // eslint-disable-next-line no-console
-    console.log('click');
     dispatch(loadMoreToCatalog());
   };
+
+  useEffect(() => {
+    dispatch(setGenre('all'));
+    dispatch(setCatalog(CatalogCount.Init));
+  }, [dispatch]);
 
   return (
     <>
@@ -74,9 +77,13 @@ function MainScreen(): JSX.Element {
 
           <Catalog />
 
-          <div className='catalog__more'>
-            <ShowMore onUpdate={handleShowMoreButtonClick}/>
-          </div>
+          {
+            isShowLoadMoreButton ? (
+              <div className='catalog__more'>
+                <ShowMore onUpdate={handleShowMoreButtonClick} />
+              </div>
+            ) : null
+          }
         </section>
 
         <footer className='page-footer'>

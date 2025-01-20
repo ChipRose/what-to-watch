@@ -18,7 +18,8 @@ type GenreProps = {
 }
 
 function GenreTab({ genre, title, isActive, onUpdate }: GenreProps): JSX.Element {
-  const handleClick = () => {
+  const handleClick = (event: React.MouseEvent) => {
+    event.preventDefault();
     onUpdate(genre);
   };
 
@@ -46,6 +47,10 @@ function GenreList(): JSX.Element {
   }));
 
   const onUpdate = (genre: GenreType) => {
+    if (genre === activeGenre) {
+      return;
+    }
+
     if (groupedFilms[activeGenre]?.length) {
       dispatch(setGenre(genre));
       dispatch(setCatalog(CatalogCount.Init));

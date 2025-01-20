@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { useAppSelector } from '../../hooks/use-app-selector';
@@ -26,9 +27,11 @@ function FilmScreen(): JSX.Element {
 
   const dispatch = useAppDispatch();
 
-  dispatch(setActiveFilm(activeFilm));
-  dispatch(setGenre(activeGenre));
-  dispatch(setCatalog(CatalogCount.Similar));
+  useEffect(() => {
+    dispatch(setActiveFilm(activeFilm));
+    dispatch(setGenre(activeGenre));
+    dispatch(setCatalog(CatalogCount.Similar));
+  }, [dispatch, activeFilm, activeGenre]);
 
   return (
     <>

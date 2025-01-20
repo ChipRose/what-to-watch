@@ -20,6 +20,7 @@ const initialState: GenreStateType = {
   catalog: {
     count: CatalogCount.Init,
     films: defaultFilmsList,
+    isAllShown: defaultFilmsList?.length === CatalogCount.Init,
   },
   reviews: reviewsList,
   activeFilm: {
@@ -59,6 +60,7 @@ export const reducer = createReducer(initialState, (builder) => {
 
       state.catalog.count = count;
       state.catalog.films = catalogFilms;
+      state.catalog.isAllShown = similarFilms?.length === catalogFilms?.length;
     })
     .addCase(loadMoreToCatalog, (state) => {
       const count = state.catalog.count || 0;
@@ -72,11 +74,12 @@ export const reducer = createReducer(initialState, (builder) => {
         catalogFilms = similarFilms?.slice(0, count + CatalogCount.Init);
         state.catalog.count = count + CatalogCount.Init;
       } else {
-        state.catalog.count = null;
+        state.catalog.count = similarFilms?.length;
         catalogFilms = similarFilms;
       }
 
       state.catalog.films = catalogFilms;
+      state.catalog.isAllShown = Boolean(state.catalog.count === similarFilms?.length);
     })
     .addCase(setActiveFilm, (state, action) => {
       const activeFilm = action.payload;

@@ -12,6 +12,7 @@ export type GenreStateType = {
   catalog: {
     count: number | null;
     films: FilmsType;
+    isAllShown: boolean;
   };
   activeFilm: {
     film: FilmType;
