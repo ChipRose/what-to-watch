@@ -15,7 +15,10 @@ const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 
-export const store = configureStore({ reducer });
+export const store = configureStore({
+  reducer,
+  middleware: []
+});
 
 store.dispatch(setFilms(filmsList));
 store.dispatch(setReviews(reviewsList));
