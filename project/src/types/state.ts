@@ -1,5 +1,5 @@
 
-import { store } from '..';
+import { store } from '../store';
 
 import type { GenreNameType, FilmsType, FilmType, GroupedFilmsType } from './film';
 import type { ReviewsType } from './review';
