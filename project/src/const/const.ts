@@ -1,5 +1,8 @@
 import { GenreNameType, GenresTabsListType } from '../types/film';
 
+export const BACKEND_URL = 'https://10.react.htmlacademy.pro/wtw';
+export const REQUEST_TIMEOUT = 5000;
+
 export enum AppRoute {
   Main = '/',
   LogIn = '/login',

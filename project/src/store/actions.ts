@@ -1,10 +1,13 @@
 import { createAction } from '@reduxjs/toolkit';
 
-import type { FilmsType, FilmType } from '../types/film';
+import { AuthorizationStatus } from '../const/const';
+
+import type { FilmsType, FilmType, GenreNameType } from '../types/film';
 import type { ReviewsType } from '../types/review';
-import type { GenreNameType } from '../types/film';
 
 export const Action = {
+  LOAD_FILMS: 'films/load',
+  REQUIRE_AUTHORIZATION: 'authorization/require',
   SET_GENRE: 'genre/set',
   SET_FILMS: 'films/set',
   SET_REVIEWS: 'reviews/set',
@@ -15,6 +18,8 @@ export const Action = {
   SET_ACTIVE_FILM: 'activeFilm/set',
 };
 
+export const loadFilms = createAction<FilmsType>(Action.LOAD_FILMS);
+export const requireAuthorization = createAction<AuthorizationStatus>(Action.REQUIRE_AUTHORIZATION);
 export const setGenre = createAction<GenreNameType>(Action.SET_GENRE);
 export const setFilms = createAction<FilmsType>(Action.SET_FILMS);
 export const setReviews = createAction<ReviewsType>(Action.SET_REVIEWS);

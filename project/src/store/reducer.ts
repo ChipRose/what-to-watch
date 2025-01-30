@@ -1,7 +1,7 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { setGenre, setFilms, setCatalog, setActiveFilm, setReviews, resetCatalog, loadMoreToCatalog } from './actions';
+import { setGenre, setCatalog, setActiveFilm, setReviews, resetCatalog, loadMoreToCatalog, loadFilms, requireAuthorization } from './actions';
 
-import { CatalogCount } from '../const/const';
+import { CatalogCount, AuthorizationStatus } from '../const/const';
 
 import type { GenreStateType } from '../types/state';
 import type { FilmsType } from '../types/film';
@@ -14,6 +14,7 @@ import { groupByGenre, getItemsByKey } from '../util/util';
 const defaultFilmsList: FilmsType = groupByGenre(filmsList)['all'] || [];
 
 const initialState: GenreStateType = {
+  authorizationStatus: AuthorizationStatus.Unknown,
   activeGenre: 'all',
   films: filmsList,
   groupedFilms: groupByGenre(filmsList),
@@ -31,6 +32,15 @@ const initialState: GenreStateType = {
 
 export const reducer = createReducer(initialState, (builder) => {
   builder
+    .addCase(requireAuthorization, (state, action) => {
+      state.authorizationStatus = action.payload;
+    })
+    .addCase(
+      loadFilms, (state, action) => {
+        state.films = action.payload;
+        state.groupedFilms = groupByGenre(action.payload);
+      }
+    )
     .addCase(setGenre, (state, action) => {
       const groupedFilms = state.groupedFilms;
       const activeGenre = action.payload;
@@ -38,10 +48,10 @@ export const reducer = createReducer(initialState, (builder) => {
       state.activeGenre = activeGenre;
       state.catalog.films = groupedFilms[activeGenre];
     })
-    .addCase(setFilms, (state, action) => {
-      state.films = action.payload;
-      state.groupedFilms = groupByGenre(action.payload);
-    })
+    // .addCase(setFilms, (state, action) => {
+    //   state.films = action.payload;
+    //   state.groupedFilms = groupByGenre(action.payload);
+    // })
     .addCase(setReviews, (state, action) => {
       state.reviews = action.payload;
     })
