@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+
 import { useAppSelector } from '../../hooks/use-app-selector';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { setGenre, setCatalog, loadMoreToCatalog } from '../../store/actions';

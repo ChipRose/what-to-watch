@@ -2,6 +2,7 @@ import { GenreNameType, GenresTabsListType } from '../types/film';
 
 export const BACKEND_URL = 'https://10.react.htmlacademy.pro/wtw';
 export const REQUEST_TIMEOUT = 5000;
+export const TIMEOUT_SHOW_ERROR = 3000;
 
 export enum AppRoute {
   Main = '/',
@@ -49,3 +50,28 @@ export const genreMapping: Record<GenreNameType, GenresTabsListType> = {
   [genres[8]]: genresTabs[8],
   [genres[9]]: genresTabs[9],
 } as const;
+
+export const Action = {
+  CHECK_USER_AUTH:'userAuth/check',
+  LOGIN_USER:'user/login',
+  LOGOUT_USER:'user/logout',
+  FETCH_FILMS: 'films/fetch',
+  LOAD_FILMS: 'films/load',
+  LOAD_MORE_FILMS: 'catalog/load',
+  REQUIRE_AUTHORIZATION: 'authorization/require',
+  SET_GENRE: 'genre/set',
+  SET_FILMS: 'films/set',
+  SET_REVIEWS: 'reviews/set',
+  SET_CATALOG: 'catalog/set',
+  SET_ACTIVE_FILM: 'activeFilm/set',
+  SET_ERROR:'error/set',
+  RESET_ERROR:'error/reset',
+  RESET_CATALOG: 'catalog/reset',
+  RESET_APP: 'app/reset',
+};
+
+export enum APIRoute {
+  Films = '/films',
+  Login = '/login',
+  Logout = '/logout',
+}

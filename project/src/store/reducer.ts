@@ -1,23 +1,25 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { setGenre, setCatalog, setActiveFilm, setReviews, resetCatalog, loadMoreToCatalog, loadFilms, requireAuthorization } from './actions';
+import { setGenre, setCatalog, setActiveFilm, setReviews, resetCatalog, loadMoreToCatalog, setFilms, loadFilms, requireAuthorization } from './actions';
 
 import { CatalogCount, AuthorizationStatus } from '../const/const';
 
-import type { GenreStateType } from '../types/state';
+import type { StoreType } from '../types/state';
 import type { FilmsType } from '../types/film';
 
-import { filmsList } from '../mocks/films';
+// import { filmsList } from '../mocks/films';
 import { reviewsList } from '../mocks/review';
 
 import { groupByGenre, getItemsByKey } from '../util/util';
 
-const defaultFilmsList: FilmsType = groupByGenre(filmsList)['all'] || [];
 
-const initialState: GenreStateType = {
+const defaultFilmsList: FilmsType = groupByGenre([])['all'] ?? [];
+
+const initialState: StoreType = {
   authorizationStatus: AuthorizationStatus.Unknown,
+  error: null,
   activeGenre: 'all',
-  films: filmsList,
-  groupedFilms: groupByGenre(filmsList),
+  films: [],
+  groupedFilms: groupByGenre([]),
   catalog: {
     count: CatalogCount.Init,
     films: defaultFilmsList,
@@ -25,8 +27,8 @@ const initialState: GenreStateType = {
   },
   reviews: reviewsList,
   activeFilm: {
-    film: defaultFilmsList[0],
-    reviews: getItemsByKey([defaultFilmsList[0].id], reviewsList, 'filmId')
+    film: defaultFilmsList[0] || [],
+    reviews: getItemsByKey([defaultFilmsList[0]?.id], reviewsList, 'filmId')
   }
 };
 
@@ -48,10 +50,10 @@ export const reducer = createReducer(initialState, (builder) => {
       state.activeGenre = activeGenre;
       state.catalog.films = groupedFilms[activeGenre];
     })
-    // .addCase(setFilms, (state, action) => {
-    //   state.films = action.payload;
-    //   state.groupedFilms = groupByGenre(action.payload);
-    // })
+    .addCase(setFilms, (state, action) => {
+      state.films = action.payload;
+      state.groupedFilms = groupByGenre(action.payload);
+    })
     .addCase(setReviews, (state, action) => {
       state.reviews = action.payload;
     })

@@ -1,6 +1,10 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
+import { useAppSelector } from '../../hooks/use-app-selector';
+
 import { AppRoute } from '../../const/const';
+import { AuthorizationStatus } from '../../const/const';
+
 
 import PrivateRoute from '../private-route/private-route';
 import MainScreen from '../../pages/main-screen/main-screen';
@@ -10,9 +14,10 @@ import FilmScreen from '../../pages/film-screen/film-screen';
 import PlayerScreen from '../../pages/player-screen/player-screen';
 import AddReviewScreen from '../../pages/add-review-screen/add-review-screen';
 import NotFoundScreen from '../../pages/not-found-screen/not-found-screen';
-import { AuthorizationStatus } from '../../const/const';
 
 function App(): JSX.Element {
+  const actualAuthorization = useAppSelector((state) => state.authorizationStatus);
+
   return (
     <BrowserRouter>
       <Routes>
@@ -22,14 +27,14 @@ function App(): JSX.Element {
         <Route path={AppRoute.Films}>
           <Route path={AppRoute.FilmPreviewType}
             element={
-              <FilmScreen/>
+              <FilmScreen />
             }
           />
 
           <Route
             path={AppRoute.AddReview}
             element={
-              <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
+              <PrivateRoute authorizationStatus={actualAuthorization}>
                 <AddReviewScreen />
               </PrivateRoute>
             }
