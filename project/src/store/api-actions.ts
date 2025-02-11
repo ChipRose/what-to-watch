@@ -75,4 +75,4 @@ export const resetErrorAction = createAsyncThunk(
       TIMEOUT_SHOW_ERROR
     );
   }
-)
+);
