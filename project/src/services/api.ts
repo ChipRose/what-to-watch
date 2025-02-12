@@ -32,12 +32,11 @@ export const createApi = (): AxiosInstance => {
 
   api.interceptors.response.use(
     (response) => response,
-    (error: AxiosError) => {
+    (error: AxiosError <{ error: string }>) => {
       if (error.response && shouldDisplayError(error.response)) {
-        const responseData = error.response.data;
-        if (responseData && typeof responseData === 'object' && 'error' in responseData) {
-          processErrorHandle((responseData as { error: string }).error);
-        }
+        // eslint-disable-next-line
+        console.log(error.response.data.error)
+        processErrorHandle(error.response.data.error);
       }
       throw error;
     }

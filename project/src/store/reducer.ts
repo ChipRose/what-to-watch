@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { setGenre, setCatalog, setActiveFilm, setReviews, resetCatalog, loadMoreToCatalog, setFilms, loadFilms, requireAuthorization } from './actions';
+import { setGenre, setError, setCatalog, setActiveFilm, setReviews, resetCatalog, loadMoreToCatalog, setFilms, loadFilms, requireAuthorization } from './actions';
 
 import { CatalogCount, AuthorizationStatus } from '../const/const';
 
@@ -43,6 +43,9 @@ export const reducer = createReducer(initialState, (builder) => {
         state.groupedFilms = groupByGenre(action.payload);
       }
     )
+    .addCase(setError, (state, action) => {
+      state.error = action.payload;
+    })
     .addCase(setGenre, (state, action) => {
       const groupedFilms = state.groupedFilms;
       const activeGenre = action.payload;

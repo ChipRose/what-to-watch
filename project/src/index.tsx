@@ -13,13 +13,13 @@ import App from './components/app/app';
 import ErrorMessage from './components/error-message/error-message';
 
 store.dispatch(checkAuthAction());
+store.dispatch(setFilms(filmsList));
+store.dispatch(setReviews(reviewsList));
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 
-store.dispatch(setFilms(filmsList));
-store.dispatch(setReviews(reviewsList));
 
 root.render(
   <React.StrictMode>
