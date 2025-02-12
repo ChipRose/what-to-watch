@@ -6,20 +6,20 @@ import { CatalogCount, AuthorizationStatus } from '../const/const';
 import type { StoreType } from '../types/state';
 import type { FilmsType } from '../types/film';
 
-// import { filmsList } from '../mocks/films';
+import { filmsList } from '../mocks/films';
 import { reviewsList } from '../mocks/review';
 
 import { groupByGenre, getItemsByKey } from '../util/util';
 
 
-const defaultFilmsList: FilmsType = groupByGenre([])['all'] ?? [];
+const defaultFilmsList: FilmsType = groupByGenre(filmsList)['all'] ?? [];
 
 const initialState: StoreType = {
   authorizationStatus: AuthorizationStatus.Unknown,
   error: null,
   activeGenre: 'all',
-  films: [],
-  groupedFilms: groupByGenre([]),
+  films: filmsList,
+  groupedFilms: groupByGenre(filmsList),
   catalog: {
     count: CatalogCount.Init,
     films: defaultFilmsList,

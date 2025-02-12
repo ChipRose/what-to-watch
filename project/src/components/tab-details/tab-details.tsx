@@ -18,7 +18,7 @@ function TabDetails({ director, starring, runTime, genre, realized }: TabDetails
             {starring?.map((star, index) => (
               <>
                 {star}
-                {index < starring.length - 1 && <>{','}<br /></>}
+                {index < starring?.length - 1 && <>{','}<br /></>}
               </>
             ))}
           </span>
