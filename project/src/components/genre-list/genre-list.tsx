@@ -37,7 +37,7 @@ function GenreTab({ genre, title, isActive, onUpdate }: GenreProps): JSX.Element
 function GenreList(): JSX.Element {
   const dispatch = useAppDispatch();
   const activeGenre = useAppSelector((state) => state.activeGenre);
-  const groupedFilms = useAppSelector((state) => state.groupedFilms);
+  const groupedFilms = useAppSelector((state) => state.groupedFilms) || {};
 
   const genresList = Object.keys(groupedFilms) as genreListType;
 

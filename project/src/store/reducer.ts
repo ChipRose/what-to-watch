@@ -4,31 +4,29 @@ import { setGenre, setError, setCatalog, setActiveFilm, setReviews, resetCatalog
 import { CatalogCount, AuthorizationStatus } from '../const/const';
 
 import type { StoreType } from '../types/state';
-import type { FilmsType } from '../types/film';
 
-import { filmsList } from '../mocks/films';
 import { reviewsList } from '../mocks/review';
 
 import { groupByGenre, getItemsByKey } from '../util/util';
 
 
-const defaultFilmsList: FilmsType = groupByGenre(filmsList)['all'] ?? [];
-
 const initialState: StoreType = {
   authorizationStatus: AuthorizationStatus.Unknown,
   error: null,
+  isLoading: false,
   activeGenre: 'all',
-  films: filmsList,
-  groupedFilms: groupByGenre(filmsList),
+  films: [],
+  defaultFilmsList: [],
+  groupedFilms: null,
   catalog: {
     count: CatalogCount.Init,
-    films: defaultFilmsList,
-    isAllShown: defaultFilmsList?.length === CatalogCount.Init,
+    films: [],
+    isAllShown: false,
   },
   reviews: reviewsList,
   activeFilm: {
-    film: defaultFilmsList[0] || [],
-    reviews: getItemsByKey([defaultFilmsList[0]?.id], reviewsList, 'filmId')
+    film: null,
+    reviews: [],
   }
 };
 
@@ -39,7 +37,17 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(
       loadFilms, (state, action) => {
+        const activeGenre = 'all';
+        const defaultFilmsList = groupByGenre(action.payload)[activeGenre] ?? [];
+
         state.films = action.payload;
+        state.groupedFilms = groupByGenre(action.payload);
+        state.defaultFilmsList = defaultFilmsList;
+        state.catalog.films = defaultFilmsList;
+        state.catalog.isAllShown = defaultFilmsList?.length === CatalogCount.Init;
+        state.activeFilm.film = defaultFilmsList[0] || [];
+        state.activeFilm.reviews = getItemsByKey([defaultFilmsList[0]?.id], reviewsList, 'filmId');
+
         state.groupedFilms = groupByGenre(action.payload);
       }
     )
@@ -47,7 +55,7 @@ export const reducer = createReducer(initialState, (builder) => {
       state.error = action.payload;
     })
     .addCase(setGenre, (state, action) => {
-      const groupedFilms = state.groupedFilms;
+      const groupedFilms = state.groupedFilms || {};
       const activeGenre = action.payload;
 
       state.activeGenre = activeGenre;
@@ -63,7 +71,7 @@ export const reducer = createReducer(initialState, (builder) => {
     .addCase(setCatalog, (state, action) => {
       const count = action.payload || null;
       const { activeGenre, groupedFilms } = state;
-      const similarFilms = groupedFilms[activeGenre] || [];
+      const similarFilms = groupedFilms ? groupedFilms[activeGenre] : [];
 
       let catalogFilms = [];
 
@@ -81,7 +89,7 @@ export const reducer = createReducer(initialState, (builder) => {
       const count = state.catalog.count || 0;
       const activeCatalog = state.catalog.films;
       const { activeGenre, groupedFilms } = state;
-      const similarFilms = groupedFilms[activeGenre] || [];
+      const similarFilms = groupedFilms ? groupedFilms[activeGenre] : [];
 
       let catalogFilms = [];
 
@@ -107,7 +115,7 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(resetCatalog, (state) => {
       const { activeGenre, groupedFilms } = state;
-      const similarFilms = groupedFilms[activeGenre] || [];
+      const similarFilms = groupedFilms ? groupedFilms[activeGenre] : [];
 
       state.catalog.count = null;
       state.catalog.films = similarFilms;

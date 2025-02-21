@@ -22,7 +22,7 @@ type TabsListProps = FilmType & {
 }
 
 const getTabsList = ({ reviewsList, ...film }: TabsListProps): TabsType => {
-  const { director, description, starring, runTime, genre, realized } = film;
+  const { director, description, starring, runTime, genre, realized } = film || {};
   const rating = calcArraySumProps(reviewsList, 'rating').average;
   const ratingCount = calcArraySumProps(reviewsList, 'rating').lenght;
   const descriptionProps: FilmDescriptionType = { director, description, starring, rating, ratingCount };
@@ -51,20 +51,20 @@ const getTabsList = ({ reviewsList, ...film }: TabsListProps): TabsType => {
 
 function FilmCard({
   isFull,
-}: FilmCardProps): JSX.Element {
+}: FilmCardProps): JSX.Element|null {
 
   const activeFilm = useAppSelector((state) => state.activeFilm.film);
   const activeReviews = useAppSelector((state) => state.activeFilm.reviews);
 
-  const { hero, title, cover, genre, realized } = activeFilm;
+  const { title, cover, genre, realized } = activeFilm || {};
 
   const mainClass = `film-card ${isFull ? ' film-card--full' : ''}`;
 
-  return (
+  return activeFilm ? (
     <section className={mainClass}>
       <div className="film-card__hero">
         <div className="film-card__bg">
-          <img src={hero} alt={title} />
+          <img src={activeFilm.hero} alt={title} />
         </div>
 
         <h1 className="visually-hidden">WTW</h1>
@@ -108,7 +108,7 @@ function FilmCard({
         </div>
       </div>
     </section>
-  );
+  ) : null;
 }
 
 export default FilmCard;

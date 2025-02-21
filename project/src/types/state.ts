@@ -9,9 +9,11 @@ import type { ReviewsType } from './review';
 export type StoreType = {
   authorizationStatus: AuthorizationStatus;
   error: string | null;
+  isLoading: boolean;
   activeGenre: GenreNameType;
   films: FilmsType;
-  groupedFilms: GroupedFilmsType;
+  defaultFilmsList: FilmsType;
+  groupedFilms: GroupedFilmsType | null;
   reviews: ReviewsType;
   catalog: {
     count: number | null;
@@ -19,7 +21,7 @@ export type StoreType = {
     isAllShown: boolean;
   };
   activeFilm: {
-    film: FilmType;
+    film: FilmType | null;
     reviews: ReviewsType;
   };
 };
