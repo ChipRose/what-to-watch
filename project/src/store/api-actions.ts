@@ -3,15 +3,15 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 
 import type { AppDispatchType, StateType } from '../types/state';
 import type { FilmsType } from '../types/film';
+import type { ReviewsType } from '../types/review';
 import type { UserDataType } from '../types/user-data';
 import type { AuthDataType } from '../types/auth-data';
 
 import { Action, APIRoute, AuthorizationStatus, TIMEOUT_SHOW_ERROR } from '../const/const';
 
-import { loadFilms, requireAuthorization, setError } from './actions';
+import { loadFilms, loadReviews, requireAuthorization, setError } from './actions';
 import { saveToken, dropToken } from '../services/token';
 import { store } from '.';
-
 
 export const fetchFilmsAction = createAsyncThunk<void, undefined, {
   dispatch: AppDispatchType;
@@ -22,6 +22,23 @@ export const fetchFilmsAction = createAsyncThunk<void, undefined, {
   async (_arg, { dispatch, extra: api }) => {
     const { data } = await api.get<FilmsType>(APIRoute.Films);
     dispatch(loadFilms(data));
+  },
+);
+
+export const fetchReviewsAction = createAsyncThunk<void, undefined, {
+  dispatch: AppDispatchType;
+  state: StateType;
+  extra: AxiosInstance;
+}>(
+  Action.FETCH_REVIEWS,
+  async (_arg, { dispatch, getState, extra: api }) => {
+    const state = getState();
+    const id = state.activeFilm?.film?.id;
+
+    if (id) {
+      const { data } = await api.get<ReviewsType>(`${APIRoute.Comments}${id}`);
+      dispatch(loadReviews(data));
+    }
   },
 );
 

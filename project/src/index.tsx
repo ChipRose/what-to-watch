@@ -2,8 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
 
-// import { setFilms, setReviews } from './store/actions';
-import { checkAuthAction, fetchFilmsAction } from './store/api-actions';
+import { checkAuthAction, fetchFilmsAction, fetchReviewsAction } from './store/api-actions';
 
 import { store } from './store';
 
@@ -12,8 +11,7 @@ import ErrorMessage from './components/error-message/error-message';
 
 store.dispatch(checkAuthAction());
 store.dispatch(fetchFilmsAction());
-// store.dispatch(setFilms(filmsList));
-// store.dispatch(setReviews(reviewsList));
+store.dispatch(fetchReviewsAction());
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

@@ -3,12 +3,9 @@ import { setGenre, setError, setCatalog, setActiveFilm, setReviews, resetCatalog
 
 import { CatalogCount, AuthorizationStatus } from '../const/const';
 
-import type { StoreType } from '../types/state';
-
-import { reviewsList } from '../mocks/review';
-
 import { groupByGenre, getItemsByKey } from '../util/util';
 
+import type { StoreType } from '../types/state';
 
 const initialState: StoreType = {
   authorizationStatus: AuthorizationStatus.Unknown,
@@ -23,7 +20,7 @@ const initialState: StoreType = {
     films: [],
     isAllShown: false,
   },
-  reviews: reviewsList,
+  reviews: [],
   activeFilm: {
     film: null,
     reviews: [],
@@ -46,7 +43,7 @@ export const reducer = createReducer(initialState, (builder) => {
         state.catalog.films = defaultFilmsList;
         state.catalog.isAllShown = defaultFilmsList?.length === CatalogCount.Init;
         state.activeFilm.film = defaultFilmsList[0] || [];
-        state.activeFilm.reviews = getItemsByKey([defaultFilmsList[0]?.id], reviewsList, 'filmId');
+        // state.activeFilm.reviews = getItemsByKey([defaultFilmsList[0]?.id], reviewsList, 'filmId');
 
         state.groupedFilms = groupByGenre(action.payload);
       }

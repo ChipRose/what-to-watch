@@ -12,7 +12,7 @@ export type StoreType = {
   isLoading: boolean;
   activeGenre: GenreNameType;
   films: FilmsType;
-  defaultFilmsList: FilmsType;
+  defaultFilmsList: FilmsType|null;
   groupedFilms: GroupedFilmsType | null;
   reviews: ReviewsType;
   catalog: {
