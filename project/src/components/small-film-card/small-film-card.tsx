@@ -5,13 +5,13 @@ import { AppRoute } from '../../const/const';
 
 type CardProps = FilmPreviewType & {
   playerIndex: number;
-  renderPlayer: (previewSrc: string, playerIndex: number, poster: string) => JSX.Element;
+  renderPlayer: (previewSrc: string, playerIndex: number, previewImage: string) => JSX.Element;
 };
 
 function SmallFilmCard({
   id,
   playerIndex,
-  poster,
+  previewImage,
   title,
   previewSrc,
   renderPlayer,
@@ -22,7 +22,7 @@ function SmallFilmCard({
       className="small-film-card catalog__films-card"
     >
       <div className="small-film-card__image">
-        {renderPlayer(previewSrc, playerIndex, poster)}
+        {renderPlayer(previewSrc, playerIndex, previewImage)}
         <h3 className="small-film-card__title">
           <Link className="small-film-card__link" to={`${AppRoute.Films}/${id}`}>
             {title}

@@ -4,8 +4,9 @@ import { AuthorizationStatus, Action } from '../const/const';
 
 import type { FilmsType, FilmType, GenreNameType } from '../types/film';
 import type { ReviewsType } from '../types/review';
+import { ServerFilmsType } from '../types/server-data';
 
-export const loadFilms = createAction<FilmsType>(Action.LOAD_FILMS);
+export const loadFilms = createAction<ServerFilmsType>(Action.LOAD_FILMS);
 export const loadReviews = createAction<ReviewsType>(Action.LOAD_REVIEWS);
 export const requireAuthorization = createAction<AuthorizationStatus>(Action.REQUIRE_AUTHORIZATION);
 export const setError = createAction<string | null>(Action.SET_ERROR);

@@ -2,8 +2,8 @@ import { createReducer } from '@reduxjs/toolkit';
 import { setGenre, setError, setCatalog, setActiveFilm, setReviews, resetCatalog, loadMoreToCatalog, setFilms, loadFilms, requireAuthorization } from './actions';
 
 import { CatalogCount, AuthorizationStatus } from '../const/const';
-
 import { groupByGenre, getItemsByKey } from '../util/util';
+import { adaptFilmsDataToApp } from '../util/util-adapt-data';
 
 import type { StoreType } from '../types/state';
 
@@ -35,17 +35,18 @@ export const reducer = createReducer(initialState, (builder) => {
     .addCase(
       loadFilms, (state, action) => {
         const activeGenre = 'all';
-        const defaultFilmsList = groupByGenre(action.payload)[activeGenre] ?? [];
+        const adaptFilmsList = adaptFilmsDataToApp(action.payload);
+        const defaultFilmsList = groupByGenre(adaptFilmsList)[activeGenre] ?? [];
 
-        state.films = action.payload;
-        state.groupedFilms = groupByGenre(action.payload);
+        state.films = adaptFilmsList;
+        state.groupedFilms = groupByGenre(adaptFilmsList);
         state.defaultFilmsList = defaultFilmsList;
         state.catalog.films = defaultFilmsList;
         state.catalog.isAllShown = defaultFilmsList?.length === CatalogCount.Init;
         state.activeFilm.film = defaultFilmsList[0] || [];
         // state.activeFilm.reviews = getItemsByKey([defaultFilmsList[0]?.id], reviewsList, 'filmId');
 
-        state.groupedFilms = groupByGenre(action.payload);
+        state.groupedFilms = groupByGenre(adaptFilmsList);
       }
     )
     .addCase(setError, (state, action) => {

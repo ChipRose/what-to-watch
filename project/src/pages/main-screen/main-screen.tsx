@@ -31,7 +31,7 @@ function MainScreen(): JSX.Element {
     <>
       <section className="film-card">
         <div className="film-card__bg">
-          <img src="img/bg-the-grand-budapest-hotel.jpg" alt="The Grand Budapest Hotel" />
+          <img src={activeFilm?.backgroundImage} alt={activeFilm?.title} />
         </div>
 
         <h1 className="visually-hidden">WTW</h1>
@@ -41,7 +41,7 @@ function MainScreen(): JSX.Element {
         <div className="film-card__wrap">
           <div className="film-card__info">
             <div className="film-card__poster">
-              <img src="img/the-grand-budapest-hotel-poster.jpg" alt="The Grand Budapest Hotel poster" width="218" height="327" />
+              <img src={activeFilm?.cover} alt={activeFilm?.title} width="218" height="327" />
             </div>
 
             <div className="film-card__desc">

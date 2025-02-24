@@ -3,7 +3,7 @@ import { genres, genresTabs } from '../const/const';
 export type FilmPreviewType = {
   id: number;
   previewSrc: string;
-  poster: string;
+  previewImage: string;
   title: string;
 };
 
@@ -25,9 +25,9 @@ export type FilmDetailsType = {
   realized: number;
 };
 
-export type FilmType = FilmPreviewType & Omit<FilmDescriptionType, 'rating' | 'ratingCount'> & FilmDetailsType & {
+export type FilmType = FilmPreviewType & FilmDescriptionType & FilmDetailsType & {
   src: string;
-  hero: string;
+  backgroundImage: string;
   cover: string;
 };
 
