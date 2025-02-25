@@ -1,4 +1,6 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
+import HistoryRouter from '../history-route/history-route';
+import browserHistory from '../../browser-history';
 
 import { useAppSelector } from '../../hooks/use-app-selector';
 
@@ -25,7 +27,7 @@ function App(): JSX.Element {
   }
 
   return (
-    <BrowserRouter>
+    <HistoryRouter history={browserHistory}>
       <Routes>
         <Route path={AppRoute.Main} element={<PageWrapper />}>
           <Route path={AppRoute.Main} element={<MainScreen />} />
@@ -67,7 +69,7 @@ function App(): JSX.Element {
           <Route path={'*'} element={<NotFoundScreen />} />
         </Route>
       </Routes>
-    </BrowserRouter>
+    </HistoryRouter>
   );
 }
 
