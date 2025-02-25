@@ -9,8 +9,8 @@ import { store } from './store';
 import App from './components/app/app';
 import ErrorMessage from './components/error-message/error-message';
 
-store.dispatch(checkAuthAction());
 store.dispatch(fetchFilmsAction());
+store.dispatch(checkAuthAction());
 store.dispatch(fetchReviewsAction());
 
 const root = ReactDOM.createRoot(

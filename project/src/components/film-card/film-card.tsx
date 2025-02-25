@@ -55,12 +55,12 @@ function FilmCard({
   const activeFilm = useAppSelector((state) => state.activeFilm.film);
   const activeReviews = useAppSelector((state) => state.activeFilm.reviews);
 
-  const { title, cover, genre, realized } = activeFilm || {};
+  const { title, cover, genre, realized, backgroundColor } = activeFilm || {};
 
-  const mainClass = `film-card ${isFull ? ' film-card--full' : ''}`;
+  const mainClass = `film-card${isFull ? ' film-card--full' : ''}`;
 
   return activeFilm ? (
-    <section className={mainClass}>
+    <section className={mainClass} style={{background: backgroundColor}}>
       <div className="film-card__hero">
         <div className="film-card__bg">
           <img src={activeFilm.backgroundImage} alt={title} />

@@ -12,7 +12,7 @@ export type ServerFilmType = {
   starring: string[];
   runTime: number;
   genre: string;
-  realized: number;
+  released: number;
   isFavorite: boolean;
   videoLink: string;
   previewVideoLink: string;

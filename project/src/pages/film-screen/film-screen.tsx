@@ -23,7 +23,7 @@ function FilmScreen(): JSX.Element {
 
   const films = useAppSelector((state) => state.films);
   const activeFilm = films?.find(({ id: filmId }) => filmId === pageId) as FilmType || films[0];
-  const activeGenre = activeFilm.genre.toLowerCase() as GenreNameType || films[0].genre.toLowerCase();
+  const activeGenre = activeFilm?.genre.toLowerCase() as GenreNameType || films[0]?.genre.toLowerCase();
 
   const dispatch = useAppDispatch();
 

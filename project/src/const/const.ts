@@ -58,6 +58,7 @@ export const Action = {
   FETCH_FILMS: 'films/fetch',
   FETCH_REVIEWS: 'reviews/fetch',
   LOAD_FILMS: 'films/load',
+  SET_FILMS_LOADED_STATUS: 'filmsLoadedStatus/set',
   LOAD_REVIEWS: 'reviews/load',
   LOAD_MORE_FILMS: 'catalog/load',
   REQUIRE_AUTHORIZATION: 'authorization/require',

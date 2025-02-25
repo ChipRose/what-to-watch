@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { setGenre, setError, setCatalog, setActiveFilm, setReviews, resetCatalog, loadMoreToCatalog, setFilms, loadFilms, requireAuthorization } from './actions';
+import { setGenre, setError, setCatalog, setActiveFilm, setReviews, resetCatalog, loadMoreToCatalog, setFilms, loadFilms, requireAuthorization, setFilmsLoadedStatus } from './actions';
 
 import { CatalogCount, AuthorizationStatus } from '../const/const';
 import { groupByGenre, getItemsByKey } from '../util/util';
@@ -10,7 +10,7 @@ import type { StoreType } from '../types/state';
 const initialState: StoreType = {
   authorizationStatus: AuthorizationStatus.Unknown,
   error: null,
-  isLoading: false,
+  isFilmsLoaded: true,
   activeGenre: 'all',
   films: [],
   defaultFilmsList: [],
@@ -32,6 +32,9 @@ export const reducer = createReducer(initialState, (builder) => {
     .addCase(requireAuthorization, (state, action) => {
       state.authorizationStatus = action.payload;
     })
+    .addCase(setFilmsLoadedStatus, (state, action) => {
+      state.isFilmsLoaded = action.payload;
+    })
     .addCase(
       loadFilms, (state, action) => {
         const activeGenre = 'all';
@@ -45,8 +48,6 @@ export const reducer = createReducer(initialState, (builder) => {
         state.catalog.isAllShown = defaultFilmsList?.length === CatalogCount.Init;
         state.activeFilm.film = defaultFilmsList[0] || [];
         // state.activeFilm.reviews = getItemsByKey([defaultFilmsList[0]?.id], reviewsList, 'filmId');
-
-        state.groupedFilms = groupByGenre(adaptFilmsList);
       }
     )
     .addCase(setError, (state, action) => {
@@ -104,7 +105,7 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(setActiveFilm, (state, action) => {
       const activeFilm = action.payload;
-      const activeId = activeFilm.id;
+      const activeId = activeFilm?.id;
       const reviews = state.reviews;
       const activeReviews = getItemsByKey([activeId], reviews, 'filmId');
 

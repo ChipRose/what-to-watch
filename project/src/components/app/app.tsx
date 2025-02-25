@@ -14,9 +14,14 @@ import FilmScreen from '../../pages/film-screen/film-screen';
 import PlayerScreen from '../../pages/player-screen/player-screen';
 import AddReviewScreen from '../../pages/add-review-screen/add-review-screen';
 import NotFoundScreen from '../../pages/not-found-screen/not-found-screen';
+import Loader from '../loader/loader';
 
 function App(): JSX.Element {
-  const actualAuthorization = useAppSelector((state) => state.authorizationStatus);
+  const { isFilmsLoaded, authorizationStatus } = useAppSelector((state) => state);
+
+  if (isFilmsLoaded) {
+    return (<Loader />);
+  }
 
   return (
     <BrowserRouter>
@@ -34,7 +39,7 @@ function App(): JSX.Element {
           <Route
             path={AppRoute.AddReview}
             element={
-              <PrivateRoute authorizationStatus={actualAuthorization}>
+              <PrivateRoute authorizationStatus={authorizationStatus}>
                 <AddReviewScreen />
               </PrivateRoute>
             }

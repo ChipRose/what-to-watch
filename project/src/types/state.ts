@@ -9,7 +9,7 @@ import type { ReviewsType } from './review';
 export type StoreType = {
   authorizationStatus: AuthorizationStatus;
   error: string | null;
-  isLoading: boolean;
+  isFilmsLoaded: boolean;
   activeGenre: GenreNameType;
   films: FilmsType;
   defaultFilmsList: FilmsType|null;

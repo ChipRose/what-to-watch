@@ -9,7 +9,7 @@ import type { AuthDataType } from '../types/auth-data';
 
 import { Action, APIRoute, AuthorizationStatus, TIMEOUT_SHOW_ERROR } from '../const/const';
 
-import { loadFilms, loadReviews, requireAuthorization, setError } from './actions';
+import { loadFilms, loadReviews, requireAuthorization, setError, setFilmsLoadedStatus } from './actions';
 import { saveToken, dropToken } from '../services/token';
 import { store } from '.';
 import { ServerFilmsType } from '../types/server-data';
@@ -22,7 +22,9 @@ export const fetchFilmsAction = createAsyncThunk<void, undefined, {
   Action.FETCH_FILMS,
   async (_arg, { dispatch, extra: api }) => {
     const { data } = await api.get<ServerFilmsType>(APIRoute.Films);
+    dispatch(setFilmsLoadedStatus(true));
     dispatch(loadFilms(data));
+    dispatch(setFilmsLoadedStatus(false));
   },
 );
 

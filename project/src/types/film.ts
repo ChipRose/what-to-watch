@@ -28,6 +28,7 @@ export type FilmDetailsType = {
 export type FilmType = FilmPreviewType & FilmDescriptionType & FilmDetailsType & {
   src: string;
   backgroundImage: string;
+  backgroundColor: string;
   cover: string;
 };
 
