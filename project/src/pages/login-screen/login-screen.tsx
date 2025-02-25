@@ -1,13 +1,10 @@
-import Logo from '../../components/logo/logo';
+import Header from '../../components/header/header';
+import Footer from '../../components/footer/footer';
 
 function LoginScreen(): JSX.Element {
   return (
     <div className='user-page'>
-      <header className='page-header user-page__head'>
-        <Logo />
-
-        <h1 className='page-title user-page__title'>Sign in</h1>
-      </header>
+      <Header titleRender={() => (<h1 className='page-title user-page__title'>Sign in</h1>)} variant={'user-page'} isUserBlock={false} />
 
       <div className='sign-in user-page__content'>
         <form action='#' className='sign-in__form'>
@@ -27,13 +24,7 @@ function LoginScreen(): JSX.Element {
         </form>
       </div>
 
-      <footer className='page-footer'>
-        <Logo variant='light' />
-
-        <div className='copyright'>
-          <p>© 2019 What to watch Ltd.</p>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }

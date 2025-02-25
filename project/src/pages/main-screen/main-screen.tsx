@@ -6,8 +6,8 @@ import { setGenre, setCatalog, loadMoreToCatalog } from '../../store/actions';
 
 import { CatalogCount } from '../../const/const';
 
-import Logo from '../../components/logo/logo';
 import Header from '../../components/header/header';
+import Footer from '../../components/footer/footer';
 import GenreList from '../../components/genre-list/genre-list';
 import Catalog from '../../components/catalog/catalog';
 import ShowMore from '../../components/show-more/show-more';
@@ -87,14 +87,7 @@ function MainScreen(): JSX.Element {
           }
         </section>
 
-        <footer className='page-footer'>
-
-          <Logo variant='light' />
-
-          <div className='copyright'>
-            <p>© 2019 What to watch Ltd.</p>
-          </div>
-        </footer>
+        <Footer/>
       </div>
     </>
   );

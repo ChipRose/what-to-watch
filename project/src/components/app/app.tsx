@@ -7,6 +7,7 @@ import { AuthorizationStatus } from '../../const/const';
 
 
 import PrivateRoute from '../private-route/private-route';
+import PageWrapper from '../page-wrapper/page-wrapper';
 import MainScreen from '../../pages/main-screen/main-screen';
 import LoginScreen from '../../pages/login-screen/login-screen';
 import MyListScreen from '../../pages/my-list-screen/my-list-screen';
@@ -26,43 +27,45 @@ function App(): JSX.Element {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path={AppRoute.Main} element={<MainScreen />} />
+        <Route path={AppRoute.Main} element={<PageWrapper />}>
+          <Route path={AppRoute.Main} element={<MainScreen />} />
 
-        <Route path={AppRoute.LogIn} element={<LoginScreen />} />
-        <Route path={AppRoute.Films}>
-          <Route path={AppRoute.FilmPreviewType}
+          <Route path={AppRoute.LogIn} element={<LoginScreen />} />
+          <Route path={AppRoute.Films}>
+            <Route path={AppRoute.FilmPreviewType}
+              element={
+                <FilmScreen />
+              }
+            />
+
+            <Route
+              path={AppRoute.AddReview}
+              element={
+                <PrivateRoute authorizationStatus={authorizationStatus}>
+                  <AddReviewScreen />
+                </PrivateRoute>
+              }
+            />
+          </Route>
+          <Route path={AppRoute.Player} element={<PlayerScreen />} />
+          <Route
+            path={AppRoute.MyList}
             element={
-              <FilmScreen />
+              <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
+                <MyListScreen />
+              </PrivateRoute>
             }
           />
-
           <Route
             path={AppRoute.AddReview}
             element={
-              <PrivateRoute authorizationStatus={authorizationStatus}>
+              <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
                 <AddReviewScreen />
               </PrivateRoute>
             }
           />
+          <Route path={'*'} element={<NotFoundScreen />} />
         </Route>
-        <Route path={AppRoute.Player} element={<PlayerScreen />} />
-        <Route
-          path={AppRoute.MyList}
-          element={
-            <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
-              <MyListScreen />
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path={AppRoute.AddReview}
-          element={
-            <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
-              <AddReviewScreen />
-            </PrivateRoute>
-          }
-        />
-        <Route path={'*'} element={<NotFoundScreen />} />
       </Routes>
     </BrowserRouter>
   );

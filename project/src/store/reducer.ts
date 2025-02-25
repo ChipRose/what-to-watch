@@ -10,7 +10,7 @@ import type { StoreType } from '../types/state';
 const initialState: StoreType = {
   authorizationStatus: AuthorizationStatus.Unknown,
   error: null,
-  isFilmsLoaded: true,
+  isFilmsLoaded: false,
   activeGenre: 'all',
   films: [],
   defaultFilmsList: [],
@@ -38,13 +38,14 @@ export const reducer = createReducer(initialState, (builder) => {
     .addCase(
       loadFilms, (state, action) => {
         const activeGenre = 'all';
+        const count = CatalogCount.Init;
         const adaptFilmsList = adaptFilmsDataToApp(action.payload);
         const defaultFilmsList = groupByGenre(adaptFilmsList)[activeGenre] ?? [];
 
         state.films = adaptFilmsList;
         state.groupedFilms = groupByGenre(adaptFilmsList);
         state.defaultFilmsList = defaultFilmsList;
-        state.catalog.films = defaultFilmsList;
+        state.catalog.films = defaultFilmsList.slice(0, count);
         state.catalog.isAllShown = defaultFilmsList?.length === CatalogCount.Init;
         state.activeFilm.film = defaultFilmsList[0] || [];
         // state.activeFilm.reviews = getItemsByKey([defaultFilmsList[0]?.id], reviewsList, 'filmId');

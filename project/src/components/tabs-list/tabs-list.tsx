@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { TabsType } from '../../types/tabs';
-
 import { Link } from 'react-router-dom';
+
+import { TabsType } from '../../types/tabs';
 
 type TabsListProps = {
   tabsList: TabsType;
