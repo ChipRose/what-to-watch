@@ -4,9 +4,7 @@ import browserHistory from '../../browser-history';
 
 import { useAppSelector } from '../../hooks/use-app-selector';
 
-import { AppRoute } from '../../const/const';
-import { AuthorizationStatus } from '../../const/const';
-
+import { AppRoute, AuthorizationStatus } from '../../const/const';
 
 import PrivateRoute from '../private-route/private-route';
 import PageWrapper from '../page-wrapper/page-wrapper';

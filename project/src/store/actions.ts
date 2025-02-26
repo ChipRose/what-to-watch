@@ -1,6 +1,6 @@
 import { createAction } from '@reduxjs/toolkit';
 
-import { AuthorizationStatus, Action } from '../const/const';
+import { AuthorizationStatus, Action, AppRoute } from '../const/const';
 
 import type { FilmsType, FilmType, GenreNameType } from '../types/film';
 import type { ReviewsType } from '../types/review';
@@ -19,3 +19,4 @@ export const loadMoreToCatalog = createAction(Action.LOAD_MORE_FILMS);
 export const setActiveFilm = createAction<FilmType>(Action.SET_ACTIVE_FILM);
 export const resetCatalog = createAction(Action.RESET_CATALOG);
 export const resetApp = createAction(Action.RESET_APP);
+export const redirectToRoute = createAction<AppRoute>(Action.REDIRECT_TO_ROUTE);

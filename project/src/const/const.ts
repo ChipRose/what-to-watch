@@ -61,6 +61,7 @@ export const Action = {
   SET_FILMS_LOADED_STATUS: 'filmsLoadedStatus/set',
   LOAD_REVIEWS: 'reviews/load',
   LOAD_MORE_FILMS: 'catalog/load',
+  FETCH_USER_STATUS:'userStatus/fetch',
   REQUIRE_AUTHORIZATION: 'authorization/require',
   SET_GENRE: 'genre/set',
   SET_FILMS: 'films/set',
@@ -71,6 +72,7 @@ export const Action = {
   RESET_ERROR:'error/reset',
   RESET_CATALOG: 'catalog/reset',
   RESET_APP: 'app/reset',
+  REDIRECT_TO_ROUTE:'toRoute/redirect'
 };
 
 export enum APIRoute {
