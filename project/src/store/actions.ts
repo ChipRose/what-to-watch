@@ -10,7 +10,6 @@ export const loadFilms = createAction<ServerFilmsType>(Action.LOAD_FILMS);
 export const loadReviews = createAction<ReviewsType>(Action.LOAD_REVIEWS);
 export const setFilmsLoadedStatus = createAction<boolean>(Action.SET_FILMS_LOADED_STATUS);
 export const requireAuthorization = createAction<AuthorizationStatus>(Action.REQUIRE_AUTHORIZATION);
-export const setError = createAction<string | null>(Action.SET_ERROR);
 export const setGenre = createAction<GenreNameType>(Action.SET_GENRE);
 export const setFilms = createAction<FilmsType>(Action.SET_FILMS);
 export const setReviews = createAction<ReviewsType>(Action.SET_REVIEWS);

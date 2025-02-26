@@ -6,11 +6,10 @@ import type { ReviewsType } from '../types/review';
 import type { UserDataType } from '../types/user-data';
 import type { AuthDataType } from '../types/auth-data';
 
-import { Action, APIRoute, AppRoute, AuthorizationStatus, TIMEOUT_SHOW_ERROR } from '../const/const';
+import { Action, APIRoute, AppRoute, AuthorizationStatus } from '../const/const';
 
-import { loadFilms, loadReviews, requireAuthorization, setError, setFilmsLoadedStatus, redirectToRoute } from './actions';
+import { loadFilms, loadReviews, requireAuthorization, setFilmsLoadedStatus, redirectToRoute } from './actions';
 import { saveToken, dropToken } from '../services/token';
-import { store } from '.';
 import { ServerFilmsType } from '../types/server-data';
 
 export const fetchFilmsAction = createAsyncThunk<void, undefined, {
@@ -85,14 +84,4 @@ export const logoutAction = createAsyncThunk<void, undefined, {
     dropToken();
     dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
   },
-);
-
-export const resetErrorAction = createAsyncThunk(
-  Action.RESET_ERROR,
-  () => {
-    setTimeout(
-      () => store.dispatch(setError(null)),
-      TIMEOUT_SHOW_ERROR
-    );
-  }
 );

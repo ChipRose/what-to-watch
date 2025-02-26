@@ -7,7 +7,9 @@ import { checkAuthAction, fetchFilmsAction, fetchReviewsAction } from './store/a
 import { store } from './store';
 
 import App from './components/app/app';
-import ErrorMessage from './components/error-message/error-message';
+import { ToastContainer } from 'react-toastify';
+
+import 'react-toastify/dist/ReactToastify.css';
 
 store.dispatch(fetchFilmsAction());
 store.dispatch(checkAuthAction());
@@ -21,7 +23,7 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <ErrorMessage/>
+      <ToastContainer position="bottom-left" />
       <App />
     </Provider>
   </React.StrictMode>

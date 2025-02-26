@@ -4,7 +4,7 @@ import { StatusCodes } from 'http-status-codes';
 import { BACKEND_URL, REQUEST_TIMEOUT } from '../const/const';
 
 import { getToken } from './token';
-import { processErrorHandle } from './process-error-handle';
+import { toast } from 'react-toastify';
 
 const StatusCodeMapping: Record<number, boolean> = {
   [StatusCodes.BAD_REQUEST]: true,
@@ -32,11 +32,9 @@ export const createApi = (): AxiosInstance => {
 
   api.interceptors.response.use(
     (response) => response,
-    (error: AxiosError <{ error: string }>) => {
+    (error: AxiosError<{ error: string }>) => {
       if (error.response && shouldDisplayError(error.response)) {
-        // eslint-disable-next-line
-        console.log(error.response.data.error)
-        processErrorHandle(error.response.data.error);
+        toast.warn(error.response.data.error);
       }
       throw error;
     }
