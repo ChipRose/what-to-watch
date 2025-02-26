@@ -1,8 +1,13 @@
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+
+import type { LinkEvent } from '../../types/form';
 
 import { useAppSelector } from '../../hooks/use-app-selector';
+import { useAppDispatch } from '../../hooks/use-app-dispatch';
 
 import { AuthorizationStatus, AppRoute } from '../../const/const';
+import { logoutAction } from '../../store/api-actions';
 
 import Logo from '../logo/logo';
 
@@ -14,9 +19,16 @@ type HeaderProps = {
 
 type UserBlockProps = {
   authorizationStatus: AuthorizationStatus;
+  onLogout:(evt: LinkEvent)=>void;
 }
 
-function UserBlock({ authorizationStatus }: UserBlockProps): JSX.Element {
+function UserBlock({ authorizationStatus, onLogout }: UserBlockProps): JSX.Element {
+
+  const handleLogoutClick = (evt: LinkEvent): void => {
+    evt.preventDefault();
+    onLogout(evt);
+  };
+
   return (
     <ul className="user-block">
       {
@@ -29,7 +41,7 @@ function UserBlock({ authorizationStatus }: UserBlockProps): JSX.Element {
                 </div>
               </li>
               <li className="user-block__item">
-                <Link className="user-block__link" to="#">Sign out</Link>
+                <Link className="user-block__link" to="#" onClick={handleLogoutClick}>Sign out</Link>
               </li>
             </>
           )
@@ -40,7 +52,16 @@ function UserBlock({ authorizationStatus }: UserBlockProps): JSX.Element {
 }
 
 function Header({ titleRender, variant = 'film-card', isUserBlock = true }: HeaderProps): JSX.Element {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
   const { authorizationStatus } = useAppSelector((state) => state);
+
+  const onLogout = (evt: LinkEvent): void => {
+    evt.preventDefault();
+    dispatch(logoutAction());
+    navigate(AppRoute.Main);
+  };
 
   return (
     <header className={`page-header ${variant}__head`}>
@@ -49,7 +70,7 @@ function Header({ titleRender, variant = 'film-card', isUserBlock = true }: Head
         titleRender && titleRender()
       }
       {
-        isUserBlock ? <UserBlock authorizationStatus={authorizationStatus} /> : null
+        isUserBlock ? <UserBlock authorizationStatus={authorizationStatus} onLogout={onLogout} /> : null
       }
     </header >
   );

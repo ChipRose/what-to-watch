@@ -1,5 +1,4 @@
 import { useRef } from 'react';
-// import { useNavigate } from 'react-router-dom';
 
 import type { AuthDataType } from '../../types/auth-data';
 
@@ -17,7 +16,6 @@ function LoginScreen(): JSX.Element {
   const passwordRef = useRef<Input | null>(null);
 
   const dispatch = useAppDispatch();
-  // const navigate=useNavigate();
 
   const onLogin = (authData: AuthDataType) => {
     dispatch(loginAction(authData));
