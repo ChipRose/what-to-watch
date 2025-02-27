@@ -25,15 +25,13 @@ export const fetchFilmsAction = createAsyncThunk<void, undefined, {
   },
 );
 
-export const fetchReviewsAction = createAsyncThunk<void, undefined, {
+export const fetchReviewsAction = createAsyncThunk<void, number, {
   dispatch: AppDispatchType;
   state: StateType;
   extra: AxiosInstance;
 }>(
   Action.FETCH_REVIEWS,
-  async (_arg, { dispatch, getState, extra: api }) => {
-    const state = getState();
-    const id = state.activeFilm?.film?.id;
+  async (id, { dispatch, extra: api }) => {
 
     if (id) {
       const { data } = await api.get<ServerReviewsType>(`${APIRoute.Comments}${id}`);
@@ -56,6 +54,7 @@ export const checkAuthAction = createAsyncThunk<void, undefined, {
 
     } catch {
       dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
+      dispatch(setUserData(null));
     }
   },
 );
@@ -82,8 +81,8 @@ export const logoutAction = createAsyncThunk<void, undefined, {
   Action.LOGOUT_USER,
   async (_arg, { dispatch, extra: api }) => {
     await api.delete(APIRoute.Logout);
-    dropUserProfile();
     dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
     dispatch(setUserData(null));
+    dropUserProfile();
   },
 );

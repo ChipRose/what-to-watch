@@ -13,16 +13,21 @@ function TabReviews({ reviewsList }: TabReviewsProps): JSX.Element {
 
   return (
     <div className="film-card__reviews film-card__row">
-      <div className="film-card__reviews-col">
-        {firstColumn?.map((reviewProps) => (
-          <Review key={reviewProps?.id} review={reviewProps} />
-        ))}
-      </div>
-      <div className="film-card__reviews-col">
-        {secondColumn?.map((reviewProps) => (
-          <Review key={reviewProps?.id} review={reviewProps} />
-        ))}
-      </div>
+      {
+        reviewsList?.length ? (
+          <>
+            <div className="film-card__reviews-col">
+              {firstColumn?.map((reviewProps) => (
+                <Review key={reviewProps?.id} review={reviewProps} />
+              ))}
+            </div>
+            <div className="film-card__reviews-col">
+              {secondColumn?.map((reviewProps) => (
+                <Review key={reviewProps?.id} review={reviewProps} />
+              ))}
+            </div>
+          </>) : ('no comments yet')
+      }
     </div>
   );
 }

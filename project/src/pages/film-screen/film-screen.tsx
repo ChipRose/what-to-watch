@@ -1,9 +1,10 @@
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { useAppSelector } from '../../hooks/use-app-selector';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
-import { setActiveFilm, setGenre, setCatalog } from '../../store/actions';
+import { useAppSelector } from '../../hooks/use-app-selector';
+
+import { setActiveFilm, setCatalog } from '../../store/actions';
 import { fetchReviewsAction } from '../../store/api-actions';
 
 import { CatalogCount } from '../../const/const';
@@ -11,7 +12,6 @@ import { CatalogCount } from '../../const/const';
 import Logo from '../../components/logo/logo';
 import Catalog from '../../components/catalog/catalog';
 import FilmCard from '../../components/film-card/film-card';
-import { FilmType, GenreNameType } from '../../types/film';
 
 type RouteParams = {
   id: string;
@@ -21,19 +21,15 @@ function FilmScreen(): JSX.Element {
   const isFull = true;
   const { id } = useParams<RouteParams>();
   const pageId = Number(id);
-
-  const films = useAppSelector((state) => state.films);
-  const activeFilm = films?.find(({ id: filmId }) => filmId === pageId) as FilmType || films[0];
-  const activeGenre = activeFilm?.genre.toLowerCase() as GenreNameType || films[0]?.genre.toLowerCase();
+  const activeFilmId = useAppSelector((state) => state.activeFilm?.film?.id);
 
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(fetchReviewsAction());
-    dispatch(setActiveFilm(activeFilm));
-    dispatch(setGenre(activeGenre));
+    activeFilmId === pageId && dispatch(fetchReviewsAction(pageId));
+    dispatch(setActiveFilm(pageId));
     dispatch(setCatalog(CatalogCount.Similar));
-  }, [dispatch, activeFilm, activeGenre]);
+  }, [dispatch, activeFilmId, pageId]);
 
   return (
     <>

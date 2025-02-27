@@ -1,5 +1,8 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { setGenre, setCatalog, setActiveFilm, setUserData, resetCatalog, loadMoreToCatalog, setFilms, loadFilms, requireAuthorization, setFilmsLoadedStatus, loadReviews } from './actions';
+import { setGenre, setCatalog, setActiveFilm, setUserData, resetCatalog, loadMoreToCatalog, loadFilms, requireAuthorization, setFilmsLoadedStatus, loadReviews } from './actions';
+
+import { FilmType } from '../types/film';
+import type { GenreNameType } from '../types/film';
 
 import { CatalogCount, AuthorizationStatus } from '../const/const';
 import { groupByGenre } from '../util/util';
@@ -37,20 +40,19 @@ export const reducer = createReducer(initialState, (builder) => {
     .addCase(setFilmsLoadedStatus, (state, action) => {
       state.isFilmsLoaded = action.payload;
     })
-    .addCase(
-      loadFilms, (state, action) => {
-        const activeGenre = 'all';
-        const count = CatalogCount.Init;
-        const adaptFilmsList = adaptFilmsDataToApp(action.payload);
-        const defaultFilmsList = groupByGenre(adaptFilmsList)[activeGenre] ?? [];
+    .addCase(loadFilms, (state, action) => {
+      const activeGenre = 'all';
+      const count = CatalogCount.Init;
+      const adaptFilmsList = adaptFilmsDataToApp(action.payload);
+      const defaultFilmsList = groupByGenre(adaptFilmsList)[activeGenre] ?? [];
 
-        state.films = adaptFilmsList;
-        state.groupedFilms = groupByGenre(adaptFilmsList);
-        state.defaultFilmsList = defaultFilmsList;
-        state.catalog.films = defaultFilmsList.slice(0, count);
-        state.catalog.isAllShown = defaultFilmsList?.length === CatalogCount.Init;
-        state.activeFilm.film = defaultFilmsList[0] || [];
-      }
+      state.films = adaptFilmsList;
+      state.groupedFilms = groupByGenre(adaptFilmsList);
+      state.defaultFilmsList = defaultFilmsList;
+      state.catalog.films = defaultFilmsList.slice(0, count);
+      state.catalog.isAllShown = defaultFilmsList?.length === CatalogCount.Init;
+      state.activeFilm.film = defaultFilmsList[0] || [];
+    }
     )
     .addCase(loadReviews, (state, action) => {
       const adaptReviewsList = adaptReviewsToApp(action.payload);
@@ -62,10 +64,6 @@ export const reducer = createReducer(initialState, (builder) => {
 
       state.activeGenre = activeGenre;
       state.catalog.films = groupedFilms[activeGenre];
-    })
-    .addCase(setFilms, (state, action) => {
-      state.films = action.payload;
-      state.groupedFilms = groupByGenre(action.payload);
     })
     .addCase(setUserData, (state, action) => {
       state.userInfo.avatar = action.payload?.avatarUrl ?? '';
@@ -107,7 +105,13 @@ export const reducer = createReducer(initialState, (builder) => {
       state.catalog.isAllShown = Boolean(state.catalog.count === similarFilms?.length);
     })
     .addCase(setActiveFilm, (state, action) => {
-      state.activeFilm.film = action.payload;
+      const { films } = state;
+      const pageId = action.payload;
+      const activeFilm = films?.find(({ id: filmId }) => filmId === pageId) as FilmType || films[0];
+      const activeGenre = activeFilm?.genre.toLowerCase() as GenreNameType || films[0]?.genre.toLowerCase();
+
+      state.activeFilm.film = activeFilm;
+      state.activeGenre = activeGenre;
     })
     .addCase(resetCatalog, (state) => {
       const { activeGenre, groupedFilms } = state;
