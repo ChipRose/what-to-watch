@@ -3,7 +3,7 @@ import { StatusCodes } from 'http-status-codes';
 
 import { BACKEND_URL, REQUEST_TIMEOUT } from '../const/const';
 
-import { getToken } from './token';
+import { getUserProfile } from './user-profile';
 import { toast } from 'react-toastify';
 
 const StatusCodeMapping: Record<number, boolean> = {
@@ -22,7 +22,7 @@ export const createApi = (): AxiosInstance => {
 
   api.interceptors.request.use(
     (config: AxiosRequestConfig) => {
-      const token = getToken();
+      const token = getUserProfile()?.token;
       if (token && config.headers) {
         config.headers['x-token'] = token;
       }

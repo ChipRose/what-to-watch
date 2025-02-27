@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { setGenre, setCatalog, setActiveFilm, setReviews, resetCatalog, loadMoreToCatalog, setFilms, loadFilms, requireAuthorization, setFilmsLoadedStatus } from './actions';
+import { setGenre, setCatalog, setActiveFilm, setReviews, setUserData, resetCatalog, loadMoreToCatalog, setFilms, loadFilms, requireAuthorization, setFilmsLoadedStatus } from './actions';
 
 import { CatalogCount, AuthorizationStatus } from '../const/const';
 import { groupByGenre, getItemsByKey } from '../util/util';
@@ -15,6 +15,9 @@ const initialState: StoreType = {
   films: [],
   defaultFilmsList: [],
   groupedFilms: null,
+  userInfo: {
+    avatar: ''
+  },
   catalog: {
     count: CatalogCount.Init,
     films: [],
@@ -63,6 +66,9 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(setReviews, (state, action) => {
       state.reviews = action.payload;
+    })
+    .addCase(setUserData, (state, action) => {
+      state.userInfo.avatar = action.payload?.avatarUrl ?? '';
     })
     .addCase(setCatalog, (state, action) => {
       const count = action.payload || null;

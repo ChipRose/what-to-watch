@@ -68,6 +68,7 @@ export const Action = {
   SET_REVIEWS: 'reviews/set',
   SET_CATALOG: 'catalog/set',
   SET_ACTIVE_FILM: 'activeFilm/set',
+  SET_USER_DATA: 'userData/set',
   RESET_CATALOG: 'catalog/reset',
   RESET_APP: 'app/reset',
   REDIRECT_TO_ROUTE:'toRoute/redirect'

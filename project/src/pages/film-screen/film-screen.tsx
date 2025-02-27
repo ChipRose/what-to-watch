@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import { useAppSelector } from '../../hooks/use-app-selector';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { setActiveFilm, setGenre, setCatalog } from '../../store/actions';
+import { fetchReviewsAction } from '../../store/api-actions';
 
 import { CatalogCount } from '../../const/const';
 
@@ -28,6 +29,7 @@ function FilmScreen(): JSX.Element {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
+    dispatch(fetchReviewsAction());
     dispatch(setActiveFilm(activeFilm));
     dispatch(setGenre(activeGenre));
     dispatch(setCatalog(CatalogCount.Similar));

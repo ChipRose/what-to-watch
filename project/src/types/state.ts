@@ -24,6 +24,9 @@ export type StoreType = {
     film: FilmType | null;
     reviews: ReviewsType;
   };
+  userInfo:{
+    avatar: string;
+  };
 };
 
 export type StateType = ReturnType<typeof store.getState>;

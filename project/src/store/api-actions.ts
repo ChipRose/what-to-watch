@@ -8,8 +8,8 @@ import type { AuthDataType } from '../types/auth-data';
 
 import { Action, APIRoute, AppRoute, AuthorizationStatus } from '../const/const';
 
-import { loadFilms, loadReviews, requireAuthorization, setFilmsLoadedStatus, redirectToRoute } from './actions';
-import { saveToken, dropToken } from '../services/token';
+import { loadFilms, loadReviews, requireAuthorization, setFilmsLoadedStatus, redirectToRoute, setUserData } from './actions';
+import { saveUserProfile, getUserProfile, dropUserProfile } from '../services/user-profile';
 import { ServerFilmsType } from '../types/server-data';
 
 export const fetchFilmsAction = createAsyncThunk<void, undefined, {
@@ -53,6 +53,8 @@ export const checkAuthAction = createAsyncThunk<void, undefined, {
     try {
       await api.get(APIRoute.Login);
       dispatch(requireAuthorization(AuthorizationStatus.Auth));
+      dispatch(setUserData(getUserProfile()));
+
     } catch {
       dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
     }
@@ -66,8 +68,8 @@ export const loginAction = createAsyncThunk<void, AuthDataType, {
 }>(
   Action.LOGIN_USER,
   async ({ login: email, password }, { dispatch, extra: api }) => {
-    const { data: { token } } = await api.post<UserDataType>(APIRoute.Login, { email, password });
-    saveToken(token);
+    const { data } = await api.post<UserDataType>(APIRoute.Login, { email, password });
+    saveUserProfile(data);
     dispatch(requireAuthorization(AuthorizationStatus.Auth));
     dispatch(redirectToRoute(AppRoute.Main));
   },
@@ -81,7 +83,8 @@ export const logoutAction = createAsyncThunk<void, undefined, {
   Action.LOGOUT_USER,
   async (_arg, { dispatch, extra: api }) => {
     await api.delete(APIRoute.Logout);
-    dropToken();
+    dropUserProfile();
     dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
+    dispatch(setUserData(null));
   },
 );
