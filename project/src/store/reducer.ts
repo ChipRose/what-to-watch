@@ -1,12 +1,12 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { setGenre, setCatalog, setActiveFilm, setUserData, resetCatalog, loadMoreToCatalog, loadFilms, requireAuthorization, setFilmsLoadedStatus, loadReviews } from './actions';
+import { loadPromoFilm, setGenre, setCatalog, setActiveFilm, setUserData, resetCatalog, loadMoreToCatalog, loadFilms, requireAuthorization, setFilmsLoadedStatus, loadReviews } from './actions';
 
 import { FilmType } from '../types/film';
 import type { GenreNameType } from '../types/film';
 
 import { CatalogCount, AuthorizationStatus } from '../const/const';
 import { groupByGenre } from '../util/util';
-import { adaptFilmsDataToApp, adaptReviewsToApp } from '../util/util-adapt-data';
+import { adaptFilmToApp, adaptFilmsDataToApp, adaptReviewsToApp } from '../util/util-adapt-data';
 
 import type { StoreType } from '../types/state';
 
@@ -29,7 +29,8 @@ const initialState: StoreType = {
   activeFilm: {
     film: null,
     reviews: [],
-  }
+  },
+  promoFilm: null
 };
 
 export const reducer = createReducer(initialState, (builder) => {
@@ -51,9 +52,10 @@ export const reducer = createReducer(initialState, (builder) => {
       state.defaultFilmsList = defaultFilmsList;
       state.catalog.films = defaultFilmsList.slice(0, count);
       state.catalog.isAllShown = defaultFilmsList?.length === CatalogCount.Init;
-      state.activeFilm.film = defaultFilmsList[0] || [];
-    }
-    )
+    })
+    .addCase(loadPromoFilm, (state, action) => {
+      state.promoFilm = adaptFilmToApp(action.payload);
+    })
     .addCase(loadReviews, (state, action) => {
       const adaptReviewsList = adaptReviewsToApp(action.payload);
       state.activeFilm.reviews = adaptReviewsList;
@@ -107,8 +109,8 @@ export const reducer = createReducer(initialState, (builder) => {
     .addCase(setActiveFilm, (state, action) => {
       const { films } = state;
       const pageId = action.payload;
-      const activeFilm = films?.find(({ id: filmId }) => filmId === pageId) as FilmType || films[0];
-      const activeGenre = activeFilm?.genre.toLowerCase() as GenreNameType || films[0]?.genre.toLowerCase();
+      const activeFilm = films?.find(({ id: filmId }) => filmId === pageId) as FilmType;
+      const activeGenre = activeFilm?.genre.toLowerCase() as GenreNameType;
 
       state.activeFilm.film = activeFilm;
       state.activeGenre = activeGenre;

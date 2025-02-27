@@ -15,7 +15,7 @@ import ShowMore from '../../components/show-more/show-more';
 
 function MainScreen(): JSX.Element {
   const dispatch = useAppDispatch();
-  const activeFilm = useAppSelector((state) => state.activeFilm.film);
+  const { promoFilm } = useAppSelector((state) => state);
   const isShowLoadMoreButton = useAppSelector((state) => !state.catalog.isAllShown);
 
   const handleShowMoreButtonClick = () => {
@@ -31,7 +31,7 @@ function MainScreen(): JSX.Element {
     <>
       <section className="film-card">
         <div className="film-card__bg">
-          <img src={activeFilm?.backgroundImage} alt={activeFilm?.title} />
+          <img src={promoFilm?.backgroundImage} alt={promoFilm?.title} />
         </div>
 
         <h1 className="visually-hidden">WTW</h1>
@@ -41,14 +41,14 @@ function MainScreen(): JSX.Element {
         <div className="film-card__wrap">
           <div className="film-card__info">
             <div className="film-card__poster">
-              <img src={activeFilm?.cover} alt={activeFilm?.title} width="218" height="327" />
+              <img src={promoFilm?.cover} alt={promoFilm?.title} width="218" height="327" />
             </div>
 
             <div className="film-card__desc">
-              <h2 className="film-card__title">{activeFilm?.title}</h2>
+              <h2 className="film-card__title">{promoFilm?.title}</h2>
               <p className="film-card__meta">
-                <span className="film-card__genre">{activeFilm?.genre}</span>
-                <span className="film-card__year">{activeFilm?.realized}</span>
+                <span className="film-card__genre">{promoFilm?.genre}</span>
+                <span className="film-card__year">{promoFilm?.realized}</span>
               </p>
 
               <div className="film-card__buttons">
@@ -87,7 +87,7 @@ function MainScreen(): JSX.Element {
           }
         </section>
 
-        <Footer/>
+        <Footer />
       </div>
     </>
   );

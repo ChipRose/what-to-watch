@@ -12,7 +12,7 @@ export type StoreType = {
   isFilmsLoaded: boolean;
   activeGenre: GenreNameType;
   films: FilmsType;
-  defaultFilmsList: FilmsType|null;
+  defaultFilmsList: FilmsType | null;
   groupedFilms: GroupedFilmsType | null;
   catalog: {
     count: number | null;
@@ -23,7 +23,8 @@ export type StoreType = {
     film: FilmType | null;
     reviews: ReviewsType;
   };
-  userInfo:{
+  promoFilm: FilmType | null;
+  userInfo: {
     avatar: string;
   };
 };

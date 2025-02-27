@@ -2,30 +2,26 @@ import type { FilmsType, FilmType } from '../types/film';
 import type { ReviewType, ReviewsType } from '../types/review';
 import type { ServerFilmsType, ServerFilmType, ServerReviewType, ServerReviewsType } from '../types/server-data';
 
-export const adaptFilmsDataToApp = (data: ServerFilmsType): FilmsType => {
+export const adaptFilmToApp = (film: ServerFilmType): FilmType => ({
+  id: film.id,
+  title: film.name,
+  description: film.description,
+  director: film.director,
+  starring: film.starring,
+  runTime: film.runTime,
+  genre: film.genre ?? '',
+  realized: film.released,
+  previewImage: film.previewImage,
+  src: '',
+  rating: film.rating,
+  ratingCount: film.scoresCount,
+  backgroundImage: film.backgroundImage,
+  backgroundColor: film.backgroundColor,
+  cover: film.posterImage,
+  previewSrc: film.previewVideoLink,
+});
 
-  const adaptFilmToApp = (film: ServerFilmType): FilmType => ({
-    id: film.id,
-    title: film.name,
-    description: film.description,
-    director: film.director,
-    starring: film.starring,
-    runTime: film.runTime,
-    genre: film.genre ?? '',
-    realized: film.released,
-    previewImage: film.previewImage,
-    src: '',
-    rating: film.rating,
-    ratingCount: film.scoresCount,
-    backgroundImage: film.backgroundImage,
-    backgroundColor: film.backgroundColor,
-    cover: film.posterImage,
-    previewSrc: film.previewVideoLink,
-  });
-
-
-  return Array.from(data, (film, _) => adaptFilmToApp(film));
-};
+export const adaptFilmsDataToApp = (data: ServerFilmsType): FilmsType => (Array.from(data, (film, _) => adaptFilmToApp(film)));
 
 export const adaptReviewsToApp = (data: ServerReviewsType): ReviewsType => {
 

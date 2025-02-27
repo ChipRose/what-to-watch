@@ -56,8 +56,11 @@ export const Action = {
   LOGIN_USER:'user/login',
   LOGOUT_USER:'user/logout',
   FETCH_FILMS: 'films/fetch',
+  FETCH_PROMO_FILM: 'promoFilm/fetch',
+  FETCH_FILM: 'film/fetch',
   FETCH_REVIEWS: 'reviews/fetch',
   LOAD_FILMS: 'films/load',
+  LOAD_PROMO_FILM: 'promoFilm/load',
   SET_FILMS_LOADED_STATUS: 'filmsLoadedStatus/set',
   LOAD_REVIEWS: 'reviews/load',
   LOAD_MORE_FILMS: 'catalog/load',
@@ -76,6 +79,7 @@ export const Action = {
 
 export enum APIRoute {
   Films = '/films',
+  Promo = '/promo',
   Comments = '/comments/',
   Login = '/login',
   Logout = '/logout',

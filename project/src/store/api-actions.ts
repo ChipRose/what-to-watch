@@ -7,9 +7,9 @@ import type { AuthDataType } from '../types/auth-data';
 
 import { Action, APIRoute, AppRoute, AuthorizationStatus } from '../const/const';
 
-import { loadFilms, loadReviews, requireAuthorization, setFilmsLoadedStatus, redirectToRoute, setUserData } from './actions';
+import { loadFilms, loadPromoFilm, loadReviews, requireAuthorization, setFilmsLoadedStatus, redirectToRoute, setUserData } from './actions';
 import { saveUserProfile, getUserProfile, dropUserProfile } from '../services/user-profile';
-import { ServerFilmsType, ServerReviewsType } from '../types/server-data';
+import { ServerFilmType, ServerFilmsType, ServerReviewsType } from '../types/server-data';
 
 export const fetchFilmsAction = createAsyncThunk<void, undefined, {
   dispatch: AppDispatchType;
@@ -22,6 +22,18 @@ export const fetchFilmsAction = createAsyncThunk<void, undefined, {
     dispatch(setFilmsLoadedStatus(true));
     dispatch(loadFilms(data));
     dispatch(setFilmsLoadedStatus(false));
+  },
+);
+
+export const fetchPromoFilmAction = createAsyncThunk<void, undefined, {
+  dispatch: AppDispatchType;
+  state: StateType;
+  extra: AxiosInstance;
+}>(
+  Action.FETCH_PROMO_FILM,
+  async (_arg, { dispatch, extra: api }) => {
+    const { data } = await api.get<ServerFilmType>(APIRoute.Promo);
+    dispatch(loadPromoFilm(data));
   },
 );
 

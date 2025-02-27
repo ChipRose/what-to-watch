@@ -1,10 +1,12 @@
 import { Link } from 'react-router-dom';
 
-import type { FilmPreviewType } from '../../types/film';
-import { AppRoute } from '../../const/const';
+import type { FilmPreviewType, FilmIdType } from '../../types/film';
+import type { LinkEvent } from '../../types/form';
+
 
 type CardProps = FilmPreviewType & {
   playerIndex: number;
+  onFilmClick: (id: FilmIdType) => void;
   renderPlayer: (previewSrc: string, playerIndex: number, previewImage: string) => JSX.Element;
 };
 
@@ -14,8 +16,14 @@ function SmallFilmCard({
   previewImage,
   title,
   previewSrc,
+  onFilmClick,
   renderPlayer,
 }: CardProps): JSX.Element {
+
+  const handleLinkClick = (evt:LinkEvent): void => {
+    evt.preventDefault();
+    onFilmClick(id);
+  };
 
   return (
     <article
@@ -24,7 +32,7 @@ function SmallFilmCard({
       <div className="small-film-card__image">
         {renderPlayer(previewSrc, playerIndex, previewImage)}
         <h3 className="small-film-card__title">
-          <Link className="small-film-card__link" id={String(id)} to={`${AppRoute.Films}/${id}`}>
+          <Link className="small-film-card__link" onClick={handleLinkClick} to='#'>
             {title}
           </Link>
         </h3>

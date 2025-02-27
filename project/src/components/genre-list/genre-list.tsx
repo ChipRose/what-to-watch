@@ -18,8 +18,8 @@ type GenreProps = {
 }
 
 function GenreTab({ genre, title, isActive, onUpdate }: GenreProps): JSX.Element {
-  const handleClick = (event: React.MouseEvent) => {
-    event.preventDefault();
+  const handleClick = (evt: React.MouseEvent) => {
+    evt.preventDefault();
     onUpdate(genre);
   };
 

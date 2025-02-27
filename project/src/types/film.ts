@@ -1,7 +1,9 @@
 import { genres, genresTabs } from '../const/const';
 
+export type FilmIdType = number;
+
 export type FilmPreviewType = {
-  id: number;
+  id: FilmIdType;
   previewSrc: string;
   previewImage: string;
   title: string;

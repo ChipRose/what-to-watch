@@ -5,9 +5,10 @@ import type { UserInfoType } from '../services/user-profile';
 
 import type { FilmsType, GenreNameType } from '../types/film';
 import type { ReviewsType } from '../types/review';
-import { ServerFilmsType, ServerReviewsType } from '../types/server-data';
+import { ServerFilmType, ServerFilmsType, ServerReviewsType } from '../types/server-data';
 
 export const loadFilms = createAction<ServerFilmsType>(Action.LOAD_FILMS);
+export const loadPromoFilm = createAction<ServerFilmType>(Action.LOAD_PROMO_FILM);
 export const loadReviews = createAction<ServerReviewsType>(Action.LOAD_REVIEWS);
 export const setFilmsLoadedStatus = createAction<boolean>(Action.SET_FILMS_LOADED_STATUS);
 export const requireAuthorization = createAction<AuthorizationStatus>(Action.REQUIRE_AUTHORIZATION);
