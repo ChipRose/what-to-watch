@@ -4,8 +4,9 @@ import { useParams } from 'react-router-dom';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { useAppSelector } from '../../hooks/use-app-selector';
 
-import { setActiveFilm, setCatalog } from '../../store/actions';
-import { fetchReviewsAction } from '../../store/api-actions';
+import { setCatalog } from '../../store/actions';
+
+import { fetchReviewsAction, fetchFilmAction } from '../../store/api-actions';
 
 import { CatalogCount } from '../../const/const';
 
@@ -21,13 +22,13 @@ function FilmScreen(): JSX.Element {
   const isFull = true;
   const { id } = useParams<RouteParams>();
   const pageId = Number(id);
-  const activeFilmId = useAppSelector((state) => state.activeFilm?.film?.id);
+  const activeFilmId = useAppSelector((state) => state.activeFilm?.film?.id) || null;
 
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    activeFilmId === pageId && dispatch(fetchReviewsAction(pageId));
-    dispatch(setActiveFilm(pageId));
+    activeFilmId !== pageId && dispatch(fetchFilmAction(pageId));
+    activeFilmId !== pageId && dispatch(fetchReviewsAction(pageId));
     dispatch(setCatalog(CatalogCount.Similar));
   }, [dispatch, activeFilmId, pageId]);
 

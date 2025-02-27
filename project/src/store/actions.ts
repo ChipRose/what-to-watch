@@ -8,6 +8,7 @@ import type { ReviewsType } from '../types/review';
 import { ServerFilmType, ServerFilmsType, ServerReviewsType } from '../types/server-data';
 
 export const loadFilms = createAction<ServerFilmsType>(Action.LOAD_FILMS);
+export const loadFilm = createAction<ServerFilmType>(Action.LOAD_FILM);
 export const loadPromoFilm = createAction<ServerFilmType>(Action.LOAD_PROMO_FILM);
 export const loadReviews = createAction<ServerReviewsType>(Action.LOAD_REVIEWS);
 export const setFilmsLoadedStatus = createAction<boolean>(Action.SET_FILMS_LOADED_STATUS);

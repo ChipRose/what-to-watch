@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { loadPromoFilm, setGenre, setCatalog, setActiveFilm, setUserData, resetCatalog, loadMoreToCatalog, loadFilms, requireAuthorization, setFilmsLoadedStatus, loadReviews } from './actions';
+import { loadPromoFilm, loadFilm, setGenre, setCatalog, setActiveFilm, setUserData, resetCatalog, loadMoreToCatalog, loadFilms, requireAuthorization, setFilmsLoadedStatus, loadReviews } from './actions';
 
 import { FilmType } from '../types/film';
 import type { GenreNameType } from '../types/film';
@@ -40,6 +40,10 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(setFilmsLoadedStatus, (state, action) => {
       state.isFilmsLoaded = action.payload;
+    })
+    .addCase(loadFilm, (state, action) => {
+      state.activeFilm.film = adaptFilmToApp(action.payload);
+
     })
     .addCase(loadFilms, (state, action) => {
       const activeGenre = 'all';

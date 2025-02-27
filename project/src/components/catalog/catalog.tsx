@@ -1,5 +1,5 @@
-import { useAppSelector } from '../../hooks/use-app-selector';
 import { useNavigate } from 'react-router-dom';
+import { useAppSelector } from '../../hooks/use-app-selector';
 
 import type { FilmIdType } from '../../types/film';
 
@@ -12,6 +12,7 @@ const SmallFilmCardWrapped = withVideoPlayer(SmallFilmCard);
 
 function Catalog(): JSX.Element {
   const navigate = useNavigate();
+
   const catalog = useAppSelector((state) => state.catalog.films);
 
   const onFilmClick = (id: FilmIdType) => {

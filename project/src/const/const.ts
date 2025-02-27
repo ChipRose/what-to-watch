@@ -60,6 +60,7 @@ export const Action = {
   FETCH_FILM: 'film/fetch',
   FETCH_REVIEWS: 'reviews/fetch',
   LOAD_FILMS: 'films/load',
+  LOAD_FILM: 'film/load',
   LOAD_PROMO_FILM: 'promoFilm/load',
   SET_FILMS_LOADED_STATUS: 'filmsLoadedStatus/set',
   LOAD_REVIEWS: 'reviews/load',
