@@ -19,3 +19,16 @@ export type ServerFilmType = {
 };
 
 export type ServerFilmsType = ServerFilmType[];
+
+export type ServerReviewType = {
+  id: number;
+  user: {
+    id: number;
+    name: string;
+  };
+  rating: number;
+  comment: string;
+  date: string;
+};
+
+export type ServerReviewsType = ServerReviewType[];

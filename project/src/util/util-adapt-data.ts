@@ -1,5 +1,6 @@
 import type { FilmsType, FilmType } from '../types/film';
-import type { ServerFilmsType, ServerFilmType } from '../types/server-data';
+import type { ReviewType, ReviewsType } from '../types/review';
+import type { ServerFilmsType, ServerFilmType, ServerReviewType, ServerReviewsType } from '../types/server-data';
 
 export const adaptFilmsDataToApp = (data: ServerFilmsType): FilmsType => {
 
@@ -24,4 +25,17 @@ export const adaptFilmsDataToApp = (data: ServerFilmsType): FilmsType => {
 
 
   return Array.from(data, (film, _) => adaptFilmToApp(film));
+};
+
+export const adaptReviewsToApp = (data: ServerReviewsType): ReviewsType => {
+
+  const adaptReviewToApp = (review: ServerReviewType): ReviewType => ({
+    id: review?.id,
+    rating: review?.rating,
+    text: review?.comment,
+    author: review?.user?.name,
+    date: review?.date,
+  });
+
+  return Array.from(data, (review, _) => adaptReviewToApp(review));
 };

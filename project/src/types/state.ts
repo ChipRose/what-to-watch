@@ -14,7 +14,6 @@ export type StoreType = {
   films: FilmsType;
   defaultFilmsList: FilmsType|null;
   groupedFilms: GroupedFilmsType | null;
-  reviews: ReviewsType;
   catalog: {
     count: number | null;
     films: FilmsType;

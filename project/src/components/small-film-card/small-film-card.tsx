@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-import { FilmPreviewType } from '../../types/film';
+import type { FilmPreviewType } from '../../types/film';
 import { AppRoute } from '../../const/const';
 
 type CardProps = FilmPreviewType & {
@@ -24,7 +24,7 @@ function SmallFilmCard({
       <div className="small-film-card__image">
         {renderPlayer(previewSrc, playerIndex, previewImage)}
         <h3 className="small-film-card__title">
-          <Link className="small-film-card__link" to={`${AppRoute.Films}/${id}`}>
+          <Link className="small-film-card__link" id={String(id)} to={`${AppRoute.Films}/${id}`}>
             {title}
           </Link>
         </h3>

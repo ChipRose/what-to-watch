@@ -2,7 +2,6 @@ import { AxiosInstance } from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
 import type { AppDispatchType, StateType } from '../types/state';
-import type { ReviewsType } from '../types/review';
 import type { UserDataType } from '../types/user-data';
 import type { AuthDataType } from '../types/auth-data';
 
@@ -10,7 +9,7 @@ import { Action, APIRoute, AppRoute, AuthorizationStatus } from '../const/const'
 
 import { loadFilms, loadReviews, requireAuthorization, setFilmsLoadedStatus, redirectToRoute, setUserData } from './actions';
 import { saveUserProfile, getUserProfile, dropUserProfile } from '../services/user-profile';
-import { ServerFilmsType } from '../types/server-data';
+import { ServerFilmsType, ServerReviewsType } from '../types/server-data';
 
 export const fetchFilmsAction = createAsyncThunk<void, undefined, {
   dispatch: AppDispatchType;
@@ -37,7 +36,7 @@ export const fetchReviewsAction = createAsyncThunk<void, undefined, {
     const id = state.activeFilm?.film?.id;
 
     if (id) {
-      const { data } = await api.get<ReviewsType>(`${APIRoute.Comments}${id}`);
+      const { data } = await api.get<ServerReviewsType>(`${APIRoute.Comments}${id}`);
       dispatch(loadReviews(data));
     }
   },
