@@ -1,14 +1,23 @@
 import React, { useState } from 'react';
-import { ChangeTextareaEvent, ChangeInputEvent } from '../../types/form';
+import { useAppDispatch } from '../../hooks/use-app-dispatch';
 
-type FormData = {
+import type { FilmIdType } from '../../types/film';
+import type { ChangeTextareaEvent, ChangeInputEvent, FormEvent } from '../../types/form';
+
+import { fetchNewReviewAction } from '../../store/api-actions';
+
+export type NewReviewType = {
   rating: number;
-  reviewText: string;
+  comment: string;
 }
 
 type RatingScaleProps = {
   rating: number;
   onUpdate: ({ rating }: { rating: number }) => void;
+}
+
+type AddReviewFormProps={
+  filmId: FilmIdType | null;
 }
 
 const STARS_COUNT = 10;
@@ -48,8 +57,9 @@ function RatingScale({ rating, onUpdate }: RatingScaleProps): JSX.Element {
   );
 }
 
-function AddReviewForm(): JSX.Element {
-  const [formData, setFormData] = useState<FormData>({ rating: 0, reviewText: '' });
+function AddReviewForm({ filmId }: AddReviewFormProps): JSX.Element {
+  const dispatch = useAppDispatch();
+  const [formData, setFormData] = useState<NewReviewType>({ rating: 0, comment: '' });
 
   const onInputChange = ({ rating }: { rating: number }) => {
     setFormData((prevState) => ({ ...prevState, rating }));
@@ -61,9 +71,14 @@ function AddReviewForm(): JSX.Element {
     setFormData((prevState) => ({ ...prevState, [id]: value }));
   };
 
+  const handleSubmit = (evt: FormEvent): void => {
+    evt.preventDefault();
+    filmId && dispatch(fetchNewReviewAction({ id: filmId, ...formData }));
+  };
+
   return (
     <div className="add-review">
-      <form action="#" className="add-review__form">
+      <form action="#" className="add-review__form" onSubmit={handleSubmit}>
         <div className="rating">
           <RatingScale rating={formData.rating} onUpdate={onInputChange} />
         </div>
@@ -72,10 +87,10 @@ function AddReviewForm(): JSX.Element {
           <textarea
             className="add-review__textarea"
             name="review-text"
-            id="reviewText"
+            id="comment"
             placeholder="Review text"
             onChange={handleTextAreaChange}
-            value={formData.reviewText}
+            value={formData.comment}
           />
           <div className="add-review__submit">
             <button className="add-review__btn" type="submit">Post</button>

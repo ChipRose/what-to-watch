@@ -6,6 +6,7 @@ import type { AppDispatchType, StateType } from '../types/state';
 import type { UserDataType } from '../types/user-data';
 import type { AuthDataType } from '../types/auth-data';
 import type { FilmIdType } from '../types/film';
+import type { NewReviewType } from '../components/add-review-form/add-review-form';
 
 import { Action, APIRoute, AppRoute, AuthorizationStatus } from '../const/const';
 
@@ -83,6 +84,23 @@ export const fetchReviewsAction = createAsyncThunk<void, FilmIdType, {
 
     if (id) {
       const { data } = await api.get<ServerReviewsType>(`${APIRoute.Comments}${id}`);
+      dispatch(loadReviews(data));
+    }
+  },
+);
+
+export const fetchNewReviewAction = createAsyncThunk<void, NewReviewType & {id:FilmIdType}, {
+  dispatch: AppDispatchType;
+  state: StateType;
+  extra: AxiosInstance;
+}>(
+  Action.FETCH_REVIEWS,
+  async ({ id, comment, rating }, { dispatch, extra: api }) => {
+
+    if (id) {
+      const { data } = await api.post<ServerReviewsType>(`${APIRoute.Comments}${id}`, {
+        comment, rating
+      });
       dispatch(loadReviews(data));
     }
   },

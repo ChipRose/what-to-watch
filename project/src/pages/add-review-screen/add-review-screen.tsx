@@ -1,4 +1,3 @@
-import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 
 import { useAppSelector } from '../../hooks/use-app-selector';
@@ -9,10 +8,6 @@ import { AppRoute } from '../../const/const';
 
 import AddReviewForm from '../../components/add-review-form/add-review-form';
 import Header from '../../components/header/header';
-
-type RouteParams = {
-  id: string;
-}
 
 type NavigationPanelProps = {
   film: FilmType | null;
@@ -34,12 +29,8 @@ function ReviewsBreadcrumbs({ film }: NavigationPanelProps): JSX.Element | null 
 }
 
 function AddReviewScreen(): JSX.Element {
-  const { id } = useParams<RouteParams>();
-  const pageId = Number(id);
   const activeFilm = useAppSelector((state) => state.activeFilm?.film);
-
-  // eslint-disable-next-line
-  console.log(pageId)
+  const activeFilmId = useAppSelector((state) => state.activeFilm?.film?.id) ?? null;
 
   return (
     <section className="film-card film-card--full">
@@ -56,7 +47,7 @@ function AddReviewScreen(): JSX.Element {
         </div>
       </div>
 
-      <AddReviewForm />
+      <AddReviewForm filmId={activeFilmId} />
 
     </section>
   );
