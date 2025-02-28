@@ -16,6 +16,7 @@ import ShowMore from '../../components/show-more/show-more';
 function MainScreen(): JSX.Element {
   const dispatch = useAppDispatch();
   const { promoFilm } = useAppSelector((state) => state);
+  const catalogFilms = useAppSelector((state) => state.catalog?.films);
   const isShowLoadMoreButton = useAppSelector((state) => !state.catalog.isAllShown);
 
   const handleShowMoreButtonClick = () => {
@@ -76,7 +77,7 @@ function MainScreen(): JSX.Element {
 
           <GenreList />
 
-          <Catalog />
+          <Catalog filmsList={catalogFilms} />
 
           {
             isShowLoadMoreButton ? (

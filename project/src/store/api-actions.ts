@@ -1,5 +1,6 @@
-import { AxiosInstance } from 'axios';
+import { AxiosInstance, AxiosError } from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import { StatusCodes } from 'http-status-codes';
 
 import type { AppDispatchType, StateType } from '../types/state';
 import type { UserDataType } from '../types/user-data';
@@ -8,7 +9,7 @@ import type { FilmIdType } from '../types/film';
 
 import { Action, APIRoute, AppRoute, AuthorizationStatus } from '../const/const';
 
-import { loadFilms, loadFilm, loadPromoFilm, loadReviews, requireAuthorization, setFilmsLoadedStatus, redirectToRoute, setUserData } from './actions';
+import { loadSimilarFilms, loadFilms, loadFilm, loadPromoFilm, loadReviews, requireAuthorization, setFilmsLoadedStatus, redirectToRoute, setUserData } from './actions';
 import { saveUserProfile, getUserProfile, dropUserProfile } from '../services/user-profile';
 import { ServerFilmType, ServerFilmsType, ServerReviewsType } from '../types/server-data';
 
@@ -33,8 +34,30 @@ export const fetchFilmAction = createAsyncThunk<void, FilmIdType, {
 }>(
   Action.FETCH_FILM,
   async (id, { dispatch, extra: api }) => {
-    const { data } = await api.get<ServerFilmType>(`${APIRoute.Films}/${id}`);
-    dispatch(loadFilm(data));
+    try {
+      const { data } = await api.get<ServerFilmType>(`${APIRoute.Films}/${id}`);
+      dispatch(loadFilm(data));
+    } catch (error) {
+      const axiosError = error as AxiosError;
+
+      if (axiosError.response?.status === StatusCodes.NOT_FOUND) {
+        dispatch(redirectToRoute(AppRoute.NotFound));
+      } else {
+        throw error;
+      }
+    }
+  },
+);
+
+export const fetchSimilarFilmAction = createAsyncThunk<void, FilmIdType, {
+  dispatch: AppDispatchType;
+  state: StateType;
+  extra: AxiosInstance;
+}>(
+  Action.LOAD_SIMILAR_FILMS,
+  async (id, { dispatch, extra: api }) => {
+    const { data } = await api.get<ServerFilmsType>(`${APIRoute.Films}/${id}/similar`);
+    dispatch(loadSimilarFilms(data));
   },
 );
 
@@ -93,6 +116,7 @@ export const loginAction = createAsyncThunk<void, AuthDataType, {
   async ({ login: email, password }, { dispatch, extra: api }) => {
     const { data } = await api.post<UserDataType>(APIRoute.Login, { email, password });
     saveUserProfile(data);
+    dispatch(setUserData(getUserProfile()));
     dispatch(requireAuthorization(AuthorizationStatus.Auth));
     dispatch(redirectToRoute(AppRoute.Main));
   },

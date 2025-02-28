@@ -1,44 +1,58 @@
+import { useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+
+import { useAppSelector } from '../../hooks/use-app-selector';
+
+import type { FilmType } from '../../types/film';
+
+import { AppRoute } from '../../const/const';
+
 import AddReviewForm from '../../components/add-review-form/add-review-form';
-import Logo from '../../components/logo/logo';
+import Header from '../../components/header/header';
+
+type RouteParams = {
+  id: string;
+}
+
+type NavigationPanelProps = {
+  film: FilmType | null;
+}
+
+function ReviewsBreadcrumbs({ film }: NavigationPanelProps): JSX.Element | null {
+  return film ? (
+    <nav className="breadcrumbs">
+      <ul className="breadcrumbs__list">
+        <li className="breadcrumbs__item">
+          <Link to={`${AppRoute.Films}/${String(film.id)}`} className="breadcrumbs__link">{film.title}</Link>
+        </li>
+        <li className="breadcrumbs__item">
+          <Link className="breadcrumbs__link" to='#'>Add review</Link>
+        </li>
+      </ul>
+    </nav>
+  ) : null;
+}
 
 function AddReviewScreen(): JSX.Element {
+  const { id } = useParams<RouteParams>();
+  const pageId = Number(id);
+  const activeFilm = useAppSelector((state) => state.activeFilm?.film);
+
+  // eslint-disable-next-line
+  console.log(pageId)
+
   return (
     <section className="film-card film-card--full">
       <div className="film-card__header">
         <div className="film-card__bg">
-          <img src="img/bg-the-grand-budapest-hotel.jpg" alt="The Grand Budapest Hotel" />
+          <img src={activeFilm?.backgroundImage} alt={activeFilm?.title} />
         </div>
 
         <h1 className="visually-hidden">WTW</h1>
-
-        <header className="page-header">
-          <Logo/>
-
-          <nav className="breadcrumbs">
-            <ul className="breadcrumbs__list">
-              <li className="breadcrumbs__item">
-                <a href="film-page.html" className="breadcrumbs__link">The Grand Budapest Hotel</a>
-              </li>
-              <li className="breadcrumbs__item">
-                <a className="breadcrumbs__link" href='/'>Add review</a>
-              </li>
-            </ul>
-          </nav>
-
-          <ul className="user-block">
-            <li className="user-block__item">
-              <div className="user-block__avatar">
-                <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
-              </div>
-            </li>
-            <li className="user-block__item">
-              <a className="user-block__link" href='/'>Sign out</a>
-            </li>
-          </ul>
-        </header>
+        <Header navRender={() => (<ReviewsBreadcrumbs film={activeFilm} />)} />
 
         <div className="film-card__poster film-card__poster--small">
-          <img src="img/the-grand-budapest-hotel-poster.jpg" alt="The Grand Budapest Hotel poster" width="218" height="327" />
+          <img src={activeFilm?.cover} alt={activeFilm?.title} width="218" height="327" />
         </div>
       </div>
 

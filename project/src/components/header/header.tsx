@@ -13,6 +13,7 @@ import Logo from '../logo/logo';
 
 type HeaderProps = {
   titleRender?: () => JSX.Element;
+  navRender?: () => JSX.Element;
   variant?: 'user-page' | 'film-card';
   isUserBlock?: boolean;
 }
@@ -54,7 +55,7 @@ function UserBlock({ authorizationStatus, userInfo, onLogout }: UserBlockProps):
   );
 }
 
-function Header({ titleRender, variant = 'film-card', isUserBlock = true }: HeaderProps): JSX.Element {
+function Header({ titleRender, navRender, variant = 'film-card', isUserBlock = true }: HeaderProps): JSX.Element {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -71,6 +72,9 @@ function Header({ titleRender, variant = 'film-card', isUserBlock = true }: Head
       <Logo />
       {
         titleRender && titleRender()
+      }
+      {
+        navRender && navRender()
       }
       {
         isUserBlock ? <UserBlock authorizationStatus={authorizationStatus} userInfo={userInfo} onLogout={onLogout} /> : null

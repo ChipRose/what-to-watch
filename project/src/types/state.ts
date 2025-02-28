@@ -10,18 +10,19 @@ export type StoreType = {
   authorizationStatus: AuthorizationStatus;
   error: string | null;
   isFilmsLoaded: boolean;
-  activeGenre: GenreNameType;
   films: FilmsType;
   defaultFilmsList: FilmsType | null;
   groupedFilms: GroupedFilmsType | null;
   catalog: {
     count: number | null;
+    activeGenre: GenreNameType;
     films: FilmsType;
     isAllShown: boolean;
   };
   activeFilm: {
     film: FilmType | null;
     reviews: ReviewsType;
+    similarFilms: FilmsType;
   };
   promoFilm: FilmType | null;
   userInfo: {

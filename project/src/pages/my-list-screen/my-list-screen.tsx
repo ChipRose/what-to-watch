@@ -1,6 +1,6 @@
 import Logo from '../../components/logo/logo';
 import Header from '../../components/header/header';
-import Catalog from '../../components/catalog/catalog';
+// import Catalog from '../../components/catalog/catalog';
 
 function MyListScreen(): JSX.Element {
 
@@ -11,7 +11,7 @@ function MyListScreen(): JSX.Element {
       <section className='catalog'>
         <h2 className='catalog__title visually-hidden'>Catalog</h2>
 
-        <Catalog />
+        {/* <Catalog /> */}
 
       </section>
 

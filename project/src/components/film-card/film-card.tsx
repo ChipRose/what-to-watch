@@ -1,10 +1,12 @@
 
+import { Link } from 'react-router-dom';
 import { useAppSelector } from '../../hooks/use-app-selector';
 
 import type { FilmDescriptionType, FilmDetailsType, FilmType } from '../../types/film';
 import type { TabsType } from '../../types/tabs';
 import type { ReviewsType } from '../../types/review';
 
+import { AppRoute, AuthorizationStatus } from '../../const/const';
 import { calcArraySumProps } from '../../util/util';
 
 import TabsList from '../tabs-list/tabs-list';
@@ -52,7 +54,9 @@ function FilmCard({
   isFull,
 }: FilmCardProps): JSX.Element | null {
 
+  const { authorizationStatus } = useAppSelector((state) => state);
   const activeFilm = useAppSelector((state) => state.activeFilm.film);
+  const activeFilmId = useAppSelector((state) => state.activeFilm?.film?.id) ?? null;
   const activeReviews = useAppSelector((state) => state.activeFilm.reviews);
 
   const { title, cover, genre, realized, backgroundColor } = activeFilm || {};
@@ -60,7 +64,7 @@ function FilmCard({
   const mainClass = `film-card${isFull ? ' film-card--full' : ''}`;
 
   return activeFilm ? (
-    <section className={mainClass} style={{background: backgroundColor}}>
+    <section className={mainClass} style={{ background: backgroundColor }}>
       <div className="film-card__hero">
         <div className="film-card__bg">
           <img src={activeFilm.backgroundImage} alt={title} />
@@ -91,7 +95,7 @@ function FilmCard({
                 </svg>
                 <span>My list</span>
               </button>
-              <a href="add-review.html" className="btn film-card__button">Add review</a>
+              <Link to={authorizationStatus === AuthorizationStatus.Auth ? `${AppRoute.Films}/${String(activeFilmId)}/review` : AppRoute.LogIn} className="btn film-card__button">Add review</Link>
             </div>
           </div>
         </div>

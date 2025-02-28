@@ -1,16 +1,9 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse, AxiosError } from 'axios';
-import { StatusCodes } from 'http-status-codes';
 
-import { BACKEND_URL, REQUEST_TIMEOUT } from '../const/const';
+import { BACKEND_URL, REQUEST_TIMEOUT, StatusCodeMapping } from '../const/const';
 
 import { getUserProfile } from './user-profile';
 import { toast } from 'react-toastify';
-
-const StatusCodeMapping: Record<number, boolean> = {
-  [StatusCodes.BAD_REQUEST]: true,
-  [StatusCodes.UNAUTHORIZED]: true,
-  [StatusCodes.NOT_FOUND]: true,
-};
 
 const shouldDisplayError = (response: AxiosResponse) => !!StatusCodeMapping[response.status];
 

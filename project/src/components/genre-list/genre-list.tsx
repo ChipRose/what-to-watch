@@ -1,5 +1,4 @@
-import { genreMapping } from '../../const/const';
-import { CatalogCount } from '../../const/const';
+import { genreMapping, CatalogCount, TABS_COUNT } from '../../const/const';
 
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { useAppSelector } from '../../hooks/use-app-selector';
@@ -36,7 +35,7 @@ function GenreTab({ genre, title, isActive, onUpdate }: GenreProps): JSX.Element
 
 function GenreList(): JSX.Element {
   const dispatch = useAppDispatch();
-  const activeGenre = useAppSelector((state) => state.activeGenre);
+  const { activeGenre } = useAppSelector((state) => state.catalog) || 'all';
   const groupedFilms = useAppSelector((state) => state.groupedFilms) || {};
 
   const genresList = Object.keys(groupedFilms) as genreListType;
@@ -45,6 +44,8 @@ function GenreList(): JSX.Element {
     title: genreMapping[value],
     genre: value,
   }));
+
+  const tabsList = tabs?.length > TABS_COUNT ? tabs.slice(0, TABS_COUNT) : tabs;
 
   const onUpdate = (genre: GenreType) => {
     if (genre === activeGenre) {
@@ -60,7 +61,7 @@ function GenreList(): JSX.Element {
   return (
     <ul className="catalog__genres-list">
       {
-        tabs?.map(({ genre, title }) => (
+        tabsList?.map(({ genre, title }) => (
           <GenreTab key={genre} genre={genre} title={title} onUpdate={onUpdate} isActive={genre === activeGenre} />
         ))
       }
