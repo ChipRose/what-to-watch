@@ -93,6 +93,7 @@ export enum APIRoute {
   Comments = '/comments/',
   Login = '/login',
   Logout = '/logout',
+  Favorite = '/favorite/',
 }
 
 export const StatusCodeMapping: Record<number, boolean> = {

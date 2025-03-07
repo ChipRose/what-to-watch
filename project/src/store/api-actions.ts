@@ -106,6 +106,21 @@ export const fetchNewReviewAction = createAsyncThunk<void, NewReviewType & {id:F
   },
 );
 
+export const fetchAddToWatchAction = createAsyncThunk<void, {id:FilmIdType; status: 1|0}, {
+  dispatch: AppDispatchType;
+  state: StateType;
+  extra: AxiosInstance;
+}>(
+  Action.FETCH_REVIEWS,
+  async ({ id, status }, { dispatch, extra: api }) => {
+
+    if (id) {
+      const { data } = await api.post<ServerReviewsType>(`${APIRoute.Favorite}${id}/${status}`);
+      dispatch(loadReviews(data));
+    }
+  },
+);
+
 export const checkAuthAction = createAsyncThunk<void, undefined, {
   dispatch: AppDispatchType;
   state: StateType;

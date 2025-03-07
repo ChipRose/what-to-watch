@@ -12,6 +12,7 @@ export type StoreType = {
   isFilmsLoaded: boolean;
   films: FilmsType;
   defaultFilmsList: FilmsType | null;
+  myList: FilmsType | null;
   groupedFilms: GroupedFilmsType | null;
   catalog: {
     count: number | null;

@@ -1,7 +1,7 @@
 type ShowMoreProps = {
   onUpdate: () => void;
 }
-function ShowMore({ onUpdate }: ShowMoreProps): JSX.Element {
+function ShowMoreButton({ onUpdate }: ShowMoreProps): JSX.Element {
   const handleClick = () => {
     onUpdate();
   };
@@ -13,4 +13,4 @@ function ShowMore({ onUpdate }: ShowMoreProps): JSX.Element {
   );
 }
 
-export default ShowMore;
+export default ShowMoreButton;

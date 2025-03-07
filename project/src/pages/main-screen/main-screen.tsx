@@ -10,7 +10,7 @@ import Header from '../../components/header/header';
 import Footer from '../../components/footer/footer';
 import GenreList from '../../components/genre-list/genre-list';
 import Catalog from '../../components/catalog/catalog';
-import ShowMore from '../../components/show-more/show-more';
+import ShowMoreButton from '../../components/buttons/show-more-button/show-more-button';
 
 
 function MainScreen(): JSX.Element {
@@ -82,7 +82,7 @@ function MainScreen(): JSX.Element {
           {
             isShowLoadMoreButton ? (
               <div className='catalog__more'>
-                <ShowMore onUpdate={handleShowMoreButtonClick} />
+                <ShowMoreButton onUpdate={handleShowMoreButtonClick} />
               </div>
             ) : null
           }

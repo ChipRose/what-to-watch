@@ -15,6 +15,7 @@ const initialState: StoreType = {
   isFilmsLoaded: false,
   films: [],
   defaultFilmsList: [],
+  myList: [],
   groupedFilms: null,
   userInfo: {
     avatar: ''

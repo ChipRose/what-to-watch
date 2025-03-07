@@ -32,6 +32,7 @@ export type FilmType = FilmPreviewType & FilmDescriptionType & FilmDetailsType &
   backgroundImage: string;
   backgroundColor: string;
   cover: string;
+  isFavorite: boolean;
 };
 
 export type FilmsType = FilmType[];

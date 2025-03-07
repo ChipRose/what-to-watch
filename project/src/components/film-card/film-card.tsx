@@ -1,5 +1,5 @@
 
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from '../../hooks/use-app-selector';
 
 import type { FilmDescriptionType, FilmDetailsType, FilmType } from '../../types/film';
@@ -9,11 +9,15 @@ import type { ReviewsType } from '../../types/review';
 import { AppRoute, AuthorizationStatus } from '../../const/const';
 import { calcArraySumProps } from '../../util/util';
 
+import Header from '../header/header';
 import TabsList from '../tabs-list/tabs-list';
 import TabDescription from '../tab-description/tab-description';
 import TabDetails from '../tab-details/tab-details';
 import TabReviews from '../tab-reviews/tab-reviews';
-import Header from '../header/header';
+import ActionButton from '../buttons/action-button/action-button';
+import AddIcon from '../icons/add-icon/add-icon';
+import DoneIcon from '../icons/done-icon/done-icon';
+import PlayIcon from '../icons/play-icon/play-icon';
 
 type FilmCardProps = {
   isFull: boolean;
@@ -53,6 +57,7 @@ const getTabsList = ({ reviewsList, ...film }: TabsListProps): TabsType => {
 function FilmCard({
   isFull,
 }: FilmCardProps): JSX.Element | null {
+  const naigate = useNavigate();
 
   const { authorizationStatus } = useAppSelector((state) => state);
   const activeFilm = useAppSelector((state) => state.activeFilm.film);
@@ -62,6 +67,15 @@ function FilmCard({
   const { title, cover, genre, realized, backgroundColor } = activeFilm || {};
 
   const mainClass = `film-card${isFull ? ' film-card--full' : ''}`;
+
+  const handleAddToMyListClick = (): void => {
+    if (authorizationStatus === AuthorizationStatus.Auth) {
+      // eslint-disable-next-line
+      console.log('add')
+    } else {
+      naigate(AppRoute.LogIn);
+    }
+  };
 
   return activeFilm ? (
     <section className={mainClass} style={{ background: backgroundColor }}>
@@ -83,19 +97,21 @@ function FilmCard({
             </p>
 
             <div className="film-card__buttons">
-              <button className="btn btn--play film-card__button" type="button">
+              {/* <button className="btn btn--play film-card__button" type="button">
                 <svg viewBox="0 0 19 19" width="19" height="19">
                   <use xlinkHref="#play-s"></use>
                 </svg>
                 <span>Play</span>
               </button>
-              <button className="btn btn--list film-card__button" type="button">
+              <button onClick={handleAddToMyListClick} className="btn btn--list film-card__button" type="button">
                 <svg viewBox="0 0 19 20" width="19" height="20">
                   <use xlinkHref="#add"></use>
                 </svg>
                 <span>My list</span>
-              </button>
-              <Link to={authorizationStatus === AuthorizationStatus.Auth ? `${AppRoute.Films}/${String(activeFilmId)}/review` : AppRoute.LogIn} className="btn film-card__button">Add review</Link>
+              </button> */}
+              <ActionButton label={'Play'} icon={{basic:<PlayIcon/>}}/>
+              <ActionButton label={'My list'} onUpdate={handleAddToMyListClick} isChecked={Boolean(activeFilm.isFavorite)} icon={{basic:<AddIcon/>, checked: <DoneIcon/>}}/>
+              <ActionButton link={authorizationStatus === AuthorizationStatus.Auth ? `${AppRoute.Films}/${String(activeFilmId)}/review` : AppRoute.LogIn} label={'Add review'}/>
             </div>
           </div>
         </div>
