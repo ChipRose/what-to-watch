@@ -29,7 +29,7 @@ export enum Validity {
 }
 
 function RatingScale({ rating, onUpdate }: RatingScaleProps): JSX.Element {
-  const ratingRef = useRef<HTMLInputElement | null>(null);
+  const ratingRefs = useRef<HTMLInputElement[]>([]);
 
   const starsProps = Array.from({ length: STARS_COUNT }, (_, idx) => ({
     value: STARS_COUNT - idx,
@@ -40,21 +40,23 @@ function RatingScale({ rating, onUpdate }: RatingScaleProps): JSX.Element {
   const handleInputChange = (evt: ChangeInputEvent) => {
     const value = Number(evt.target.value);
 
-    if (ratingRef.current) {
-      ratingRef.current.setCustomValidity(value ? '' : 'Please select a rating.');
-      ratingRef.current.reportValidity();
-    }
+    ratingRefs.current.forEach((ref) => {
+      if (ref) {
+        ref.setCustomValidity(value ? '' : 'Please select a rating.');
+        ref.reportValidity();
+      }
+    });
 
     onUpdate(value);
   };
 
   return (
     <div id="rating" className="rating__stars">
-      {starsProps.map(({ value, name, id }) => (
+      {starsProps.map(({ value, name, id }, index) => (
         <React.Fragment key={id}>
           <input
             className="rating__input"
-            ref={ratingRef}
+            ref={(el) => { if (el) {ratingRefs.current[index] = el;} }}
             id={id}
             type="radio"
             name="rating"
@@ -79,6 +81,7 @@ function AddReviewForm({ filmId }: AddReviewFormProps): JSX.Element {
   const initFormState: NewReviewType = { rating: null, comment: '' };
   const [formData, setFormData] = useState<NewReviewType>(initFormState);
   const [isValid, setIsValid] = useState<boolean>(false);
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   const onInputChange = (rating: number) => {
     setFormData((prevState) => ({ ...prevState, rating }));
@@ -103,10 +106,15 @@ function AddReviewForm({ filmId }: AddReviewFormProps): JSX.Element {
 
   const handleSubmit = (evt: FormEvent): void => {
     evt.preventDefault();
-    if (filmId) {
-      dispatch(fetchNewReviewAction({ id: filmId, ...formData }));
-      setFormData(initFormState);
-      navigate(`${AppRoute.Films}/${filmId}`);
+    if (filmId && !isSubmitting) {
+      setIsSubmitting(true);
+      try {
+        dispatch(fetchNewReviewAction({ id: filmId, ...formData }));
+        setFormData(initFormState);
+        navigate(`${AppRoute.Films}/${filmId}`);
+      } finally {
+        setIsSubmitting(false);
+      }
     }
   };
 
@@ -120,7 +128,7 @@ function AddReviewForm({ filmId }: AddReviewFormProps): JSX.Element {
 
   return (
     <div className="add-review">
-      <form action="#" className="add-review__form" onSubmit={handleSubmit}>
+      <form className="add-review__form" onSubmit={handleSubmit}>
         <div className="rating">
           <RatingScale rating={formData.rating} onUpdate={onInputChange} />
         </div>
@@ -137,8 +145,12 @@ function AddReviewForm({ filmId }: AddReviewFormProps): JSX.Element {
             required
           />
           <div className="add-review__submit">
-            <button className="add-review__btn" type="submit" disabled={!isValid}>
-              Post
+            <button
+              className="add-review__btn"
+              type="submit"
+              disabled={!isValid || isSubmitting}
+            >
+              {isSubmitting ? 'Posting...' : 'Post'}
             </button>
           </div>
         </div>
