@@ -23,7 +23,7 @@ function VideoPlayer({ playerIndex, previewSrc, poster, isPlaying, onMouseEnter,
   useEffect(() => {
     const video = videoRef?.current;
 
-    if (!video || isLoading) {
+    if (video === null) {
       return;
     }
 

@@ -1,8 +1,6 @@
 import { Link } from 'react-router-dom';
 
 import type { FilmPreviewType, FilmIdType } from '../../types/film';
-import type { LinkEvent } from '../../types/form';
-
 
 type CardProps = FilmPreviewType & {
   playerIndex: number;
@@ -20,8 +18,7 @@ function SmallFilmCard({
   renderPlayer,
 }: CardProps): JSX.Element {
 
-  const handleLinkClick = (evt:LinkEvent): void => {
-    evt.preventDefault();
+  const handleLinkClick = (): void => {
     onFilmClick(id);
   };
 
@@ -29,10 +26,10 @@ function SmallFilmCard({
     <article
       className="small-film-card catalog__films-card"
     >
-      <div className="small-film-card__image">
+      <div className="small-film-card__image" onClick={handleLinkClick} >
         {renderPlayer(previewSrc, playerIndex, previewImage)}
         <h3 className="small-film-card__title">
-          <Link className="small-film-card__link" onClick={handleLinkClick} to='#'>
+          <Link className="small-film-card__link" to='#'>
             {title}
           </Link>
         </h3>
