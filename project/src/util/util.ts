@@ -20,20 +20,20 @@ export const formatTime = (time: number): string => {
 };
 
 export const getEstimation = (estimation: number): string => {
-  if (estimation >= 0 && estimation < 3) {
+  if (estimation > 0 && estimation <= 3) {
     return Estimation.Bad;
   }
 
-  if (estimation >= 3 && estimation < 5) {
+  if (estimation > 3 && estimation <= 5) {
     return Estimation.Normal;
   }
 
-  if (estimation >= 5 && estimation < 8) {
+  if (estimation > 5 && estimation <= 8) {
     return Estimation.Good;
   }
 
-  if (estimation >= 8 && estimation < 10) {
-    return Estimation.Good;
+  if (estimation > 8 && estimation <= 10) {
+    return Estimation.VeryGood;
   }
 
   return Estimation.Awesome;

@@ -1,27 +1,25 @@
 import React, { useEffect, useRef, useState } from 'react';
-
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
-
-import { type FilmIdType } from '../../types/film';
-import { type ChangeTextareaEvent, type ChangeInputEvent, type FormEvent, type TextArea, type Input } from '../../types/form';
-
 import { fetchNewReviewAction } from '../../store/api-actions';
 import { AppRoute } from '../../const/const';
 
+import type { FilmIdType } from '../../types/film';
+import type { ChangeTextareaEvent, ChangeInputEvent, FormEvent } from '../../types/form';
+
 export type NewReviewType = {
-  rating: number;
+  rating: number | null;
   comment: string;
-}
+};
 
 type RatingScaleProps = {
-  rating: number;
-  onUpdate: ({ rating }: { rating: number }) => void;
-}
+  rating: number | null;
+  onUpdate: (rating: number) => void;
+};
 
 type AddReviewFormProps = {
   filmId: FilmIdType | null;
-}
+};
 
 const STARS_COUNT = 10;
 
@@ -31,75 +29,76 @@ export enum Validity {
 }
 
 function RatingScale({ rating, onUpdate }: RatingScaleProps): JSX.Element {
-  const ratingRef = useRef<Input>(null);
+  const ratingRef = useRef<HTMLInputElement | null>(null);
 
   const starsProps = Array.from({ length: STARS_COUNT }, (_, idx) => ({
-    value: STARS_COUNT - idx, name: `Rating${idx}`, id: `star-${STARS_COUNT - idx}`
+    value: STARS_COUNT - idx,
+    name: `Rating ${STARS_COUNT - idx}`,
+    id: `star-${STARS_COUNT - idx}`
   }));
 
-  const ceilRating = Math.round(rating);
-
   const handleInputChange = (evt: ChangeInputEvent) => {
-    const { value }: { value: string } = evt.target as HTMLInputElement;
+    const value = Number(evt.target.value);
 
-    if (ratingRef && value) {
-      ratingRef?.current?.setCustomValidity('It\'s need to set rating');
-      ratingRef?.current?.reportValidity();
-    } else {
-      ratingRef?.current?.setCustomValidity('');
+    if (ratingRef.current) {
+      ratingRef.current.setCustomValidity(value ? '' : 'Please select a rating.');
+      ratingRef.current.reportValidity();
     }
 
-    onUpdate({ rating: Number(value) });
+    onUpdate(value);
   };
 
   return (
-    <div id='rating' className="rating__stars">
-      {
-        starsProps?.map(({ value, name, id }) => (
-          <React.Fragment key={id}>
-            <input
-              className="rating__input"
-              ref={ratingRef}
-              id={id}
-              type="radio"
-              name="rating"
-              value={value}
-              checked={ceilRating === value}
-              onChange={handleInputChange}
-            />
-            <label className="rating__label" htmlFor={id}>{name}</label>
-          </React.Fragment>
-        ))
-      }
+    <div id="rating" className="rating__stars">
+      {starsProps.map(({ value, name, id }) => (
+        <React.Fragment key={id}>
+          <input
+            className="rating__input"
+            ref={ratingRef}
+            id={id}
+            type="radio"
+            name="rating"
+            value={value}
+            checked={rating === value}
+            onChange={handleInputChange}
+            required
+          />
+          <label className="rating__label" htmlFor={id}>{name}</label>
+        </React.Fragment>
+      ))}
     </div>
   );
 }
-
 
 function AddReviewForm({ filmId }: AddReviewFormProps): JSX.Element {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const textareaRef = useRef<TextArea>(null);
+  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
-  const initFormState: NewReviewType = { rating: 0, comment: '' };
-  const [isValid, setIsValid] = useState<boolean>(false);
+  const initFormState: NewReviewType = { rating: null, comment: '' };
   const [formData, setFormData] = useState<NewReviewType>(initFormState);
-  const [buttonState, setButtonState] = useState<{ disabled: boolean }>({ disabled: true });
+  const [isValid, setIsValid] = useState<boolean>(false);
 
-  const onInputChange = ({ rating }: { rating: number }) => {
+  const onInputChange = (rating: number) => {
     setFormData((prevState) => ({ ...prevState, rating }));
   };
 
   const handleTextAreaChange = (evt: ChangeTextareaEvent) => {
-    const { id, value }: { id: string; value: string } = evt.target as HTMLTextAreaElement;
-    if (textareaRef && (value.length < Validity.MinCommentLength || value.length > Validity.MaxCommentLength)) {
-      textareaRef?.current?.setCustomValidity(`It's need ${Validity.MinCommentLength} - ${Validity.MaxCommentLength} symbols.`);
-      textareaRef?.current?.reportValidity();
-    } else {
-      textareaRef?.current?.setCustomValidity('');
+    const value = evt.target.value;
+
+    if (textareaRef.current) {
+      if (value.length < Validity.MinCommentLength || value.length > Validity.MaxCommentLength) {
+        textareaRef.current.setCustomValidity(
+          `Comment must be between ${Validity.MinCommentLength} and ${Validity.MaxCommentLength} characters.`
+        );
+      } else {
+        textareaRef.current.setCustomValidity('');
+      }
+      textareaRef.current.reportValidity();
     }
-    setFormData((prevState) => ({ ...prevState, [id]: value }));
+
+    setFormData((prevState) => ({ ...prevState, comment: value }));
   };
 
   const handleSubmit = (evt: FormEvent): void => {
@@ -112,19 +111,12 @@ function AddReviewForm({ filmId }: AddReviewFormProps): JSX.Element {
   };
 
   useEffect(() => {
-    const isCommentValid = formData.comment?.length >= Validity.MinCommentLength && formData.comment?.length <= Validity.MaxCommentLength;
-    const isRatingValid = Boolean(formData.rating);
-    if (isCommentValid && isRatingValid) {
-      setIsValid(true);
-    } else {
-      setIsValid(false);
-    }
+    const isCommentValid = formData.comment.length >= Validity.MinCommentLength &&
+      formData.comment.length <= Validity.MaxCommentLength;
+    const isRatingValid = formData.rating !== null;
+
+    setIsValid(isCommentValid && isRatingValid);
   }, [formData]);
-
-  useEffect(() => {
-    setButtonState({ disabled: !isValid });
-  }, [isValid]);
-
 
   return (
     <div className="add-review">
@@ -142,11 +134,13 @@ function AddReviewForm({ filmId }: AddReviewFormProps): JSX.Element {
             placeholder="Review text"
             onChange={handleTextAreaChange}
             value={formData.comment}
+            required
           />
           <div className="add-review__submit">
-            <button className="add-review__btn" type="submit" {...buttonState}>Post</button>
+            <button className="add-review__btn" type="submit" disabled={!isValid}>
+              Post
+            </button>
           </div>
-
         </div>
       </form>
     </div>
