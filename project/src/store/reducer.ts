@@ -1,7 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { loadPromoFilm, loadFilm, loadSimilarFilms, setGenre, setCatalog, setActiveFilm, setUserData, loadMoreToCatalog, loadFilms, requireAuthorization, setFilmsLoadedStatus, loadReviews } from './actions';
-
-import { FilmType } from '../types/film';
+import { loadActiveFilm,loadPromoFilm, loadFilm, loadSimilarFilms, setGenre, setCatalog, setActiveFilm, setUserData, loadMoreToCatalog, loadFilms, requireAuthorization, setFilmsLoadedStatus, loadReviews } from './actions';
 
 import { CatalogCount, AuthorizationStatus } from '../const/const';
 import { groupByGenre } from '../util/util';
@@ -31,7 +29,6 @@ const initialState: StoreType = {
     reviews: [],
     similarFilms: [],
   },
-  promoFilm: null,
 };
 
 export const reducer = createReducer(initialState, (builder) => {
@@ -70,11 +67,14 @@ export const reducer = createReducer(initialState, (builder) => {
       state.catalog.isAllShown = defaultFilmsList?.length === CatalogCount.Init;
     })
     .addCase(loadPromoFilm, (state, action) => {
-      state.promoFilm = adaptFilmToApp(action.payload);
+      state.activeFilm.film = adaptFilmToApp(action.payload);
     })
     .addCase(loadReviews, (state, action) => {
       const adaptReviewsList = adaptReviewsToApp(action.payload);
       state.activeFilm.reviews = adaptReviewsList;
+    })
+    .addCase(loadActiveFilm, (state, action) => {
+      state.activeFilm.film = adaptFilmToApp(action.payload);
     })
     .addCase(setGenre, (state, action) => {
       const groupedFilms = state.groupedFilms || {};
@@ -125,10 +125,6 @@ export const reducer = createReducer(initialState, (builder) => {
       state.catalog.isAllShown = Boolean(state.catalog.count === similarFilms?.length);
     })
     .addCase(setActiveFilm, (state, action) => {
-      const { films } = state;
-      const pageId = action.payload;
-      const activeFilm = films?.find(({ id: filmId }) => filmId === pageId) as FilmType;
-
-      state.activeFilm.film = activeFilm;
+      state.activeFilm.film = action.payload;
     });
 });

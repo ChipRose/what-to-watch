@@ -10,7 +10,7 @@ import type { NewReviewType } from '../components/add-review-form/add-review-for
 
 import { Action, APIRoute, AppRoute, AuthorizationStatus } from '../const/const';
 
-import { loadSimilarFilms, loadFilms, loadFilm, loadPromoFilm, loadReviews, requireAuthorization, setFilmsLoadedStatus, redirectToRoute, setUserData } from './actions';
+import { loadActiveFilm, loadSimilarFilms, loadFilms, loadFilm, loadPromoFilm, loadReviews, requireAuthorization, setFilmsLoadedStatus, redirectToRoute, setUserData } from './actions';
 import { saveUserProfile, getUserProfile, dropUserProfile } from '../services/user-profile';
 import { ServerFilmType, ServerFilmsType, ServerReviewsType } from '../types/server-data';
 
@@ -89,7 +89,7 @@ export const fetchReviewsAction = createAsyncThunk<void, FilmIdType, {
   },
 );
 
-export const fetchNewReviewAction = createAsyncThunk<void, NewReviewType & {id:FilmIdType}, {
+export const fetchNewReviewAction = createAsyncThunk<void, NewReviewType & { id: FilmIdType }, {
   dispatch: AppDispatchType;
   state: StateType;
   extra: AxiosInstance;
@@ -106,17 +106,18 @@ export const fetchNewReviewAction = createAsyncThunk<void, NewReviewType & {id:F
   },
 );
 
-export const fetchAddToWatchAction = createAsyncThunk<void, {id:FilmIdType; status: 1|0}, {
+export const fetchAddToWatchAction = createAsyncThunk<void, { id: FilmIdType; status: 1 | 0 }, {
   dispatch: AppDispatchType;
   state: StateType;
   extra: AxiosInstance;
 }>(
-  Action.FETCH_REVIEWS,
+  Action.FETCH_ADD_TO_WATCH,
   async ({ id, status }, { dispatch, extra: api }) => {
-
     if (id) {
-      const { data } = await api.post<ServerReviewsType>(`${APIRoute.Favorite}${id}/${status}`);
-      dispatch(loadReviews(data));
+      const { data } = await api.post<ServerFilmType>(`${APIRoute.Favorite}${id}/${status}`);
+      // eslint-disable-next-line
+      console.log(`${APIRoute.Favorite}${id}/${status}`)
+      dispatch(loadActiveFilm(data));
     }
   },
 );

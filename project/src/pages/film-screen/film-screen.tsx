@@ -10,9 +10,9 @@ import {
   fetchSimilarFilmAction
 } from '../../store/api-actions';
 
-import Logo from '../../components/logo/logo';
 import Catalog from '../../components/catalog/catalog';
 import FilmCard from '../../components/film-card/film-card';
+import Footer from '../../components/footer/footer';
 
 type RouteParams = {
   id: string;
@@ -49,13 +49,7 @@ function FilmScreen(): JSX.Element {
 
         </section>
 
-        <footer className="page-footer">
-          <Logo variant='light' />
-
-          <div className="copyright">
-            <p>© 2019 What to watch Ltd.</p>
-          </div>
-        </footer>
+        <Footer/>
       </div>
     </>
   );

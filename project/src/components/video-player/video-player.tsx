@@ -21,19 +21,22 @@ function VideoPlayer({ playerIndex, previewSrc, poster, isPlaying, onMouseEnter,
   };
 
   useEffect(() => {
-    if (videoRef?.current === null) {
+    const video = videoRef?.current;
+
+    if (!video || isLoading) {
       return;
     }
 
-    videoRef?.current?.addEventListener('loadeddata', () => setIsLoading(false));
+    video?.addEventListener('loadeddata', () => setIsLoading(false));
+
     if (!isLoading && isPlaying) {
-      videoRef?.current?.play();
+      video?.play();
       return;
     }
 
-    videoRef?.current?.pause();
-    videoRef.current.currentTime = 0;
-    videoRef.current.load();
+    video?.pause();
+    video.currentTime = 0;
+    video?.load();
 
   }, [isPlaying, isLoading]);
 

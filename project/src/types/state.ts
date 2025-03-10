@@ -25,7 +25,6 @@ export type StoreType = {
     reviews: ReviewsType;
     similarFilms: FilmsType;
   };
-  promoFilm: FilmType | null;
   userInfo: {
     avatar: string;
   };

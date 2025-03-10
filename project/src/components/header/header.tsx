@@ -24,13 +24,18 @@ type UserBlockProps = {
     avatar: string;
   };
   onLogout: (evt: LinkEvent) => void;
+  onUserAction: () => void;
 }
 
-function UserBlock({ authorizationStatus, userInfo, onLogout }: UserBlockProps): JSX.Element {
+function UserBlock({ authorizationStatus, userInfo, onLogout, onUserAction }: UserBlockProps): JSX.Element {
 
   const handleLogoutClick = (evt: LinkEvent): void => {
     evt.preventDefault();
     onLogout(evt);
+  };
+
+  const handleUserClick = () => {
+    onUserAction();
   };
 
   return (
@@ -40,7 +45,7 @@ function UserBlock({ authorizationStatus, userInfo, onLogout }: UserBlockProps):
           ? (
             <>
               <li className="user-block__item">
-                <div className="user-block__avatar">
+                <div className="user-block__avatar" onClick={handleUserClick}>
                   <img src={userInfo.avatar} alt="User avatar" width="63" height="63" />
                 </div>
               </li>
@@ -67,6 +72,10 @@ function Header({ titleRender, navRender, variant = 'film-card', isUserBlock = t
     navigate(AppRoute.Main);
   };
 
+  const onUserAction = () => {
+    navigate(AppRoute.MyList);
+  };
+
   return (
     <header className={`page-header ${variant}__head`}>
       <Logo />
@@ -77,7 +86,7 @@ function Header({ titleRender, navRender, variant = 'film-card', isUserBlock = t
         navRender && navRender()
       }
       {
-        isUserBlock ? <UserBlock authorizationStatus={authorizationStatus} userInfo={userInfo} onLogout={onLogout} /> : null
+        isUserBlock ? <UserBlock authorizationStatus={authorizationStatus} userInfo={userInfo} onLogout={onLogout} onUserAction={onUserAction} /> : null
       }
     </header >
   );
