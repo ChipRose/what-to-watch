@@ -38,7 +38,7 @@ function ControlButtonsList({ isFullList = true }: ControlButtonsListProps) {
   return (
     <div className="film-card__buttons">
       <ActionButton label={'Play'} icon={{ basic: <PlayIcon /> }} />
-      <ActionButton label={'My list'} onUpdate={() => handleAddButtonClick()} isChecked={Boolean(film?.isFavorite ?? 0)} icon={{ basic: <AddIcon />, checked: <DoneIcon /> }} />
+      <ActionButton label={'My list'} onUpdate={() => handleAddButtonClick()} isChecked={authorizationStatus === AuthorizationStatus.Auth && Boolean(film?.isFavorite ?? 0)} icon={{ basic: <AddIcon />, checked: <DoneIcon /> }} />
       {isFullList && (<ActionButton link={authorizationStatus === AuthorizationStatus.Auth ? `${AppRoute.Films}/${String(filmId)}/review` : AppRoute.LogIn} label={'Add review'} />)}
     </div>
   );
