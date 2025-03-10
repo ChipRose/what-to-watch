@@ -1,11 +1,15 @@
 import React, { useEffect, useRef, useState } from 'react';
+// import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { fetchNewReviewAction } from '../../store/api-actions';
-import { AppRoute } from '../../const/const';
 
 import type { FilmIdType } from '../../types/film';
 import type { ChangeTextareaEvent, ChangeInputEvent, FormEvent } from '../../types/form';
+
+import { AppRoute } from '../../const/const';
+
 
 export type NewReviewType = {
   rating: number | null;
@@ -56,7 +60,7 @@ function RatingScale({ rating, onUpdate }: RatingScaleProps): JSX.Element {
         <React.Fragment key={id}>
           <input
             className="rating__input"
-            ref={(el) => { if (el) {ratingRefs.current[index] = el;} }}
+            ref={(el) => { if (el) { ratingRefs.current[index] = el; } }}
             id={id}
             type="radio"
             name="rating"
@@ -104,12 +108,14 @@ function AddReviewForm({ filmId }: AddReviewFormProps): JSX.Element {
     setFormData((prevState) => ({ ...prevState, comment: value }));
   };
 
-  const handleSubmit = (evt: FormEvent): void => {
+  const handleSubmit = async (evt: FormEvent): Promise<void> => {
     evt.preventDefault();
+
     if (filmId && !isSubmitting) {
       setIsSubmitting(true);
+
       try {
-        dispatch(fetchNewReviewAction({ id: filmId, ...formData }));
+        await dispatch(fetchNewReviewAction({ id: filmId, ...formData })).unwrap();
         setFormData(initFormState);
         navigate(`${AppRoute.Films}/${filmId}`);
       } finally {
@@ -128,7 +134,7 @@ function AddReviewForm({ filmId }: AddReviewFormProps): JSX.Element {
 
   return (
     <div className="add-review">
-      <form className="add-review__form" onSubmit={handleSubmit}>
+      <form className="add-review__form" onSubmit={(evt) => void handleSubmit(evt)}>
         <div className="rating">
           <RatingScale rating={formData.rating} onUpdate={onInputChange} />
         </div>
