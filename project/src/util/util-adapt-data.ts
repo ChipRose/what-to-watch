@@ -10,7 +10,7 @@ export const adaptFilmToApp = (film: ServerFilmType): FilmType => ({
   starring: film.starring,
   runTime: film.runTime,
   genre: film.genre ?? '',
-  realized: film.released,
+  releaseDate: film.released,
   previewImage: film.previewImage,
   src: '',
   isFavorite: film.isFavorite,

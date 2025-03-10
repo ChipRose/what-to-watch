@@ -45,9 +45,9 @@ export const getItemsByKey = <T, K extends keyof T>(
   key: K
 ): T[] => (array.filter((item) => idList.includes(item[key])));
 
-export const calcArraySumProps = <T, K extends keyof T>(array: T[], key: K): { sum: number; average: number; lenght: number } => {
+export const calcArraySumProps = <T, K extends keyof T>(array: T[], key: K): { sum: number; average: number; length: number } => {
   if (!array?.length) {
-    return { sum: 0, average: 0, lenght: 0 };
+    return { sum: 0, average: 0, length: 0 };
   }
 
   const sum = Number(array.reduce((accumulator, currentValue) => {
@@ -56,9 +56,9 @@ export const calcArraySumProps = <T, K extends keyof T>(array: T[], key: K): { s
   }, 0).toFixed(1));
 
   const average = Number((sum / array?.length).toFixed(1));
-  const lenght = array?.length;
+  const length = array?.length;
 
-  return { sum, average, lenght };
+  return { sum, average, length };
 };
 
 export const groupByGenre = (

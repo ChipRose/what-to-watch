@@ -24,7 +24,7 @@ export type FilmDetailsType = {
   starring: string[];
   runTime: number;
   genre: string;
-  realized: number;
+  releaseDate: number;
 };
 
 export type FilmType = FilmPreviewType & FilmDescriptionType & FilmDetailsType & {

@@ -1,8 +1,19 @@
-import Logo from '../../components/logo/logo';
+import { useEffect } from 'react';
+import { useAppDispatch } from '../../hooks/use-app-dispatch';
+import { useAppSelector } from '../../hooks/use-app-selector';
+
 import Header from '../../components/header/header';
-// import Catalog from '../../components/catalog/catalog';
+import Footer from '../../components/footer/footer';
+import Catalog from '../../components/catalog/catalog';
+import { fetchToWhatchFilms } from '../../store/api-actions';
 
 function MyListScreen(): JSX.Element {
+  const dispatch = useAppDispatch();
+  const myList = useAppSelector((state) => state.myList) ?? [];
+
+  useEffect(() => {
+    dispatch(fetchToWhatchFilms());
+  }, [dispatch]);
 
   return (
     <div className='user-page'>
@@ -11,18 +22,11 @@ function MyListScreen(): JSX.Element {
       <section className='catalog'>
         <h2 className='catalog__title visually-hidden'>Catalog</h2>
 
-        {/* <Catalog /> */}
+        <Catalog filmsList={myList} />
 
       </section>
 
-      <footer className='page-footer'>
-
-        <Logo variant='light' />
-
-        <div className='copyright'>
-          <p>© 2019 What to watch Ltd.</p>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }

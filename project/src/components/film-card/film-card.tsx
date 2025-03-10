@@ -24,10 +24,10 @@ type TabsListProps = FilmType & {
 }
 
 const getTabsList = ({ reviewsList, ...film }: TabsListProps): TabsType => {
-  const { director, description, starring, runTime, genre, realized, rating } = film || {};
-  const ratingCount = calcArraySumProps(reviewsList, 'rating').lenght;
+  const { director, description, starring, runTime, genre, releaseDate, rating } = film || {};
+  const ratingCount = calcArraySumProps(reviewsList, 'rating')?.length;
   const descriptionProps: FilmDescriptionType = { director, description, starring, rating, ratingCount };
-  const detailsProps: FilmDetailsType = { director, starring, runTime, genre, realized };
+  const detailsProps: FilmDetailsType = { director, starring, runTime, genre, releaseDate };
   const reviewProps: ReviewsType = reviewsList;
 
   const tabsList: TabsType = [
@@ -57,15 +57,19 @@ function FilmCard({
   const activeFilm = useAppSelector((state) => state.activeFilm.film);
   const activeReviews = useAppSelector((state) => state.activeFilm.reviews);
 
-  const { title, cover, genre, realized, backgroundColor } = activeFilm || {};
+  if (!activeFilm) {
+    return null;
+  }
 
-  const mainClass = `film-card${isFull ? ' film-card--full' : ''}`;
+  const { title, cover, genre, releaseDate, backgroundColor, backgroundImage } = activeFilm || {};
+
+  const mainClass = isFull ? 'film-card film-card--full' : 'film-card';
 
   return activeFilm ? (
     <section className={mainClass} style={{ background: backgroundColor }}>
       <div className="film-card__hero">
         <div className="film-card__bg">
-          <img src={activeFilm.backgroundImage} alt={title} />
+          <img src={backgroundImage} alt={title} />
         </div>
 
         <h1 className="visually-hidden">WTW</h1>
@@ -77,7 +81,7 @@ function FilmCard({
             <h2 className="film-card__title">{title}</h2>
             <p className="film-card__meta">
               <span className="film-card__genre">{genre}</span>
-              <span className="film-card__year">{realized}</span>
+              <span className="film-card__year">{releaseDate}</span>
             </p>
             <ControlButtonsList/>
           </div>

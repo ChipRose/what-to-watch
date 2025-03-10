@@ -13,8 +13,12 @@ type CatalogProps = {
   filmsList: FilmsType;
 }
 
-function Catalog({ filmsList }: CatalogProps): JSX.Element {
+function Catalog({ filmsList }: CatalogProps): JSX.Element | null {
   const navigate = useNavigate();
+
+  if (!filmsList || !filmsList?.length) {
+    return null;
+  }
 
   const onFilmClick = (id: FilmIdType) => {
     id && navigate(`${AppRoute.Films}/${String(id)}`);

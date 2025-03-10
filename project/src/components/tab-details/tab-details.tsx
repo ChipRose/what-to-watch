@@ -4,7 +4,7 @@ import { formatTime } from '../../util/util';
 
 type TabDetailsProps = FilmDetailsType
 
-function TabDetails({ director, starring, runTime, genre, realized }: TabDetailsProps): JSX.Element {
+function TabDetails({ director, starring, runTime, genre, releaseDate }: TabDetailsProps): JSX.Element {
   return (
     <div className="film-card__text film-card__row">
       <div className="film-card__text-col">
@@ -36,7 +36,7 @@ function TabDetails({ director, starring, runTime, genre, realized }: TabDetails
         </p>
         <p className="film-card__details-item">
           <strong className="film-card__details-name">Released</strong>
-          <span className="film-card__details-value">{realized}</span>
+          <span className="film-card__details-value">{releaseDate}</span>
         </p>
       </div>
     </div>

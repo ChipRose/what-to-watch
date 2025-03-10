@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { loadActiveFilm,loadPromoFilm, loadFilm, loadSimilarFilms, setGenre, setCatalog, setActiveFilm, setUserData, loadMoreToCatalog, loadFilms, requireAuthorization, setFilmsLoadedStatus, loadReviews } from './actions';
+import { loadToWatchFilms, loadActiveFilm, loadPromoFilm, loadFilm, loadSimilarFilms, setGenre, setCatalog, setActiveFilm, setUserData, loadMoreToCatalog, loadFilms, requireAuthorization, setFilmsLoadedStatus, loadReviews } from './actions';
 
 import { CatalogCount, AuthorizationStatus } from '../const/const';
 import { groupByGenre } from '../util/util';
@@ -65,6 +65,11 @@ export const reducer = createReducer(initialState, (builder) => {
       state.defaultFilmsList = defaultFilmsList;
       state.catalog.films = defaultFilmsList.slice(0, count);
       state.catalog.isAllShown = defaultFilmsList?.length === CatalogCount.Init;
+    })
+    .addCase(loadToWatchFilms, (state, action) => {
+      const adaptMyFilmsList = adaptFilmsDataToApp(action.payload);
+
+      state.myList = adaptMyFilmsList;
     })
     .addCase(loadPromoFilm, (state, action) => {
       state.activeFilm.film = adaptFilmToApp(action.payload);

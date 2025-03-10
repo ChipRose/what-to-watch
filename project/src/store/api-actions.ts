@@ -2,7 +2,7 @@ import { AxiosInstance, AxiosError } from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { StatusCodes } from 'http-status-codes';
 
-import type { AppDispatchType, StateType } from '../types/state';
+import type { AppDispatchType } from '../types/state';
 import type { UserDataType } from '../types/user-data';
 import type { AuthDataType } from '../types/auth-data';
 import type { FilmIdType } from '../types/film';
@@ -10,13 +10,12 @@ import type { NewReviewType } from '../components/add-review-form/add-review-for
 
 import { Action, APIRoute, AppRoute, AuthorizationStatus } from '../const/const';
 
-import { loadActiveFilm, loadSimilarFilms, loadFilms, loadFilm, loadPromoFilm, loadReviews, requireAuthorization, setFilmsLoadedStatus, redirectToRoute, setUserData } from './actions';
+import { loadToWatchFilms, loadActiveFilm, loadSimilarFilms, loadFilms, loadFilm, loadPromoFilm, loadReviews, requireAuthorization, setFilmsLoadedStatus, redirectToRoute, setUserData } from './actions';
 import { saveUserProfile, getUserProfile, dropUserProfile } from '../services/user-profile';
 import { ServerFilmType, ServerFilmsType, ServerReviewsType } from '../types/server-data';
 
 export const fetchFilmsAction = createAsyncThunk<void, undefined, {
   dispatch: AppDispatchType;
-  state: StateType;
   extra: AxiosInstance;
 }>(
   Action.FETCH_FILMS,
@@ -30,7 +29,6 @@ export const fetchFilmsAction = createAsyncThunk<void, undefined, {
 
 export const fetchFilmAction = createAsyncThunk<void, FilmIdType, {
   dispatch: AppDispatchType;
-  state: StateType;
   extra: AxiosInstance;
 }>(
   Action.FETCH_FILM,
@@ -52,7 +50,6 @@ export const fetchFilmAction = createAsyncThunk<void, FilmIdType, {
 
 export const fetchSimilarFilmAction = createAsyncThunk<void, FilmIdType, {
   dispatch: AppDispatchType;
-  state: StateType;
   extra: AxiosInstance;
 }>(
   Action.LOAD_SIMILAR_FILMS,
@@ -64,7 +61,6 @@ export const fetchSimilarFilmAction = createAsyncThunk<void, FilmIdType, {
 
 export const fetchPromoFilmAction = createAsyncThunk<void, undefined, {
   dispatch: AppDispatchType;
-  state: StateType;
   extra: AxiosInstance;
 }>(
   Action.FETCH_PROMO_FILM,
@@ -76,7 +72,6 @@ export const fetchPromoFilmAction = createAsyncThunk<void, undefined, {
 
 export const fetchReviewsAction = createAsyncThunk<void, FilmIdType, {
   dispatch: AppDispatchType;
-  state: StateType;
   extra: AxiosInstance;
 }>(
   Action.FETCH_REVIEWS,
@@ -91,7 +86,6 @@ export const fetchReviewsAction = createAsyncThunk<void, FilmIdType, {
 
 export const fetchNewReviewAction = createAsyncThunk<void, NewReviewType & { id: FilmIdType }, {
   dispatch: AppDispatchType;
-  state: StateType;
   extra: AxiosInstance;
 }>(
   Action.FETCH_REVIEWS,
@@ -108,23 +102,30 @@ export const fetchNewReviewAction = createAsyncThunk<void, NewReviewType & { id:
 
 export const fetchAddToWatchAction = createAsyncThunk<void, { id: FilmIdType; status: 1 | 0 }, {
   dispatch: AppDispatchType;
-  state: StateType;
   extra: AxiosInstance;
 }>(
   Action.FETCH_ADD_TO_WATCH,
   async ({ id, status }, { dispatch, extra: api }) => {
     if (id) {
       const { data } = await api.post<ServerFilmType>(`${APIRoute.Favorite}${id}/${status}`);
-      // eslint-disable-next-line
-      console.log(`${APIRoute.Favorite}${id}/${status}`)
       dispatch(loadActiveFilm(data));
     }
   },
 );
 
+export const fetchToWhatchFilms = createAsyncThunk<void, undefined, {
+  dispatch: AppDispatchType;
+  extra: AxiosInstance;
+}>(
+  Action.FETCH_TO_WATCH,
+  async (_arg, { dispatch, extra: api }) => {
+    const { data } = await api.get<ServerFilmsType>(APIRoute.Favorite);
+    dispatch(loadToWatchFilms(data));
+  }
+);
+
 export const checkAuthAction = createAsyncThunk<void, undefined, {
   dispatch: AppDispatchType;
-  state: StateType;
   extra: AxiosInstance;
 }>(
   Action.CHECK_USER_AUTH,
@@ -143,7 +144,6 @@ export const checkAuthAction = createAsyncThunk<void, undefined, {
 
 export const loginAction = createAsyncThunk<void, AuthDataType, {
   dispatch: AppDispatchType;
-  state: StateType;
   extra: AxiosInstance;
 }>(
   Action.LOGIN_USER,
@@ -158,7 +158,6 @@ export const loginAction = createAsyncThunk<void, AuthDataType, {
 
 export const logoutAction = createAsyncThunk<void, undefined, {
   dispatch: AppDispatchType;
-  state: StateType;
   extra: AxiosInstance;
 }>(
   Action.LOGOUT_USER,
