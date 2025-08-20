@@ -1,6 +1,6 @@
 
 import { useAppSelector } from '../../hooks/use-app-selector';
-import { getActiveFilm } from '../../store/film-process/selectors';
+import { getActiveFilm } from '../../store/film-data/selectors';
 
 import type { FilmDescriptionType, FilmDetailsType, FilmType } from '../../types/film';
 import type { TabsType } from '../../types/tabs';

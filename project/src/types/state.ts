@@ -34,17 +34,6 @@ export type FilmDataType={
   error: string | null;
   isFilmsLoaded: boolean;
   films: FilmsType | null;
-  myList: FilmsType | null;
-}
-
-export type UserProcessType = {
-  authorizationStatus: AuthorizationStatus;
-  userInfo: {
-    avatar: string | null;
-  };
-};
-
-export type FilmProcessType = {
   catalog: {
     count: number | null;
     activeGenre: GenreNameType;
@@ -58,6 +47,17 @@ export type FilmProcessType = {
     reviews: ReviewsType| null;
     similarFilms: FilmsType;
   };
+}
+
+export type UserProcessType = {
+  authorizationStatus: AuthorizationStatus;
+  userInfo: {
+    avatar: string | null;
+  };
+};
+
+export type FilmProcessType = {
+  myList: FilmsType | null;
 }
 
 export type StateType = ReturnType<typeof store.getState>;

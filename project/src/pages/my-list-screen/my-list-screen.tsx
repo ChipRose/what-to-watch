@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { useAppSelector } from '../../hooks/use-app-selector';
-import { getMyList } from '../../store/film-data/selectors';
+import { getMyList } from '../../store/film-process/selectors';
 
 import Header from '../../components/header/header';
 import Footer from '../../components/footer/footer';

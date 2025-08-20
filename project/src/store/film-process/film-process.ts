@@ -1,24 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { NameSpace, CatalogCount } from '../../const/const';
+import { NameSpace } from '../../const/const';
+
+// import { groupByGenre } from '../../util/util';
+// import { adaptFilmToApp, adaptFilmsDataToApp } from '../../util/util-adapt-data';
 
 import type { FilmProcessType } from '../../types/state';
 
 
 const initialState: FilmProcessType = {
-  catalog: {
-    count: CatalogCount.Init,
-    activeGenre: 'all',
-    films: [],
-    isAllShown: false,
-  },
-  defaultFilmsList: null,
-  groupedFilms: null,
-  activeFilm: {
-    film: null,
-    reviews: null,
-    similarFilms: [],
-  },
+  myList: [],
 };
 
 export const filmProcess = createSlice({
@@ -33,6 +24,8 @@ export const filmProcess = createSlice({
     //   state.catalog.films = groupedFilms[activeGenre];
     // },
     // setActiveFilm: (state, action) => {
+    // eslint-disable-next-line no-console
+    // console.log('setActiveFilm', action.payload);
     //   state.activeFilm.film = action.payload;
     // },
     // setCatalog: (state, action) => {
@@ -53,27 +46,30 @@ export const filmProcess = createSlice({
     //   state.catalog.isAllShown = sameGenreFilms?.length === catalogFilms?.length;
 
     // },
-    loadMoreToCatalog: (state, action) => {
-      const count = state.catalog.count || 0;
-      const activeCatalog = state.catalog.films;
-      const { groupedFilms } = state;
-      const { activeGenre } = state.catalog;
-      const similarFilms = groupedFilms ? groupedFilms[activeGenre] : [];
+    // loadMoreToCatalog: (state, action) => {
+    //   const count = state.catalog.count || 0;
+    //   const activeCatalog = state.catalog.films;
+    //   const { groupedFilms } = state;
+    //   const { activeGenre } = state.catalog;
+    //   const similarFilms = groupedFilms ? groupedFilms[activeGenre] : [];
 
-      let catalogFilms = [];
+    //   let catalogFilms = [];
 
-      if (similarFilms?.length && (similarFilms?.length - activeCatalog?.length > CatalogCount.Init)) {
-        catalogFilms = similarFilms?.slice(0, count + CatalogCount.Init);
-        state.catalog.count = count + CatalogCount.Init;
-      } else {
-        state.catalog.count = similarFilms?.length;
-        catalogFilms = similarFilms;
-      }
+    //   if (similarFilms?.length && (similarFilms?.length - activeCatalog?.length > CatalogCount.Init)) {
+    //     catalogFilms = similarFilms?.slice(0, count + CatalogCount.Init);
+    //     state.catalog.count = count + CatalogCount.Init;
+    //   } else {
+    //     state.catalog.count = similarFilms?.length;
+    //     catalogFilms = similarFilms;
+    //   }
 
-      state.catalog.films = catalogFilms;
-      state.catalog.isAllShown = Boolean(state.catalog.count === similarFilms?.length);
-    }
+    //   state.catalog.films = catalogFilms;
+    //   state.catalog.isAllShown = Boolean(state.catalog.count === similarFilms?.length);
+    // }
   },
+  // extraReducers(builder) {
+
+  // }
 });
 
 // export const { setActiveFilm } = filmProcess.actions;

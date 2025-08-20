@@ -10,7 +10,7 @@ import type { NewReviewType } from '../components/add-review-form/add-review-for
 
 import { Action, APIRoute, AppRoute} from '../const/const';
 
-import { loadToWatchFilms, loadActiveFilm, loadSimilarFilms, loadFilm, loadPromoFilm, loadReviews, redirectToRoute } from './actions';
+import { loadToWatchFilms, loadActiveFilm, loadSimilarFilms, loadFilm, loadReviews, redirectToRoute } from './actions';
 import { saveUserProfile, dropUserProfile } from '../services/user-profile';
 import { ServerFilmType, ServerFilmsType, ServerReviewsType } from '../types/server-data';
 
@@ -57,14 +57,14 @@ export const fetchSimilarFilmAction = createAsyncThunk<void, FilmIdType, {
   },
 );
 
-export const fetchPromoFilmAction = createAsyncThunk<void, undefined, {
+export const fetchPromoFilmAction = createAsyncThunk<ServerFilmType, undefined, {
   dispatch: AppDispatchType;
   extra: AxiosInstance;
 }>(
   Action.FETCH_PROMO_FILM,
   async (_arg, { dispatch, extra: api }) => {
     const { data } = await api.get<ServerFilmType>(APIRoute.Promo);
-    dispatch(loadPromoFilm(data));
+    return data;
   },
 );
 

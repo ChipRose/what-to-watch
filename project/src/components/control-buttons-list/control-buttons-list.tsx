@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from '../../hooks/use-app-selector';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { getAuthorizationStatus } from '../../store/user-process/selectors';
-import { getActiveFilm } from '../../store/film-process/selectors';
+import { getActiveFilm } from '../../store/film-data/selectors';
 
 import type { FilmType } from '../../types/film';
 import { AppRoute, AuthorizationStatus } from '../../const/const';

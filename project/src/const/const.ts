@@ -32,6 +32,22 @@ export enum Estimation {
   Awesome = 'Awesome',
 }
 
+export enum Genre {
+  All = 'all',
+  Comedy = 'comedy',
+  Crime = 'crime',
+  Documentary = 'documentary',
+  Drama = 'drama',
+  Horror = 'horror',
+  KidsFamily = 'kids & family',
+  Romance = 'romance',
+  SciFi = 'sci-fi',
+  Thriller = 'thriller',
+  Adventure = 'adventure',
+  Action = 'action',
+  Fantasy = 'fantasy',
+}
+
 export enum CatalogCount {
   Init = 8,
   Similar = 4,
@@ -43,19 +59,19 @@ export const genresTabs = ['All genres', 'Comedies', 'Crime', 'Documentary', 'Dr
 export const genres = ['all', 'comedy', 'crime', 'documentary', 'drama', 'horror', 'kids & family', 'romance', 'sci-fi', 'thriller', 'adventure', 'action', 'fantasy'] as const;
 
 export const genreMapping: Record<GenreNameType, GenresTabsListType> = {
-  [genres[0]]: genresTabs[0],
-  [genres[1]]: genresTabs[1],
-  [genres[2]]: genresTabs[2],
-  [genres[3]]: genresTabs[3],
-  [genres[4]]: genresTabs[4],
-  [genres[5]]: genresTabs[5],
-  [genres[6]]: genresTabs[6],
-  [genres[7]]: genresTabs[7],
-  [genres[8]]: genresTabs[8],
-  [genres[9]]: genresTabs[9],
-  [genres[10]]: genresTabs[10],
-  [genres[11]]: genresTabs[11],
-  [genres[12]]: genresTabs[12],
+  [Genre.All]: genresTabs[0],
+  [Genre.Comedy]: genresTabs[1],
+  [Genre.Crime]: genresTabs[2],
+  [Genre.Documentary]: genresTabs[3],
+  [Genre.Drama]: genresTabs[4],
+  [Genre.Horror]: genresTabs[5],
+  [Genre.KidsFamily]: genresTabs[6],
+  [Genre.Romance]: genresTabs[7],
+  [Genre.SciFi]: genresTabs[8],
+  [Genre.Thriller]: genresTabs[9],
+  [Genre.Adventure]: genresTabs[10],
+  [Genre.Action]: genresTabs[11],
+  [Genre.Fantasy]: genresTabs[12],
 } as const;
 
 export const Action = {

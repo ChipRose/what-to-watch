@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { useAppSelector } from '../../hooks/use-app-selector';
-import { getActiveFilm } from '../../store/film-process/selectors';
+import { getActiveFilm } from '../../store/film-data/selectors';
 
 import {
   fetchReviewsAction,

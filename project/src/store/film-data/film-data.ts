@@ -1,11 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { NameSpace } from '../../const/const';
+import { NameSpace, CatalogCount, Genre } from '../../const/const';
+import { groupByGenre } from '../../util/util';
+
 import {
-  // adaptFilmToApp,
+  adaptFilmToApp,
   adaptFilmsDataToApp,
   // adaptReviewsToApp
 } from '../../util/util-adapt-data';
+
+import { fetchPromoFilmAction } from '../api-actions';
 
 import type { FilmDataType } from '../../types/state';
 
@@ -15,7 +19,19 @@ const initialState: FilmDataType = {
   error: null,
   isFilmsLoaded: false,
   films: [],
-  myList: [],
+  catalog: {
+    count: CatalogCount.Init,
+    activeGenre: Genre.All,
+    films: [],
+    isAllShown: false,
+  },
+  defaultFilmsList: null,
+  groupedFilms: null,
+  activeFilm: {
+    film: null,
+    reviews: null,
+    similarFilms: [],
+  },
 };
 
 
@@ -25,18 +41,43 @@ export const filmData = createSlice({
   reducers: {},
   extraReducers(builder) {
     builder
+      .addCase(fetchPromoFilmAction.pending, (state) => {
+        state.activeFilm.film = null;
+      })
+      .addCase(fetchPromoFilmAction.fulfilled, (state, action) => {
+        state.activeFilm.film = adaptFilmToApp(action.payload);
+      })
       .addCase(fetchFilmsAction.pending, (state) => {
         state.films = null;
         state.isFilmsLoaded = true;
       })
       .addCase(fetchFilmsAction.fulfilled, (state, action) => {
-        state.films = adaptFilmsDataToApp(action.payload);
+        const films = adaptFilmsDataToApp(action.payload);
+        const groupedFilms = groupByGenre(films);
+        const count = CatalogCount.Init;
+        const activeGenre = Genre.All;
+        const activeFilms = groupedFilms ? groupedFilms[activeGenre] : [];
+        let catalogFilms = [];
+
+        state.films = films;
         state.isFilmsLoaded = false;
+        state.groupedFilms = groupedFilms;
+        state.catalog.activeGenre = activeGenre;
+        state.catalog.count = CatalogCount.Init;
+        state.catalog.isAllShown = activeFilms.length === CatalogCount.Init;
+
+        if (count && activeFilms?.length) {
+          catalogFilms = activeFilms?.length > count ? activeFilms?.slice(0, count) : activeFilms;
+        } else {
+          catalogFilms = activeFilms;
+        }
+        state.catalog.films = catalogFilms;
       })
       .addCase(fetchFilmsAction.rejected, (state) => {
         state.films = null;
         state.isFilmsLoaded = false;
       });
+
 
     // .addCase(loadFilm, (state, action) => {
     //   state.activeFilm.film = adaptFilmToApp(action.payload);

@@ -4,7 +4,7 @@ import { genreMapping, CatalogCount, TABS_COUNT } from '../../const/const';
 
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { useAppSelector } from '../../hooks/use-app-selector';
-import { getCatalog, getGroupedFilms } from '../../store/film-process/selectors';
+import { getCatalog, getGroupedFilms } from '../../store/film-data/selectors';
 import { setGenre, setCatalog } from '../../store/actions';
 
 

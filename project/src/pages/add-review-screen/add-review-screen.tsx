@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 
 import { useAppSelector } from '../../hooks/use-app-selector';
-import { getActiveFilm } from '../../store/film-process/selectors';
+import { getActiveFilm } from '../../store/film-data/selectors';
 
 import type { FilmType } from '../../types/film';
 
