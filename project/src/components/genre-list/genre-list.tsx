@@ -1,9 +1,12 @@
+import { Link } from 'react-router-dom';
+
 import { genreMapping, CatalogCount, TABS_COUNT } from '../../const/const';
 
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { useAppSelector } from '../../hooks/use-app-selector';
+import { getCatalog, getGroupedFilms } from '../../store/film-process/selectors';
 import { setGenre, setCatalog } from '../../store/actions';
-import { Link } from 'react-router-dom';
+
 
 type genreListType = Array<keyof typeof genreMapping>;
 type GenreType = keyof typeof genreMapping;
@@ -35,8 +38,8 @@ function GenreTab({ genre, title, isActive, onUpdate }: GenreProps): JSX.Element
 
 function GenreList(): JSX.Element {
   const dispatch = useAppDispatch();
-  const { activeGenre } = useAppSelector((state) => state.catalog) || 'all';
-  const groupedFilms = useAppSelector((state) => state.groupedFilms) || {};
+  const { activeGenre } = useAppSelector(getCatalog) || 'all';
+  const groupedFilms = useAppSelector(getGroupedFilms) || {};
 
   const genresList = Object.keys(groupedFilms) as genreListType;
 

@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { useAppSelector } from '../../hooks/use-app-selector';
+import { getMyList } from '../../store/film-data/selectors';
 
 import Header from '../../components/header/header';
 import Footer from '../../components/footer/footer';
@@ -9,7 +10,7 @@ import { fetchToWhatchFilms } from '../../store/api-actions';
 
 function MyListScreen(): JSX.Element {
   const dispatch = useAppDispatch();
-  const myList = useAppSelector((state) => state.myList) ?? [];
+  const myList = useAppSelector(getMyList) ?? [];
 
   useEffect(() => {
     dispatch(fetchToWhatchFilms());

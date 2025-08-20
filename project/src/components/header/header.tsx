@@ -5,6 +5,7 @@ import type { LinkEvent } from '../../types/form';
 
 import { useAppSelector } from '../../hooks/use-app-selector';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
+import { getAuthorizationStatus, getUserInfo } from '../../store/user-process/selectors';
 
 import { AuthorizationStatus, AppRoute } from '../../const/const';
 import { logoutAction } from '../../store/api-actions';
@@ -21,7 +22,7 @@ type HeaderProps = {
 type UserBlockProps = {
   authorizationStatus: AuthorizationStatus;
   userInfo: {
-    avatar: string;
+    avatar: string | null;
   };
   onLogout: (evt: LinkEvent) => void;
   onUserAction: () => void;
@@ -46,7 +47,7 @@ function UserBlock({ authorizationStatus, userInfo, onLogout, onUserAction }: Us
             <>
               <li className="user-block__item">
                 <div className="user-block__avatar" onClick={handleUserClick}>
-                  <img src={userInfo.avatar} alt="User avatar" width="63" height="63" />
+                  <img src={userInfo.avatar ?? ''} alt="User avatar" width="63" height="63" />
                 </div>
               </li>
               <li className="user-block__item">
@@ -64,7 +65,8 @@ function Header({ titleRender, navRender, variant = 'film-card', isUserBlock = t
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const { authorizationStatus, userInfo } = useAppSelector((state) => state);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const userInfo = useAppSelector(getUserInfo);
 
   const onLogout = (evt: LinkEvent): void => {
     evt.preventDefault();

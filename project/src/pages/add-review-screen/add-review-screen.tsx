@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 
 import { useAppSelector } from '../../hooks/use-app-selector';
+import { getActiveFilm } from '../../store/film-process/selectors';
 
 import type { FilmType } from '../../types/film';
 
@@ -29,8 +30,8 @@ function ReviewsBreadcrumbs({ film }: NavigationPanelProps): JSX.Element | null 
 }
 
 function AddReviewScreen(): JSX.Element {
-  const activeFilm = useAppSelector((state) => state.activeFilm?.film);
-  const activeFilmId = useAppSelector((state) => state.activeFilm?.film?.id) ?? null;
+  const activeFilm = useAppSelector(getActiveFilm).film;
+  const activeFilmId = activeFilm?.id ?? null;
 
   return (
     <section className="film-card film-card--full">

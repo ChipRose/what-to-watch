@@ -2,6 +2,8 @@
 import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from '../../hooks/use-app-selector';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
+import { getActiveFilm } from '../../store/film-process/selectors';
 
 import type { FilmType } from '../../types/film';
 import { AppRoute, AuthorizationStatus } from '../../const/const';
@@ -20,8 +22,8 @@ type ControlButtonsListProps = {
 function ControlButtonsList({ isFullList = true }: ControlButtonsListProps) {
   const naigate = useNavigate();
   const dispatch = useAppDispatch();
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
-  const film: FilmType | null = useAppSelector((state) => state.activeFilm.film) ?? null;
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const film: FilmType | null = useAppSelector(getActiveFilm).film ?? null;
 
   const filmId = film?.id ?? null;
 

@@ -8,22 +8,20 @@ import type { AuthDataType } from '../types/auth-data';
 import type { FilmIdType } from '../types/film';
 import type { NewReviewType } from '../components/add-review-form/add-review-form';
 
-import { Action, APIRoute, AppRoute, AuthorizationStatus } from '../const/const';
+import { Action, APIRoute, AppRoute} from '../const/const';
 
-import { loadToWatchFilms, loadActiveFilm, loadSimilarFilms, loadFilms, loadFilm, loadPromoFilm, loadReviews, requireAuthorization, setFilmsLoadedStatus, redirectToRoute, setUserData } from './actions';
-import { saveUserProfile, getUserProfile, dropUserProfile } from '../services/user-profile';
+import { loadToWatchFilms, loadActiveFilm, loadSimilarFilms, loadFilm, loadPromoFilm, loadReviews, redirectToRoute } from './actions';
+import { saveUserProfile, dropUserProfile } from '../services/user-profile';
 import { ServerFilmType, ServerFilmsType, ServerReviewsType } from '../types/server-data';
 
-export const fetchFilmsAction = createAsyncThunk<void, undefined, {
+export const fetchFilmsAction = createAsyncThunk<ServerFilmsType, undefined, {
   dispatch: AppDispatchType;
   extra: AxiosInstance;
 }>(
   Action.FETCH_FILMS,
-  async (_arg, { dispatch, extra: api }) => {
+  async (_arg, {dispatch, extra: api }) => {
     const { data } = await api.get<ServerFilmsType>(APIRoute.Films);
-    dispatch(setFilmsLoadedStatus(true));
-    dispatch(loadFilms(data));
-    dispatch(setFilmsLoadedStatus(false));
+    return data;
   },
 );
 
@@ -130,15 +128,7 @@ export const checkAuthAction = createAsyncThunk<void, undefined, {
 }>(
   Action.CHECK_USER_AUTH,
   async (_arg, { dispatch, extra: api }) => {
-    try {
-      await api.get(APIRoute.Login);
-      dispatch(requireAuthorization(AuthorizationStatus.Auth));
-      dispatch(setUserData(getUserProfile()));
-
-    } catch {
-      dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
-      dispatch(setUserData(null));
-    }
+    await api.get(APIRoute.Login);
   },
 );
 
@@ -150,8 +140,6 @@ export const loginAction = createAsyncThunk<void, AuthDataType, {
   async ({ login: email, password }, { dispatch, extra: api }) => {
     const { data } = await api.post<UserDataType>(APIRoute.Login, { email, password });
     saveUserProfile(data);
-    dispatch(setUserData(getUserProfile()));
-    dispatch(requireAuthorization(AuthorizationStatus.Auth));
     dispatch(redirectToRoute(AppRoute.Main));
   },
 );
@@ -163,8 +151,6 @@ export const logoutAction = createAsyncThunk<void, undefined, {
   Action.LOGOUT_USER,
   async (_arg, { dispatch, extra: api }) => {
     await api.delete(APIRoute.Logout);
-    dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
-    dispatch(setUserData(null));
     dropUserProfile();
   },
 );

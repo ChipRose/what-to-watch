@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 
 import { useAppSelector } from '../../hooks/use-app-selector';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
+import { getActiveFilm, getCatalog } from '../../store/film-process/selectors';
 import { setGenre, setCatalog, loadMoreToCatalog } from '../../store/actions';
 import { fetchPromoFilmAction } from '../../store/api-actions';
 
@@ -16,9 +17,9 @@ import ControlButtonsList from '../../components/control-buttons-list/control-bu
 
 function MainScreen(): JSX.Element {
   const dispatch = useAppDispatch();
-  const activeFilm = useAppSelector((state) => state.activeFilm.film);
-  const catalogFilms = useAppSelector((state) => state.catalog?.films);
-  const isShowLoadMoreButton = useAppSelector((state) => !state.catalog.isAllShown);
+  const activeFilm = useAppSelector(getActiveFilm).film;
+  const catalogFilms = useAppSelector(getCatalog).films;
+  const isShowLoadMoreButton = useAppSelector(getCatalog).isAllShown;
 
   const handleShowMoreButtonClick = () => {
     dispatch(loadMoreToCatalog());

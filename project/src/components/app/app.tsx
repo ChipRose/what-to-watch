@@ -3,6 +3,8 @@ import HistoryRouter from '../history-route/history-route';
 import browserHistory from '../../browser-history';
 
 import { useAppSelector } from '../../hooks/use-app-selector';
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
+import { getIsFilmsLoaded } from '../../store/film-data/selectors';
 
 import { AppRoute, AuthorizationStatus } from '../../const/const';
 
@@ -18,7 +20,8 @@ import NotFoundScreen from '../../pages/not-found-screen/not-found-screen';
 import Loader from '../loader/loader';
 
 function App(): JSX.Element {
-  const { isFilmsLoaded, authorizationStatus } = useAppSelector((state) => state);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const isFilmsLoaded = useAppSelector(getIsFilmsLoaded);
 
   if (isFilmsLoaded) {
     return (<Loader />);

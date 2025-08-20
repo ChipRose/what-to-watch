@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { useAppSelector } from '../../hooks/use-app-selector';
+import { getActiveFilm } from '../../store/film-process/selectors';
 
 import {
   fetchReviewsAction,
@@ -24,8 +25,8 @@ function FilmScreen(): JSX.Element {
   const pageId = Number(id);
 
   const dispatch = useAppDispatch();
-  const activeFilmId = useAppSelector((state) => state.activeFilm?.film?.id) ?? null;
-  const { similarFilms } = useAppSelector((state) => state.activeFilm) ?? {};
+  const activeFilmId = useAppSelector(getActiveFilm).film?.id ?? null;
+  const { similarFilms } = useAppSelector(getActiveFilm) ?? {};
 
 
   useEffect(() => {

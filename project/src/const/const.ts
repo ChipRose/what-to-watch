@@ -15,7 +15,7 @@ export enum AppRoute {
   FilmPreviewType = ':id',
   AddReview = ':id/review',
   Player = '/player/:id',
-  NotFound='*',
+  NotFound = '*',
 }
 
 export enum AuthorizationStatus {
@@ -65,8 +65,8 @@ export const Action = {
   FETCH_PROMO_FILM: 'promoFilm/fetch',
   FETCH_FILM: 'film/fetch',
   FETCH_REVIEWS: 'reviews/fetch',
-  FETCH_TO_WATCH:'filmsToWatch/fetch',
-  FETCH_ADD_TO_WATCH:'filmToWatch/fetch',
+  FETCH_TO_WATCH: 'filmsToWatch/fetch',
+  FETCH_ADD_TO_WATCH: 'filmToWatch/fetch',
   LOAD_FILMS: 'films/load',
   LOAD_SIMILAR_FILMS: 'similarFilms/load',
   LOAD_FILM: 'film/load',
@@ -105,3 +105,10 @@ export const StatusCodeMapping: Record<number, boolean> = {
   [StatusCodes.UNAUTHORIZED]: true,
   [StatusCodes.NOT_FOUND]: true,
 };
+
+
+export enum NameSpace {
+  User = 'USER',
+  Film = 'FILM',
+  Data = 'DATA'
+}

@@ -1,5 +1,6 @@
 
 import { useAppSelector } from '../../hooks/use-app-selector';
+import { getActiveFilm } from '../../store/film-process/selectors';
 
 import type { FilmDescriptionType, FilmDetailsType, FilmType } from '../../types/film';
 import type { TabsType } from '../../types/tabs';
@@ -54,8 +55,8 @@ function FilmCard({
   isFull,
 }: FilmCardProps): JSX.Element | null {
 
-  const activeFilm = useAppSelector((state) => state.activeFilm.film);
-  const activeReviews = useAppSelector((state) => state.activeFilm.reviews);
+  const activeFilm = useAppSelector(getActiveFilm).film;
+  const activeReviews = useAppSelector(getActiveFilm).reviews ?? [];
 
   if (!activeFilm) {
     return null;

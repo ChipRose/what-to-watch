@@ -7,28 +7,58 @@ import type { GenreNameType, FilmsType, FilmType, GroupedFilmsType } from './fil
 import type { ReviewsType } from './review';
 
 export type StoreType = {
-  authorizationStatus: AuthorizationStatus;
   error: string | null;
   isFilmsLoaded: boolean;
   films: FilmsType;
   defaultFilmsList: FilmsType | null;
   myList: FilmsType | null;
-  groupedFilms: GroupedFilmsType | null;
+  authorizationStatus: AuthorizationStatus;
+  userInfo: {
+    avatar: string | null;
+  };
   catalog: {
     count: number | null;
     activeGenre: GenreNameType;
     films: FilmsType;
     isAllShown: boolean;
   };
+  groupedFilms: GroupedFilmsType | null;
   activeFilm: {
     film: FilmType | null;
     reviews: ReviewsType;
     similarFilms: FilmsType;
   };
+};
+
+export type FilmDataType={
+  error: string | null;
+  isFilmsLoaded: boolean;
+  films: FilmsType | null;
+  myList: FilmsType | null;
+}
+
+export type UserProcessType = {
+  authorizationStatus: AuthorizationStatus;
   userInfo: {
-    avatar: string;
+    avatar: string | null;
   };
 };
+
+export type FilmProcessType = {
+  catalog: {
+    count: number | null;
+    activeGenre: GenreNameType;
+    films: FilmsType;
+    isAllShown: boolean;
+  };
+  defaultFilmsList: FilmsType | null;
+  groupedFilms: GroupedFilmsType | null;
+  activeFilm: {
+    film: FilmType | null;
+    reviews: ReviewsType| null;
+    similarFilms: FilmsType;
+  };
+}
 
 export type StateType = ReturnType<typeof store.getState>;
 export type AppDispatchType = typeof store.dispatch;

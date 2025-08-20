@@ -1,9 +1,9 @@
 import browserHistory from '../../browser-history';
 import { Middleware } from 'redux';
 import { Action } from '../../const/const';
-import { reducer } from '../reducer';
+import { rootReducer } from '../root-reducer';
 
-type Reducer = ReturnType<typeof reducer>;
+type Reducer = ReturnType<typeof rootReducer>;
 
 type RedirectAction = {
   type: typeof Action.REDIRECT_TO_ROUTE;
