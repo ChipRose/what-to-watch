@@ -85,14 +85,24 @@ export const fetchNewReviewAction = createAsyncThunk<ServerReviewsType, NewRevie
   Action.FETCH_NEW_REVIEW,
   async ({ id, comment, rating }, { dispatch, extra: api }) => {
     if (!id) {
+      dispatch(redirectToRoute(`${AppRoute.Films}/${id}`));
       return [];
     }
 
-    const { data } = await api.post<ServerReviewsType>(`${APIRoute.Comments}${id}`, {
-      comment, rating
-    });
-    return data;
-
+    try {
+      const { data } = await api.post<ServerReviewsType>(`${APIRoute.Comments}${id}`, {
+        comment, rating
+      });
+      dispatch(redirectToRoute(`${AppRoute.Films}/${id}`));
+      return data;
+    } catch (error) {
+      const axiosError = error as AxiosError;
+      if (axiosError.response?.status === StatusCodes.BAD_REQUEST) {
+        dispatch(redirectToRoute(`${AppRoute.Films}/${id}`));
+        return [];
+      }
+      return [];
+    }
   },
 );
 
