@@ -1,24 +1,21 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import { NameSpace, CatalogCount, Genre } from '../../const/const';
+
 import { groupByGenre } from '../../util/util';
-
 import {
-  adaptFilmToApp,
-  adaptFilmsDataToApp,
-  // adaptReviewsToApp
+  adaptFilmToApp, adaptFilmsDataToApp, adaptReviewsToApp
 } from '../../util/util-adapt-data';
-
-import { fetchPromoFilmAction } from '../api-actions';
 
 import type { FilmDataType } from '../../types/state';
 
-import { fetchFilmsAction } from '../api-actions';
+import { fetchFilmAction, fetchFilmsAction, fetchPromoFilmAction, fetchReviewsAction } from '../api-actions';
 
 const initialState: FilmDataType = {
   error: null,
   isFilmsLoaded: false,
   films: [],
+  promoFilm: null,
   catalog: {
     count: CatalogCount.Init,
     activeGenre: Genre.All,
@@ -38,14 +35,64 @@ const initialState: FilmDataType = {
 export const filmData = createSlice({
   name: NameSpace.Data,
   initialState,
-  reducers: {},
+  reducers: {
+    setActiveFilm: (state, action) => {
+      const activeFilm = state.films?.find((film) => film.id === action.payload) ?? null;
+      state.activeFilm.film = activeFilm;
+    },
+    setActiveGenre: (state, action) => {
+      state.catalog.activeGenre = action.payload;
+    },
+    setCatalog: (state, action) => {
+      const count = action.payload || null;
+      const activeGenre = state.catalog.activeGenre;
+      const groupedFilms = state.groupedFilms;
+      const sameGenreFilms = groupedFilms ? groupedFilms[activeGenre] : [];
+
+      let catalogFilms = [];
+
+      if (count && sameGenreFilms?.length) {
+        catalogFilms = sameGenreFilms?.length > count ? sameGenreFilms?.slice(0, count) : sameGenreFilms;
+      } else {
+        catalogFilms = sameGenreFilms;
+      }
+
+      state.catalog.count = count;
+      state.catalog.films = catalogFilms;
+      state.catalog.isAllShown = sameGenreFilms?.length === catalogFilms?.length;
+
+    },
+    loadMoreToCatalog: (state) => {
+      const count = state.catalog.count || 0;
+      const activeCatalog = state.catalog.films;
+      const groupedFilms = state.groupedFilms;
+      const activeGenre = state.catalog.activeGenre;
+      const activeFilms = groupedFilms ? groupedFilms[activeGenre] : [];
+
+      let catalogFilms = [];
+
+      if (activeFilms?.length && (activeFilms?.length - activeCatalog?.length > CatalogCount.Init)) {
+        catalogFilms = activeFilms?.slice(0, count + CatalogCount.Init);
+        state.catalog.count = count + CatalogCount.Init;
+      } else {
+        state.catalog.count = activeFilms?.length;
+        catalogFilms = activeFilms;
+      }
+
+      state.catalog.films = catalogFilms;
+      state.catalog.isAllShown = Boolean(state.catalog.count === activeFilms?.length);
+    }
+  },
   extraReducers(builder) {
     builder
+      .addCase(fetchFilmAction.fulfilled, (state, action) => {
+        state.activeFilm.film = adaptFilmToApp(action.payload);
+      })
       .addCase(fetchPromoFilmAction.pending, (state) => {
-        state.activeFilm.film = null;
+        state.promoFilm = null;
       })
       .addCase(fetchPromoFilmAction.fulfilled, (state, action) => {
-        state.activeFilm.film = adaptFilmToApp(action.payload);
+        state.promoFilm = adaptFilmToApp(action.payload);
       })
       .addCase(fetchFilmsAction.pending, (state) => {
         state.films = null;
@@ -76,6 +123,10 @@ export const filmData = createSlice({
       .addCase(fetchFilmsAction.rejected, (state) => {
         state.films = null;
         state.isFilmsLoaded = false;
+      })
+      .addCase(fetchReviewsAction.fulfilled, (state, action) => {
+        const reviews = adaptReviewsToApp(action.payload);
+        state.activeFilm.reviews = reviews;
       });
 
 
@@ -123,3 +174,5 @@ export const filmData = createSlice({
     // })
   }
 });
+
+export const { setActiveFilm, setActiveGenre, setCatalog, loadMoreToCatalog } = filmData.actions;

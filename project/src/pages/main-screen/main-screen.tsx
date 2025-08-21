@@ -2,11 +2,9 @@ import { useEffect } from 'react';
 
 import { useAppSelector } from '../../hooks/use-app-selector';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
-import { getActiveFilm, getCatalog } from '../../store/film-data/selectors';
-// import { loadMoreToCatalog } from '../../store/actions';
 import { fetchPromoFilmAction } from '../../store/api-actions';
-
-// import { CatalogCount } from '../../const/const';
+import { getPromoFilm, getCatalog } from '../../store/film-data/selectors';
+import { loadMoreToCatalog } from '../../store/film-data/film-data';
 
 import Header from '../../components/header/header';
 import Footer from '../../components/footer/footer';
@@ -17,12 +15,12 @@ import ControlButtonsList from '../../components/control-buttons-list/control-bu
 
 function MainScreen(): JSX.Element {
   const dispatch = useAppDispatch();
-  const activeFilm = useAppSelector(getActiveFilm).film;
+  const promoFilm = useAppSelector(getPromoFilm);
   const catalogFilms = useAppSelector(getCatalog).films;
   const isShowLoadMoreButton = !useAppSelector(getCatalog).isAllShown;
 
   const handleShowMoreButtonClick = () => {
-    // dispatch(loadMoreToCatalog());
+    dispatch(loadMoreToCatalog());
   };
 
   useEffect(() => {
@@ -35,7 +33,7 @@ function MainScreen(): JSX.Element {
     <>
       <section className="film-card">
         <div className="film-card__bg">
-          <img src={activeFilm?.backgroundImage} alt={activeFilm?.title} />
+          <img src={promoFilm?.backgroundImage} alt={promoFilm?.title} />
         </div>
 
         <h1 className="visually-hidden">WTW</h1>
@@ -45,14 +43,14 @@ function MainScreen(): JSX.Element {
         <div className="film-card__wrap">
           <div className="film-card__info">
             <div className="film-card__poster">
-              <img src={activeFilm?.cover} alt={activeFilm?.title} width="218" height="327" />
+              <img src={promoFilm?.cover} alt={promoFilm?.title} width="218" height="327" />
             </div>
 
             <div className="film-card__desc">
-              <h2 className="film-card__title">{activeFilm?.title}</h2>
+              <h2 className="film-card__title">{promoFilm?.title}</h2>
               <p className="film-card__meta">
-                <span className="film-card__genre">{activeFilm?.genre}</span>
-                <span className="film-card__year">{activeFilm?.releaseDate}</span>
+                <span className="film-card__genre">{promoFilm?.genre}</span>
+                <span className="film-card__year">{promoFilm?.releaseDate}</span>
               </p>
 
               <ControlButtonsList isFullList={false} />

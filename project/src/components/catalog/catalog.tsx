@@ -1,5 +1,8 @@
 import { useNavigate } from 'react-router-dom';
 
+import { useAppDispatch } from '../../hooks/use-app-dispatch';
+import { setActiveFilm } from '../../store/film-data/film-data';
+
 import type { FilmIdType, FilmsType } from '../../types/film';
 
 import { AppRoute } from '../../const/const';
@@ -15,6 +18,7 @@ type CatalogProps = {
 
 function Catalog({ filmsList }: CatalogProps): JSX.Element | null {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   if (!filmsList || !filmsList?.length) {
     return null;
@@ -22,6 +26,7 @@ function Catalog({ filmsList }: CatalogProps): JSX.Element | null {
 
   const onFilmClick = (id: FilmIdType) => {
     id && navigate(`${AppRoute.Films}/${String(id)}`);
+    dispatch(setActiveFilm(id));
   };
 
   return (

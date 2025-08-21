@@ -10,6 +10,7 @@ export type StoreType = {
   error: string | null;
   isFilmsLoaded: boolean;
   films: FilmsType;
+  promoFilm: FilmType | null;
   defaultFilmsList: FilmsType | null;
   myList: FilmsType | null;
   authorizationStatus: AuthorizationStatus;
@@ -34,6 +35,7 @@ export type FilmDataType={
   error: string | null;
   isFilmsLoaded: boolean;
   films: FilmsType | null;
+  promoFilm: FilmType | null;
   catalog: {
     count: number | null;
     activeGenre: GenreNameType;

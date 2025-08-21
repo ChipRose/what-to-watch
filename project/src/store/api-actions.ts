@@ -10,7 +10,7 @@ import type { NewReviewType } from '../components/add-review-form/add-review-for
 
 import { Action, APIRoute, AppRoute} from '../const/const';
 
-import { loadToWatchFilms, loadActiveFilm, loadSimilarFilms, loadFilm, loadReviews, redirectToRoute } from './actions';
+import { loadToWatchFilms, loadActiveFilm, loadSimilarFilms, loadReviews, redirectToRoute } from './actions';
 import { saveUserProfile, dropUserProfile } from '../services/user-profile';
 import { ServerFilmType, ServerFilmsType, ServerReviewsType } from '../types/server-data';
 
@@ -25,7 +25,7 @@ export const fetchFilmsAction = createAsyncThunk<ServerFilmsType, undefined, {
   },
 );
 
-export const fetchFilmAction = createAsyncThunk<void, FilmIdType, {
+export const fetchFilmAction = createAsyncThunk<ServerFilmType, FilmIdType, {
   dispatch: AppDispatchType;
   extra: AxiosInstance;
 }>(
@@ -33,15 +33,14 @@ export const fetchFilmAction = createAsyncThunk<void, FilmIdType, {
   async (id, { dispatch, extra: api }) => {
     try {
       const { data } = await api.get<ServerFilmType>(`${APIRoute.Films}/${id}`);
-      dispatch(loadFilm(data));
+      return data;
     } catch (error) {
       const axiosError = error as AxiosError;
 
       if (axiosError.response?.status === StatusCodes.NOT_FOUND) {
         dispatch(redirectToRoute(AppRoute.NotFound));
-      } else {
-        throw error;
       }
+      throw error;
     }
   },
 );
@@ -68,17 +67,14 @@ export const fetchPromoFilmAction = createAsyncThunk<ServerFilmType, undefined, 
   },
 );
 
-export const fetchReviewsAction = createAsyncThunk<void, FilmIdType, {
+export const fetchReviewsAction = createAsyncThunk<ServerReviewsType, FilmIdType, {
   dispatch: AppDispatchType;
   extra: AxiosInstance;
 }>(
   Action.FETCH_REVIEWS,
   async (id, { dispatch, extra: api }) => {
-
-    if (id) {
-      const { data } = await api.get<ServerReviewsType>(`${APIRoute.Comments}${id}`);
-      dispatch(loadReviews(data));
-    }
+    const { data } = await api.get<ServerReviewsType>(`${APIRoute.Comments}${id}`);
+    return data;
   },
 );
 
