@@ -8,9 +8,9 @@ import type { AuthDataType } from '../types/auth-data';
 import type { FilmIdType } from '../types/film';
 import type { NewReviewType } from '../components/add-review-form/add-review-form';
 
-import { Action, APIRoute, AppRoute} from '../const/const';
+import { Action, APIRoute, AppRoute } from '../const/const';
 
-import { loadToWatchFilms, loadActiveFilm, loadSimilarFilms, loadReviews, redirectToRoute } from './actions';
+import { redirectToRoute } from './actions';
 import { saveUserProfile, dropUserProfile } from '../services/user-profile';
 import { ServerFilmType, ServerFilmsType, ServerReviewsType } from '../types/server-data';
 
@@ -19,7 +19,7 @@ export const fetchFilmsAction = createAsyncThunk<ServerFilmsType, undefined, {
   extra: AxiosInstance;
 }>(
   Action.FETCH_FILMS,
-  async (_arg, {dispatch, extra: api }) => {
+  async (_arg, { dispatch, extra: api }) => {
     const { data } = await api.get<ServerFilmsType>(APIRoute.Films);
     return data;
   },
@@ -45,14 +45,14 @@ export const fetchFilmAction = createAsyncThunk<ServerFilmType, FilmIdType, {
   },
 );
 
-export const fetchSimilarFilmAction = createAsyncThunk<void, FilmIdType, {
+export const fetchSimilarFilmAction = createAsyncThunk<ServerFilmsType, FilmIdType, {
   dispatch: AppDispatchType;
   extra: AxiosInstance;
 }>(
   Action.LOAD_SIMILAR_FILMS,
   async (id, { dispatch, extra: api }) => {
     const { data } = await api.get<ServerFilmsType>(`${APIRoute.Films}/${id}/similar`);
-    dispatch(loadSimilarFilms(data));
+    return data;
   },
 );
 
@@ -78,43 +78,47 @@ export const fetchReviewsAction = createAsyncThunk<ServerReviewsType, FilmIdType
   },
 );
 
-export const fetchNewReviewAction = createAsyncThunk<void, NewReviewType & { id: FilmIdType }, {
+export const fetchNewReviewAction = createAsyncThunk<ServerReviewsType, NewReviewType & { id: FilmIdType }, {
   dispatch: AppDispatchType;
   extra: AxiosInstance;
 }>(
-  Action.FETCH_REVIEWS,
+  Action.FETCH_NEW_REVIEW,
   async ({ id, comment, rating }, { dispatch, extra: api }) => {
-
-    if (id) {
-      const { data } = await api.post<ServerReviewsType>(`${APIRoute.Comments}${id}`, {
-        comment, rating
-      });
-      dispatch(loadReviews(data));
+    if (!id) {
+      return [];
     }
+
+    const { data } = await api.post<ServerReviewsType>(`${APIRoute.Comments}${id}`, {
+      comment, rating
+    });
+    return data;
+
   },
 );
 
-export const fetchAddToWatchAction = createAsyncThunk<void, { id: FilmIdType; status: 1 | 0 }, {
+export const fetchAddToWatchAction = createAsyncThunk<ServerFilmType | null, { id: FilmIdType; status: 1 | 0 }, {
   dispatch: AppDispatchType;
   extra: AxiosInstance;
 }>(
   Action.FETCH_ADD_TO_WATCH,
   async ({ id, status }, { dispatch, extra: api }) => {
-    if (id) {
-      const { data } = await api.post<ServerFilmType>(`${APIRoute.Favorite}${id}/${status}`);
-      dispatch(loadActiveFilm(data));
+    if (!id) {
+      return null;
     }
+
+    const { data } = await api.post<ServerFilmType>(`${APIRoute.Favorite}${id}/${status}`);
+    return data;
   },
 );
 
-export const fetchToWhatchFilms = createAsyncThunk<void, undefined, {
+export const fetchToWatchFilms = createAsyncThunk<ServerFilmsType, undefined, {
   dispatch: AppDispatchType;
   extra: AxiosInstance;
 }>(
   Action.FETCH_TO_WATCH,
   async (_arg, { dispatch, extra: api }) => {
     const { data } = await api.get<ServerFilmsType>(APIRoute.Favorite);
-    dispatch(loadToWatchFilms(data));
+    return data;
   }
 );
 

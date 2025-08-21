@@ -9,7 +9,7 @@ import type { ReviewsType } from './review';
 export type StoreType = {
   error: string | null;
   isFilmsLoaded: boolean;
-  films: FilmsType;
+  films: FilmsType|null;
   promoFilm: FilmType | null;
   defaultFilmsList: FilmsType | null;
   myList: FilmsType | null;
@@ -20,14 +20,14 @@ export type StoreType = {
   catalog: {
     count: number | null;
     activeGenre: GenreNameType;
-    films: FilmsType;
+    films: FilmsType|null;
     isAllShown: boolean;
   };
   groupedFilms: GroupedFilmsType | null;
   activeFilm: {
     film: FilmType | null;
-    reviews: ReviewsType;
-    similarFilms: FilmsType;
+    reviews: ReviewsType|null;
+    similarFilms: FilmsType|null;
   };
 };
 
@@ -35,11 +35,12 @@ export type FilmDataType={
   error: string | null;
   isFilmsLoaded: boolean;
   films: FilmsType | null;
+  myList: FilmsType | null;
   promoFilm: FilmType | null;
   catalog: {
     count: number | null;
     activeGenre: GenreNameType;
-    films: FilmsType;
+    films: FilmsType|null;
     isAllShown: boolean;
   };
   defaultFilmsList: FilmsType | null;
@@ -47,7 +48,7 @@ export type FilmDataType={
   activeFilm: {
     film: FilmType | null;
     reviews: ReviewsType| null;
-    similarFilms: FilmsType;
+    similarFilms: FilmsType|null;
   };
 }
 

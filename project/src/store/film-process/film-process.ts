@@ -2,16 +2,16 @@ import { createSlice } from '@reduxjs/toolkit';
 
 import { NameSpace } from '../../const/const';
 
-import type { FilmProcessType } from '../../types/state';
+// import type { FilmProcessType } from '../../types/state';
 
 
-const initialState: FilmProcessType = {
-  myList: [],
-};
+// const initialState: FilmProcessType = {
+
+// };
 
 export const filmProcess = createSlice({
   name: NameSpace.Film,
-  initialState,
+  initialState: null,
   reducers: {
   },
 });

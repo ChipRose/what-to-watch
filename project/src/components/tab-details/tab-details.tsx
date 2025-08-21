@@ -1,3 +1,4 @@
+import React from 'react';
 import { FilmDetailsType } from '../../types/film';
 
 import { formatTime } from '../../util/util';
@@ -16,10 +17,10 @@ function TabDetails({ director, starring, runTime, genre, releaseDate }: TabDeta
           <strong className="film-card__details-name">Starring</strong>
           <span className="film-card__details-value">
             {starring?.map((star, index) => (
-              <>
+              <React.Fragment key={star}>
                 {star}
                 {index < starring?.length - 1 && <>{','}<br /></>}
-              </>
+              </React.Fragment>
             ))}
           </span>
         </p>

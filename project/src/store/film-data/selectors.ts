@@ -13,3 +13,4 @@ export const getDefaultFilmsList = (state: StateType) =>
 export const getIsFilmsLoaded = (state: StateType) =>
   state[NameSpace.Data].isFilmsLoaded;
 export const getError = (state: StateType) => state[NameSpace.Data].error;
+export const getMyList = (state: StateType) => state[NameSpace.Data].myList;

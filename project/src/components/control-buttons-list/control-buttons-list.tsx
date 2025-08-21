@@ -24,11 +24,12 @@ function ControlButtonsList({ isFullList = true }: ControlButtonsListProps) {
   const dispatch = useAppDispatch();
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const film: FilmType | null = useAppSelector(getActiveFilm).film ?? null;
-
+  const isFavorite = film?.isFavorite ?? false;
   const filmId = film?.id ?? null;
 
-  const handleAddButtonClick = (): void => {
+  const handleFavoriteClick = (): void => {
     if (authorizationStatus === AuthorizationStatus.Auth) {
+
       if (filmId) {
         dispatch(fetchAddToWatchAction({ id: filmId, status: film?.isFavorite ? 0 : 1 }));
       }
@@ -40,8 +41,8 @@ function ControlButtonsList({ isFullList = true }: ControlButtonsListProps) {
   return (
     <div className="film-card__buttons">
       <ActionButton label={'Play'} icon={{ basic: <PlayIcon /> }} />
-      <ActionButton label={'My list'} onUpdate={() => handleAddButtonClick()} isChecked={authorizationStatus === AuthorizationStatus.Auth && Boolean(film?.isFavorite ?? 0)} icon={{ basic: <AddIcon />, checked: <DoneIcon /> }} />
-      {isFullList && (<ActionButton link={authorizationStatus === AuthorizationStatus.Auth ? `${AppRoute.Films}/${String(filmId)}/review` : AppRoute.LogIn} label={'Add review'} />)}
+      <ActionButton label={'My list'} onUpdate={handleFavoriteClick} isChecked={isFavorite} icon={{ basic: <AddIcon />, checked: <DoneIcon /> }} />
+      {isFullList && (<ActionButton link={authorizationStatus === AuthorizationStatus.Auth ? `${AppRoute.Films}/${String(filmId)}${AppRoute.AddReview}` : AppRoute.LogIn} label={'Add review'} />)}
     </div>
   );
 }

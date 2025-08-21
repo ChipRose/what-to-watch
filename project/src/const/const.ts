@@ -81,6 +81,7 @@ export const Action = {
   FETCH_PROMO_FILM: 'promoFilm/fetch',
   FETCH_FILM: 'film/fetch',
   FETCH_REVIEWS: 'reviews/fetch',
+  FETCH_NEW_REVIEW: 'review/fetch',
   FETCH_TO_WATCH: 'filmsToWatch/fetch',
   FETCH_ADD_TO_WATCH: 'filmToWatch/fetch',
   LOAD_FILMS: 'films/load',
@@ -114,6 +115,7 @@ export enum APIRoute {
   Login = '/login',
   Logout = '/logout',
   Favorite = '/favorite/',
+  Reviews = '/reviews',
 }
 
 export const StatusCodeMapping: Record<number, boolean> = {

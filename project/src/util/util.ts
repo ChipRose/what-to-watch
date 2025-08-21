@@ -64,7 +64,7 @@ export const calcArraySumProps = <T, K extends keyof T>(array: T[], key: K): { s
 export const groupByGenre = (
   items: FilmsType
 ): Record<string, FilmsType> => {
-  if (!items?.length) {
+  if (!items || !items?.length) {
     return {};
   }
 

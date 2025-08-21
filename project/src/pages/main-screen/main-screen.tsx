@@ -1,10 +1,12 @@
 import { useEffect } from 'react';
 
+import { CatalogCount, Genre } from '../../const/const';
+
 import { useAppSelector } from '../../hooks/use-app-selector';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { fetchPromoFilmAction } from '../../store/api-actions';
 import { getPromoFilm, getCatalog } from '../../store/film-data/selectors';
-import { loadMoreToCatalog } from '../../store/film-data/film-data';
+import { loadMoreToCatalog, setActiveGenre, setCatalog } from '../../store/film-data/film-data';
 
 import Header from '../../components/header/header';
 import Footer from '../../components/footer/footer';
@@ -25,8 +27,8 @@ function MainScreen(): JSX.Element {
 
   useEffect(() => {
     dispatch(fetchPromoFilmAction());
-    // dispatch(setGenre('all'));
-    // dispatch(setCatalog(CatalogCount.Init));
+    dispatch(setActiveGenre(Genre.All));
+    dispatch(setCatalog(CatalogCount.Init));
   }, [dispatch]);
 
   return (
@@ -66,7 +68,9 @@ function MainScreen(): JSX.Element {
 
           <GenreList />
 
-          <Catalog filmsList={catalogFilms} />
+          {catalogFilms?.length ? (
+            <Catalog filmsList={catalogFilms} />
+          ) : null}
 
           {
             isShowLoadMoreButton ? (

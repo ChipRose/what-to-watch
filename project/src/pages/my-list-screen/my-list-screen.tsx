@@ -1,19 +1,19 @@
 import { useEffect } from 'react';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { useAppSelector } from '../../hooks/use-app-selector';
-import { getMyList } from '../../store/film-process/selectors';
+import { getMyList } from '../../store/film-data/selectors';
 
 import Header from '../../components/header/header';
 import Footer from '../../components/footer/footer';
 import Catalog from '../../components/catalog/catalog';
-import { fetchToWhatchFilms } from '../../store/api-actions';
+import { fetchToWatchFilms } from '../../store/api-actions';
 
 function MyListScreen(): JSX.Element {
   const dispatch = useAppDispatch();
   const myList = useAppSelector(getMyList) ?? [];
 
   useEffect(() => {
-    dispatch(fetchToWhatchFilms());
+    dispatch(fetchToWatchFilms());
   }, [dispatch]);
 
   return (

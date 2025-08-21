@@ -9,13 +9,14 @@ import {
 
 import type { FilmDataType } from '../../types/state';
 
-import { fetchFilmAction, fetchFilmsAction, fetchPromoFilmAction, fetchReviewsAction } from '../api-actions';
+import { fetchSimilarFilmAction, fetchFilmAction, fetchFilmsAction, fetchPromoFilmAction, fetchReviewsAction, fetchNewReviewAction, fetchToWatchFilms, fetchAddToWatchAction } from '../api-actions';
 
 const initialState: FilmDataType = {
   error: null,
   isFilmsLoaded: false,
   films: [],
   promoFilm: null,
+  myList: null,
   catalog: {
     count: CatalogCount.Init,
     activeGenre: Genre.All,
@@ -64,7 +65,7 @@ export const filmData = createSlice({
     },
     loadMoreToCatalog: (state) => {
       const count = state.catalog.count || 0;
-      const activeCatalog = state.catalog.films;
+      const activeCatalog = state.catalog.films ?? [];
       const groupedFilms = state.groupedFilms;
       const activeGenre = state.catalog.activeGenre;
       const activeFilms = groupedFilms ? groupedFilms[activeGenre] : [];
@@ -86,20 +87,21 @@ export const filmData = createSlice({
   extraReducers(builder) {
     builder
       .addCase(fetchFilmAction.fulfilled, (state, action) => {
-        state.activeFilm.film = adaptFilmToApp(action.payload);
+        state.activeFilm.film = action.payload ? adaptFilmToApp(action.payload) : null;
       })
       .addCase(fetchPromoFilmAction.pending, (state) => {
         state.promoFilm = null;
       })
       .addCase(fetchPromoFilmAction.fulfilled, (state, action) => {
         state.promoFilm = adaptFilmToApp(action.payload);
+        state.activeFilm.film = state.promoFilm;
       })
       .addCase(fetchFilmsAction.pending, (state) => {
         state.films = null;
-        state.isFilmsLoaded = true;
+        state.isFilmsLoaded = false;
       })
       .addCase(fetchFilmsAction.fulfilled, (state, action) => {
-        const films = adaptFilmsDataToApp(action.payload);
+        const films = adaptFilmsDataToApp(action.payload) ?? [];
         const groupedFilms = groupByGenre(films);
         const count = CatalogCount.Init;
         const activeGenre = Genre.All;
@@ -107,7 +109,7 @@ export const filmData = createSlice({
         let catalogFilms = [];
 
         state.films = films;
-        state.isFilmsLoaded = false;
+        state.isFilmsLoaded = true;
         state.groupedFilms = groupedFilms;
         state.catalog.activeGenre = activeGenre;
         state.catalog.count = CatalogCount.Init;
@@ -122,56 +124,39 @@ export const filmData = createSlice({
       })
       .addCase(fetchFilmsAction.rejected, (state) => {
         state.films = null;
-        state.isFilmsLoaded = false;
+        state.isFilmsLoaded = true;
+      })
+      .addCase(fetchSimilarFilmAction.pending, (state) => {
+        state.activeFilm.similarFilms = null;
+      })
+      .addCase(fetchSimilarFilmAction.fulfilled, (state, action) => {
+        const similarFilms = action.payload ? adaptFilmsDataToApp(action.payload) : [];
+        state.activeFilm.similarFilms = similarFilms;
+      })
+      .addCase(fetchSimilarFilmAction.rejected, (state) => {
+        state.activeFilm.similarFilms = [];
+      })
+      .addCase(fetchReviewsAction.pending, (state) => {
+        state.activeFilm.reviews = null;
       })
       .addCase(fetchReviewsAction.fulfilled, (state, action) => {
-        const reviews = adaptReviewsToApp(action.payload);
-        state.activeFilm.reviews = reviews;
+        state.activeFilm.reviews = action.payload ? adaptReviewsToApp(action.payload) : [];
+      })
+      .addCase(fetchReviewsAction.rejected, (state) => {
+        state.activeFilm.reviews = null;
+      })
+      .addCase(fetchNewReviewAction.pending, (state) => {
+        state.activeFilm.reviews = null;
+      })
+      .addCase(fetchNewReviewAction.fulfilled, (state, action) => {
+        state.activeFilm.reviews = action.payload ? adaptReviewsToApp(action.payload) : [];
+      })
+      .addCase(fetchToWatchFilms.fulfilled, (state, action) => {
+        state.myList = adaptFilmsDataToApp(action.payload) ?? [];
+      })
+      .addCase(fetchAddToWatchAction.fulfilled, (state, action) => {
+        state.activeFilm.film = adaptFilmToApp(action.payload) ?? null;
       });
-
-
-    // .addCase(loadFilm, (state, action) => {
-    //   state.activeFilm.film = adaptFilmToApp(action.payload);
-
-    // })
-    // .addCase(loadSimilarFilms, (state, action) => {
-    //   const adaptSimilarFilmsList = adaptFilmsDataToApp(action.payload);
-
-    //   state.activeFilm.similarFilms = adaptSimilarFilmsList;
-
-    //   if (adaptSimilarFilmsList?.length > CatalogCount.Similar) {
-    //     state.activeFilm.similarFilms = adaptSimilarFilmsList.slice(0, CatalogCount.Similar);
-    //   } else {
-    //     state.activeFilm.similarFilms = adaptSimilarFilmsList;
-    //   }
-    // })
-    // .addCase(loadFilms, (state, action) => {
-    //   const activeGenre = 'all';
-    //   const count = CatalogCount.Init;
-    //   const adaptFilmsList = adaptFilmsDataToApp(action.payload);
-    //   const defaultFilmsList = groupByGenre(adaptFilmsList)[activeGenre] ?? [];
-
-    //   state.films = adaptFilmsList;
-    //   state.groupedFilms = groupByGenre(adaptFilmsList);
-    //   state.defaultFilmsList = defaultFilmsList;
-    //   state.catalog.films = defaultFilmsList.slice(0, count);
-    //   state.catalog.isAllShown = defaultFilmsList?.length === CatalogCount.Init;
-    // })
-    // .addCase(loadToWatchFilms, (state, action) => {
-    //   const adaptMyFilmsList = adaptFilmsDataToApp(action.payload);
-
-    //   state.myList = adaptMyFilmsList;
-    // })
-    // .addCase(loadPromoFilm, (state, action) => {
-    //   state.activeFilm.film = adaptFilmToApp(action.payload);
-    // })
-    // .addCase(loadReviews, (state, action) => {
-    //   const adaptReviewsList = adaptReviewsToApp(action.payload);
-    //   state.activeFilm.reviews = adaptReviewsList;
-    // })
-    // .addCase(loadActiveFilm, (state, action) => {
-    //   state.activeFilm.film = adaptFilmToApp(action.payload);
-    // })
   }
 });
 

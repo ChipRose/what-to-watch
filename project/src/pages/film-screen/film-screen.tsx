@@ -25,18 +25,13 @@ function FilmScreen(): JSX.Element {
   const pageId = Number(id);
 
   const dispatch = useAppDispatch();
-  const activeFilmId = useAppSelector(getActiveFilm).film?.id ?? null;
-  const { similarFilms } = useAppSelector(getActiveFilm) ?? {};
-
+  const similarFilms = useAppSelector(getActiveFilm)?.similarFilms;
 
   useEffect(() => {
-    if (activeFilmId !== pageId) {
-      dispatch(fetchFilmAction(pageId));
-    } else {
-      dispatch(fetchSimilarFilmAction(activeFilmId));
-      dispatch(fetchReviewsAction(activeFilmId));
-    }
-  }, [dispatch, activeFilmId, pageId]);
+    dispatch(fetchFilmAction(pageId));
+    dispatch(fetchSimilarFilmAction(pageId));
+    dispatch(fetchReviewsAction(pageId));
+  }, [dispatch, pageId]);
 
   return (
     <>
@@ -44,13 +39,16 @@ function FilmScreen(): JSX.Element {
 
       <div className="page-content">
         <section className="catalog catalog--like-this">
-          <h2 className="catalog__title">More like this</h2>
-
-          <Catalog filmsList={similarFilms} />
+          {similarFilms?.length ? (
+            <>
+              <h2 className="catalog__title">More like this</h2>
+              <Catalog filmsList={similarFilms} />
+            </>
+          ) : null}
 
         </section>
 
-        <Footer/>
+        <Footer />
       </div>
     </>
   );
