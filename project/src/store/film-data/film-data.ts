@@ -131,7 +131,7 @@ export const filmData = createSlice({
       })
       .addCase(fetchSimilarFilmAction.fulfilled, (state, action) => {
         const similarFilms = action.payload ? adaptFilmsDataToApp(action.payload) : [];
-        state.activeFilm.similarFilms = similarFilms;
+        state.activeFilm.similarFilms = similarFilms?.slice(0, CatalogCount.Similar) ?? [];
       })
       .addCase(fetchSimilarFilmAction.rejected, (state) => {
         state.activeFilm.similarFilms = [];
