@@ -32,18 +32,10 @@ export type StoreType = {
 };
 
 export type FilmDataType={
-  error: string | null;
   isFilmsLoaded: boolean;
   films: FilmsType | null;
   myList: FilmsType | null;
   promoFilm: FilmType | null;
-  catalog: {
-    count: number | null;
-    activeGenre: GenreNameType;
-    films: FilmsType|null;
-    isAllShown: boolean;
-  };
-  defaultFilmsList: FilmsType | null;
   groupedFilms: GroupedFilmsType | null;
   activeFilm: {
     film: FilmType | null;
@@ -60,7 +52,12 @@ export type UserProcessType = {
 };
 
 export type FilmProcessType = {
-  myList: FilmsType | null;
+  catalog: {
+    count: number | null;
+    activeGenre: GenreNameType;
+    films: FilmsType|null;
+    isAllShown: boolean;
+  };
 }
 
 export type StateType = ReturnType<typeof store.getState>;

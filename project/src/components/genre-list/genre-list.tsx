@@ -1,11 +1,13 @@
 import { Link } from 'react-router-dom';
 
 import { genreMapping, TABS_COUNT, CatalogCount } from '../../const/const';
+import { getCatalogData } from '../../util/util';
 
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { useAppSelector } from '../../hooks/use-app-selector';
-import { getCatalog, getGroupedFilms } from '../../store/film-data/selectors';
-import { setActiveGenre, setCatalog } from '../../store/film-data/film-data';
+import { getGroupedFilms } from '../../store/film-data/selectors';
+import { setCatalogData } from '../../store/film-process/film-process';
+import { getCatalog } from '../../store/film-process/selectors';
 
 type genreListType = Array<keyof typeof genreMapping>;
 type GenreType = keyof typeof genreMapping;
@@ -21,7 +23,10 @@ type GenreProps = {
 function GenreTab({ genre, title, isActive, onUpdate }: GenreProps): JSX.Element {
   const handleClick = (evt: React.MouseEvent) => {
     evt.preventDefault();
-    onUpdate(genre);
+    const genreCurrent = (evt.target as HTMLAnchorElement).dataset.genre;
+    if (genreCurrent) {
+      onUpdate(genreCurrent as GenreType);
+    }
   };
 
   return (
@@ -30,7 +35,7 @@ function GenreTab({ genre, title, isActive, onUpdate }: GenreProps): JSX.Element
       onClick={handleClick}
       className={`catalog__genres-item${isActive ? ' catalog__genres-item--active' : ''}`}
     >
-      <Link to="/" className="catalog__genres-link">{title}</Link>
+      <Link to="/" className="catalog__genres-link" data-genre={genre}>{title}</Link>
     </li>
   );
 }
@@ -54,9 +59,9 @@ function GenreList(): JSX.Element {
       return;
     }
 
-    if (groupedFilms[activeGenre]?.length) {
-      dispatch(setActiveGenre(genre));
-      dispatch(setCatalog(CatalogCount.Init));
+    if (groupedFilms[genre]?.length) {
+      const catalogData = getCatalogData(groupedFilms[genre], genre, CatalogCount.Init);
+      dispatch(setCatalogData(catalogData));
     }
   };
 
@@ -64,7 +69,7 @@ function GenreList(): JSX.Element {
     <ul className="catalog__genres-list">
       {
         tabsList?.map(({ genre, title }) => (
-          <GenreTab key={genre} genre={genre} title={title} onUpdate={onUpdate} isActive={genre === activeGenre} />
+          <GenreTab key={genre} genre={genre} title={title} onUpdate={onUpdate} isActive={genre.toLowerCase() === activeGenre.toLowerCase()} />
         ))
       }
     </ul>

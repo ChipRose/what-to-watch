@@ -85,3 +85,19 @@ export const groupByGenre = (
     ...grouped,
   };
 };
+
+export const getCatalogData = (films: FilmsType | null, activeGenre: string, count: number): { films: FilmsType; activeGenre: string; count: number; isAllShown: boolean } => {
+  if (!films) {
+    return { films: [], activeGenre: '', count: 0, isAllShown: false };
+  }
+
+  const catalogFilms = films?.length > count ? films?.slice(0, count) : films;
+  const isAllShown = films?.length === catalogFilms?.length;
+
+  return {
+    films: catalogFilms,
+    activeGenre,
+    isAllShown,
+    count
+  };
+};

@@ -2,11 +2,14 @@ import { useEffect } from 'react';
 
 import { CatalogCount, Genre } from '../../const/const';
 
+import { getCatalogData } from '../../util/util';
+
 import { useAppSelector } from '../../hooks/use-app-selector';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
-import { fetchPromoFilmAction } from '../../store/api-actions';
-import { getPromoFilm, getCatalog } from '../../store/film-data/selectors';
-import { loadMoreToCatalog, setActiveGenre, setCatalog } from '../../store/film-data/film-data';
+
+import { getPromoFilm,getGroupedFilms } from '../../store/film-data/selectors';
+import { loadMoreToCatalog, setCatalogData } from '../../store/film-process/film-process';
+import { getCatalog } from '../../store/film-process/selectors';
 
 import Header from '../../components/header/header';
 import Footer from '../../components/footer/footer';
@@ -19,17 +22,17 @@ function MainScreen(): JSX.Element {
   const dispatch = useAppDispatch();
   const promoFilm = useAppSelector(getPromoFilm);
   const catalogFilms = useAppSelector(getCatalog).films;
+  const activeFilmsList = useAppSelector(getGroupedFilms)?.[Genre.All] ?? null;
   const isShowLoadMoreButton = !useAppSelector(getCatalog).isAllShown;
 
   const handleShowMoreButtonClick = () => {
-    dispatch(loadMoreToCatalog());
+    dispatch(loadMoreToCatalog(activeFilmsList));
   };
 
   useEffect(() => {
-    dispatch(fetchPromoFilmAction());
-    dispatch(setActiveGenre(Genre.All));
-    dispatch(setCatalog(CatalogCount.Init));
-  }, [dispatch]);
+    const catalogData = getCatalogData(activeFilmsList, Genre.All, CatalogCount.Init);
+    dispatch(setCatalogData(catalogData));
+  }, [activeFilmsList]);
 
   return (
     <>

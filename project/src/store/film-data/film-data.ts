@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { NameSpace, CatalogCount, Genre } from '../../const/const';
+import { NameSpace, CatalogCount } from '../../const/const';
 
 import { groupByGenre } from '../../util/util';
 import {
@@ -12,18 +12,10 @@ import type { FilmDataType } from '../../types/state';
 import { fetchSimilarFilmAction, fetchFilmAction, fetchFilmsAction, fetchPromoFilmAction, fetchReviewsAction, fetchNewReviewAction, fetchToWatchFilms, fetchAddToWatchAction } from '../api-actions';
 
 const initialState: FilmDataType = {
-  error: null,
   isFilmsLoaded: false,
   films: [],
   promoFilm: null,
   myList: null,
-  catalog: {
-    count: CatalogCount.Init,
-    activeGenre: Genre.All,
-    films: [],
-    isAllShown: false,
-  },
-  defaultFilmsList: null,
   groupedFilms: null,
   activeFilm: {
     film: null,
@@ -31,7 +23,6 @@ const initialState: FilmDataType = {
     similarFilms: [],
   },
 };
-
 
 export const filmData = createSlice({
   name: NameSpace.Data,
@@ -41,48 +32,6 @@ export const filmData = createSlice({
       const activeFilm = state.films?.find((film) => film.id === action.payload) ?? null;
       state.activeFilm.film = activeFilm;
     },
-    setActiveGenre: (state, action) => {
-      state.catalog.activeGenre = action.payload;
-    },
-    setCatalog: (state, action) => {
-      const count = action.payload || null;
-      const activeGenre = state.catalog.activeGenre;
-      const groupedFilms = state.groupedFilms;
-      const sameGenreFilms = groupedFilms ? groupedFilms[activeGenre] : [];
-
-      let catalogFilms = [];
-
-      if (count && sameGenreFilms?.length) {
-        catalogFilms = sameGenreFilms?.length > count ? sameGenreFilms?.slice(0, count) : sameGenreFilms;
-      } else {
-        catalogFilms = sameGenreFilms;
-      }
-
-      state.catalog.count = count;
-      state.catalog.films = catalogFilms;
-      state.catalog.isAllShown = sameGenreFilms?.length === catalogFilms?.length;
-
-    },
-    loadMoreToCatalog: (state) => {
-      const count = state.catalog.count || 0;
-      const activeCatalog = state.catalog.films ?? [];
-      const groupedFilms = state.groupedFilms;
-      const activeGenre = state.catalog.activeGenre;
-      const activeFilms = groupedFilms ? groupedFilms[activeGenre] : [];
-
-      let catalogFilms = [];
-
-      if (activeFilms?.length && (activeFilms?.length - activeCatalog?.length > CatalogCount.Init)) {
-        catalogFilms = activeFilms?.slice(0, count + CatalogCount.Init);
-        state.catalog.count = count + CatalogCount.Init;
-      } else {
-        state.catalog.count = activeFilms?.length;
-        catalogFilms = activeFilms;
-      }
-
-      state.catalog.films = catalogFilms;
-      state.catalog.isAllShown = Boolean(state.catalog.count === activeFilms?.length);
-    }
   },
   extraReducers(builder) {
     builder
@@ -103,24 +52,9 @@ export const filmData = createSlice({
       .addCase(fetchFilmsAction.fulfilled, (state, action) => {
         const films = adaptFilmsDataToApp(action.payload) ?? [];
         const groupedFilms = groupByGenre(films);
-        const count = CatalogCount.Init;
-        const activeGenre = Genre.All;
-        const activeFilms = groupedFilms ? groupedFilms[activeGenre] : [];
-        let catalogFilms = [];
-
         state.films = films;
         state.isFilmsLoaded = true;
         state.groupedFilms = groupedFilms;
-        state.catalog.activeGenre = activeGenre;
-        state.catalog.count = CatalogCount.Init;
-        state.catalog.isAllShown = activeFilms.length === CatalogCount.Init;
-
-        if (count && activeFilms?.length) {
-          catalogFilms = activeFilms?.length > count ? activeFilms?.slice(0, count) : activeFilms;
-        } else {
-          catalogFilms = activeFilms;
-        }
-        state.catalog.films = catalogFilms;
       })
       .addCase(fetchFilmsAction.rejected, (state) => {
         state.films = null;
@@ -160,4 +94,5 @@ export const filmData = createSlice({
   }
 });
 
-export const { setActiveFilm, setActiveGenre, setCatalog, loadMoreToCatalog } = filmData.actions;
+export const { setActiveFilm } = filmData.actions;
+
