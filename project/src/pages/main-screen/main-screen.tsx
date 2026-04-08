@@ -1,5 +1,3 @@
-import { useEffect } from 'react';
-
 import { Genre } from '../../const/const';
 
 import { useAppSelector } from '../../hooks/use-app-selector';
@@ -8,7 +6,6 @@ import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { getPromoFilm, getGroupedFilms } from '../../store/film-data/selectors';
 import { loadMoreToCatalog } from '../../store/film-process/film-process';
 import { getCatalog } from '../../store/film-process/selectors';
-import { setActiveFilm } from '../../store/film-data/film-data';
 
 import withCatalog from '../../hocs/with-catalog/with-catalog';
 import Header from '../../components/header/header';
@@ -30,10 +27,6 @@ function MainScreen(): JSX.Element {
   const handleShowMoreButtonClick = () => {
     dispatch(loadMoreToCatalog(activeFilmsList));
   };
-
-  useEffect(() => {
-    dispatch(setActiveFilm(promoFilm?.id));
-  }, [promoFilm]);
 
   return (
     <>
