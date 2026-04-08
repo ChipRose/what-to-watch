@@ -84,7 +84,7 @@ function FilmCard({
               <span className="film-card__genre">{genre}</span>
               <span className="film-card__year">{releaseDate}</span>
             </p>
-            <ControlButtonsList/>
+            <ControlButtonsList film={activeFilm} />
           </div>
         </div>
       </div>

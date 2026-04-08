@@ -59,7 +59,7 @@ function MainScreen(): JSX.Element {
                 <span className="film-card__year">{promoFilm?.releaseDate}</span>
               </p>
 
-              <ControlButtonsList isFullList={false} />
+              <ControlButtonsList hasReview={false} film={promoFilm} />
 
             </div>
           </div>

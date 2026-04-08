@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from '../../hooks/use-app-selector';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { getAuthorizationStatus } from '../../store/user-process/selectors';
-import { getActiveFilm } from '../../store/film-data/selectors';
 
 import type { FilmType } from '../../types/film';
 import { AppRoute, APIRoute, AuthorizationStatus } from '../../const/const';
@@ -16,14 +15,14 @@ import PlayIcon from '../icons/play-icon/play-icon';
 import ActionButton from '../buttons/action-button/action-button';
 
 type ControlButtonsListProps = {
-  isFullList?: boolean;
+  hasReview?: boolean;
+  film: FilmType | null;
 }
 
-function ControlButtonsList({ isFullList = true }: ControlButtonsListProps) {
+function ControlButtonsList({ hasReview = true, film }: ControlButtonsListProps) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
-  const film: FilmType | null = useAppSelector(getActiveFilm).film ?? null;
   const isFavorite = film?.isFavorite ?? false;
   const filmId = film?.id ?? null;
 
@@ -42,7 +41,7 @@ function ControlButtonsList({ isFullList = true }: ControlButtonsListProps) {
     <div className="film-card__buttons">
       <ActionButton label={'Play'} icon={{ basic: <PlayIcon /> }} link={`${APIRoute.Player}/${String(filmId)}`} />
       <ActionButton label={'My list'} onUpdate={handleFavoriteClick} isChecked={isFavorite} icon={{ basic: <AddIcon />, checked: <DoneIcon /> }} />
-      {isFullList && (<ActionButton link={authorizationStatus === AuthorizationStatus.Auth ? `${AppRoute.Films}/${String(filmId)}${AppRoute.AddReview}` : AppRoute.LogIn} label={'Add review'} />)}
+      {hasReview && (<ActionButton link={authorizationStatus === AuthorizationStatus.Auth ? `${AppRoute.Films}/${String(filmId)}${AppRoute.AddReview}` : AppRoute.LogIn} label={'Add review'} />)}
     </div>
   );
 }
