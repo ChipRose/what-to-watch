@@ -1,15 +1,14 @@
 import { useEffect } from 'react';
 
-import { CatalogCount, Genre } from '../../const/const';
-
-import { getCatalogData } from '../../util/util';
+import { Genre } from '../../const/const';
 
 import { useAppSelector } from '../../hooks/use-app-selector';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
 
 import { getPromoFilm, getGroupedFilms } from '../../store/film-data/selectors';
-import { loadMoreToCatalog, setCatalogData } from '../../store/film-process/film-process';
+import { loadMoreToCatalog } from '../../store/film-process/film-process';
 import { getCatalog } from '../../store/film-process/selectors';
+import { setActiveFilm } from '../../store/film-data/film-data';
 
 import withCatalog from '../../hocs/with-catalog/with-catalog';
 import Header from '../../components/header/header';
@@ -33,9 +32,8 @@ function MainScreen(): JSX.Element {
   };
 
   useEffect(() => {
-    const catalogData = getCatalogData(activeFilmsList, Genre.All, CatalogCount.Init);
-    dispatch(setCatalogData(catalogData));
-  }, [activeFilmsList]);
+    dispatch(setActiveFilm(promoFilm?.id));
+  }, [promoFilm]);
 
   return (
     <>

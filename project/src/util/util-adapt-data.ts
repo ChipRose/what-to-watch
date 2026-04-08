@@ -12,14 +12,14 @@ export const adaptFilmToApp = (film: ServerFilmType | null): FilmType | null => 
     runTime: film.runTime,
     genre: film.genre ?? '',
     releaseDate: film.released,
-    previewImage: film.previewImage,
-    src: '',
     isFavorite: film.isFavorite,
     rating: film.rating,
     ratingCount: film.scoresCount,
     backgroundImage: film.backgroundImage,
     backgroundColor: film.backgroundColor,
     cover: film.posterImage,
+    src: film.videoLink,
+    previewImage: film.previewImage,
     previewSrc: film.previewVideoLink,
   }) : null
 );

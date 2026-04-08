@@ -86,9 +86,9 @@ export const groupByGenre = (
   };
 };
 
-export const getCatalogData = (films: FilmsType | null, activeGenre: string, count: number): { films: FilmsType; activeGenre: string; count: number; isAllShown: boolean } => {
+export const getCatalogData = (films: FilmsType | null, activeGenre: GenreNameType, count: number): { films: FilmsType; activeGenre: GenreNameType; count: number; isAllShown: boolean } => {
   if (!films) {
-    return { films: [], activeGenre: '', count: 0, isAllShown: false };
+    return { films: [], activeGenre, count: 0, isAllShown: false };
   }
 
   const catalogFilms = films?.length > count ? films?.slice(0, count) : films;
