@@ -527,12 +527,32 @@ main {
 
 .catalog__genres-link {
   display: block;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: transparent;
+  background-color: transparent;
+  border: none;
+  margin: 0;
+  padding: 0 0 15px;
+  border-radius: 0;
+  font: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  cursor: pointer;
+  text-align: left;
   color: #DFCF77;
   text-decoration: none;
   position: relative;
-  padding-bottom: 15px;
   -webkit-transition: font-weight;
   transition: font-weight; }
+  .catalog__genres-link:hover,
+  .catalog__genres-link:focus,
+  .catalog__genres-link:active {
+    background: transparent;
+    background-color: transparent; }
+  .catalog__genres-link:focus {
+    outline: none; }
   .catalog__genres-link::after {
     content: '';
     position: absolute;

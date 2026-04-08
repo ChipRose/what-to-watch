@@ -1,5 +1,3 @@
-import { Link } from 'react-router-dom';
-
 import { genreMapping, TABS_COUNT, CatalogCount } from '../../const/const';
 import { getCatalogData } from '../../util/util';
 
@@ -21,21 +19,16 @@ type GenreProps = {
 }
 
 function GenreTab({ genre, title, isActive, onUpdate }: GenreProps): JSX.Element {
-  const handleClick = (evt: React.MouseEvent) => {
-    evt.preventDefault();
-    const genreCurrent = (evt.target as HTMLAnchorElement).dataset.genre;
-    if (genreCurrent) {
-      onUpdate(genreCurrent as GenreType);
-    }
+  const handleClick = () => {
+    onUpdate(genre);
   };
 
   return (
     <li
       key={genre}
-      onClick={handleClick}
       className={`catalog__genres-item${isActive ? ' catalog__genres-item--active' : ''}`}
     >
-      <Link to="/" className="catalog__genres-link" data-genre={genre}>{title}</Link>
+      <button type="button" className="catalog__genres-link" onClick={handleClick}>{title}</button>
     </li>
   );
 }

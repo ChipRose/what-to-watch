@@ -8,12 +8,11 @@ import { loadMoreToCatalog } from '../../store/film-process/film-process';
 import { getCatalog } from '../../store/film-process/selectors';
 
 import withCatalog from '../../hocs/with-catalog/with-catalog';
-import Header from '../../components/header/header';
 import Footer from '../../components/footer/footer';
 import GenreList from '../../components/genre-list/genre-list';
 import Catalog from '../../components/catalog/catalog';
 import ShowMoreButton from '../../components/buttons/show-more-button/show-more-button';
-import ControlButtonsList from '../../components/control-buttons-list/control-buttons-list';
+import PromoSection from '../../components/promo-section/promo-section';
 
 const CatalogWrapped = withCatalog(Catalog);
 
@@ -30,34 +29,7 @@ function MainScreen(): JSX.Element {
 
   return (
     <>
-      <section className="film-card">
-        <div className="film-card__bg">
-          <img src={promoFilm?.backgroundImage} alt={promoFilm?.title} />
-        </div>
-
-        <h1 className="visually-hidden">WTW</h1>
-
-        <Header />
-
-        <div className="film-card__wrap">
-          <div className="film-card__info">
-            <div className="film-card__poster">
-              <img src={promoFilm?.cover} alt={promoFilm?.title} width="218" height="327" />
-            </div>
-
-            <div className="film-card__desc">
-              <h2 className="film-card__title">{promoFilm?.title}</h2>
-              <p className="film-card__meta">
-                <span className="film-card__genre">{promoFilm?.genre}</span>
-                <span className="film-card__year">{promoFilm?.releaseDate}</span>
-              </p>
-
-              <ControlButtonsList hasReview={false} film={promoFilm} />
-
-            </div>
-          </div>
-        </div>
-      </section>
+      <PromoSection film={promoFilm} />
 
       <div className='page-content'>
         <section className='catalog'>
