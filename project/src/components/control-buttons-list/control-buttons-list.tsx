@@ -6,7 +6,7 @@ import { getAuthorizationStatus } from '../../store/user-process/selectors';
 import { getActiveFilm } from '../../store/film-data/selectors';
 
 import type { FilmType } from '../../types/film';
-import { AppRoute, AuthorizationStatus } from '../../const/const';
+import { AppRoute, APIRoute, AuthorizationStatus } from '../../const/const';
 import { fetchAddToWatchAction } from '../../store/api-actions';
 
 import AddIcon from '../icons/add-icon/add-icon';
@@ -20,7 +20,7 @@ type ControlButtonsListProps = {
 }
 
 function ControlButtonsList({ isFullList = true }: ControlButtonsListProps) {
-  const naigate = useNavigate();
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const film: FilmType | null = useAppSelector(getActiveFilm).film ?? null;
@@ -34,13 +34,13 @@ function ControlButtonsList({ isFullList = true }: ControlButtonsListProps) {
         dispatch(fetchAddToWatchAction({ id: filmId, status: film?.isFavorite ? 0 : 1 }));
       }
     } else {
-      naigate(AppRoute.LogIn);
+      navigate(AppRoute.LogIn);
     }
   };
 
   return (
     <div className="film-card__buttons">
-      <ActionButton label={'Play'} icon={{ basic: <PlayIcon /> }} />
+      <ActionButton label={'Play'} icon={{ basic: <PlayIcon /> }} link={`${APIRoute.Player}/${String(filmId)}`} />
       <ActionButton label={'My list'} onUpdate={handleFavoriteClick} isChecked={isFavorite} icon={{ basic: <AddIcon />, checked: <DoneIcon /> }} />
       {isFullList && (<ActionButton link={authorizationStatus === AuthorizationStatus.Auth ? `${AppRoute.Films}/${String(filmId)}${AppRoute.AddReview}` : AppRoute.LogIn} label={'Add review'} />)}
     </div>

@@ -3,23 +3,17 @@ import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { useAppSelector } from '../../hooks/use-app-selector';
 import { getMyList } from '../../store/film-data/selectors';
 
-import { setActiveFilm } from '../../store/film-data/film-data';
-
-import type { FilmIdType } from '../../types/film';
-
 import Header from '../../components/header/header';
 import Footer from '../../components/footer/footer';
 import Catalog from '../../components/catalog/catalog';
 import { fetchToWatchFilms } from '../../store/api-actions';
+import withCatalog from '../../hocs/with-catalog/with-catalog';
 
+const CatalogWrapped = withCatalog(Catalog);
 
 function MyListScreen(): JSX.Element {
   const dispatch = useAppDispatch();
   const myList = useAppSelector(getMyList) ?? [];
-
-  const onFilmClick = (filmId: FilmIdType) => {
-    dispatch(setActiveFilm(filmId));
-  };
 
   useEffect(() => {
     dispatch(fetchToWatchFilms());
@@ -32,7 +26,7 @@ function MyListScreen(): JSX.Element {
       <section className='catalog'>
         <h2 className='catalog__title visually-hidden'>Catalog</h2>
 
-        <Catalog filmsList={myList} onUpdate={onFilmClick} />
+        <CatalogWrapped filmsList={myList} />
 
       </section>
 

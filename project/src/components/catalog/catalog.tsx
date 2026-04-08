@@ -4,10 +4,10 @@ import type { FilmIdType, FilmsType } from '../../types/film';
 
 import { AppRoute } from '../../const/const';
 
-import withVideoPlayer from '../../hocs/with-video-player/with-video-player';
+import withVideoPreview from '../../hocs/with-video-preview/with-video-preview';
 import SmallFilmCard from '../small-film-card/small-film-card';
 
-const SmallFilmCardWrapped = withVideoPlayer(SmallFilmCard);
+const FilmPreviewWrapped = withVideoPreview(SmallFilmCard);
 
 type CatalogProps = {
   filmsList: FilmsType;
@@ -32,7 +32,7 @@ function Catalog({ filmsList, onUpdate }: CatalogProps): JSX.Element | null {
     >
       {
         filmsList?.map((film, playerIndex) => (
-          <SmallFilmCardWrapped
+          <FilmPreviewWrapped
             {...film}
             playerIndex={playerIndex}
             id={film.id}

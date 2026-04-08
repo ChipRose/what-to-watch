@@ -9,17 +9,17 @@ import { useAppDispatch } from '../../hooks/use-app-dispatch';
 
 import { getPromoFilm, getGroupedFilms } from '../../store/film-data/selectors';
 import { loadMoreToCatalog, setCatalogData } from '../../store/film-process/film-process';
-import { setActiveFilm } from '../../store/film-data/film-data';
 import { getCatalog } from '../../store/film-process/selectors';
 
-import type { FilmIdType } from '../../types/film';
-
+import withCatalog from '../../hocs/with-catalog/with-catalog';
 import Header from '../../components/header/header';
 import Footer from '../../components/footer/footer';
 import GenreList from '../../components/genre-list/genre-list';
 import Catalog from '../../components/catalog/catalog';
 import ShowMoreButton from '../../components/buttons/show-more-button/show-more-button';
 import ControlButtonsList from '../../components/control-buttons-list/control-buttons-list';
+
+const CatalogWrapped = withCatalog(Catalog);
 
 function MainScreen(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -30,10 +30,6 @@ function MainScreen(): JSX.Element {
 
   const handleShowMoreButtonClick = () => {
     dispatch(loadMoreToCatalog(activeFilmsList));
-  };
-
-  const onFilmClick = (filmId: FilmIdType) => {
-    dispatch(setActiveFilm(filmId));
   };
 
   useEffect(() => {
@@ -79,7 +75,7 @@ function MainScreen(): JSX.Element {
           <GenreList />
 
           {catalogFilms?.length ? (
-            <Catalog filmsList={catalogFilms} onUpdate={onFilmClick} />
+            <CatalogWrapped filmsList={catalogFilms} />
           ) : null}
 
           {

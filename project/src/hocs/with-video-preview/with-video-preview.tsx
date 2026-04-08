@@ -6,15 +6,15 @@ type HOCProps = {
     previewSrc: string,
     id: number,
     poster: string,
-  ) => void;
+  ) => JSX.Element;
 };
 
-function withAudioPlayer<T>(Component: ComponentType<T>)
+function withVideoPreview<T>(Component: ComponentType<T>)
   : ComponentType<Omit<T, keyof HOCProps>> {
 
   type ComponentProps = Omit<T, keyof HOCProps>;
 
-  function WithAudioPlayer(props: ComponentProps): JSX.Element {
+  function WithVideoPreview(props: ComponentProps): JSX.Element {
     const TIME_DELAY = 1000;
     let hoverTimeout: ReturnType<typeof setTimeout>;
 
@@ -51,7 +51,7 @@ function withAudioPlayer<T>(Component: ComponentType<T>)
 
   }
 
-  return WithAudioPlayer;
+  return WithVideoPreview;
 }
 
-export default withAudioPlayer;
+export default withVideoPreview;

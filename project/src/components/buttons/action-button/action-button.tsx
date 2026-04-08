@@ -18,7 +18,10 @@ function ActionButton({ link, label, isChecked = false, icon, onUpdate }: Action
 
   return link
     ? (
-      <Link to={link} className="btn film-card__button">{label}</Link>
+      <Link to={link} className="btn film-card__button">
+        {icon && (isChecked ? icon.checked : icon.basic)}
+        <span>{label}</span>
+      </Link>
     )
     : (
       <button className="btn btn--list film-card__button" type="button" onClick={handleClick}>
