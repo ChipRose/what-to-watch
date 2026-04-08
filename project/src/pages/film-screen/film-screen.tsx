@@ -5,11 +5,15 @@ import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { useAppSelector } from '../../hooks/use-app-selector';
 import { getActiveFilm } from '../../store/film-data/selectors';
 
+import { setActiveFilm } from '../../store/film-data/film-data';
+
 import {
   fetchReviewsAction,
   fetchFilmAction,
   fetchSimilarFilmAction
 } from '../../store/api-actions';
+
+import type { FilmIdType } from '../../types/film';
 
 import Catalog from '../../components/catalog/catalog';
 import FilmCard from '../../components/film-card/film-card';
@@ -27,6 +31,10 @@ function FilmScreen(): JSX.Element {
   const dispatch = useAppDispatch();
   const similarFilms = useAppSelector(getActiveFilm)?.similarFilms;
 
+  const onFilmClick = (filmId: FilmIdType) => {
+    dispatch(setActiveFilm(filmId));
+  };
+
   useEffect(() => {
     dispatch(fetchFilmAction(pageId));
     dispatch(fetchSimilarFilmAction(pageId));
@@ -42,7 +50,7 @@ function FilmScreen(): JSX.Element {
           {similarFilms?.length ? (
             <>
               <h2 className="catalog__title">More like this</h2>
-              <Catalog filmsList={similarFilms} />
+              <Catalog filmsList={similarFilms} onUpdate={onFilmClick} />
             </>
           ) : null}
 

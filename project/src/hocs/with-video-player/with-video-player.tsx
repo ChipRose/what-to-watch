@@ -1,5 +1,5 @@
 import { ComponentType, useState } from 'react';
-import VideoPlayer from '../../components/video-player/video-player';
+import PreviewPlayer from '../../components/preview-player/preview-player';
 
 type HOCProps = {
   renderPlayer: (
@@ -37,7 +37,7 @@ function withAudioPlayer<T>(Component: ComponentType<T>)
       <Component
         {...props as T}
         renderPlayer={(previewSrc: string, playerIndex: number, poster: string) => (
-          <VideoPlayer
+          <PreviewPlayer
             playerIndex={playerIndex}
             previewSrc={previewSrc}
             poster={poster}

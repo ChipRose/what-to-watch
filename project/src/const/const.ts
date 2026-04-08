@@ -116,6 +116,7 @@ export enum APIRoute {
   Logout = '/logout',
   Favorite = '/favorite/',
   Reviews = '/reviews',
+  Player = '/player',
 }
 
 export const StatusCodeMapping: Record<number, boolean> = {

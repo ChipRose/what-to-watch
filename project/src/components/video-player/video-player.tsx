@@ -1,58 +1,37 @@
-import { useState, useRef, useEffect } from 'react';
-
-type VideoPlayerProps = {
-  playerIndex: number;
-  previewSrc: string;
-  poster: string;
-  width?: number;
-  height?: number;
-  isPlaying: boolean;
-  onMouseEnter: (id: number) => void;
-  onMouseLeave: () => void;
-}
-
-function VideoPlayer({ playerIndex, previewSrc, poster, isPlaying, onMouseEnter, onMouseLeave, ...props }: VideoPlayerProps): JSX.Element {
-  const videoRef = useRef<HTMLVideoElement | null>(null);
-
-  const [isLoading, setIsLoading] = useState(true);
-
-  const handleMouseEnter = () => {
-    onMouseEnter(playerIndex);
-  };
-
-  useEffect(() => {
-    const video = videoRef?.current;
-
-    if (video === null) {
-      return;
-    }
-
-    video?.addEventListener('loadeddata', () => setIsLoading(false));
-
-    if (!isLoading && isPlaying) {
-      video?.play();
-      return;
-    }
-
-    video?.pause();
-    video.currentTime = 0;
-    video?.load();
-
-  }, [isPlaying, isLoading]);
-
+function VideoPlayer(): JSX.Element {
   return (
-    <video
-      ref={videoRef}
-      width={props.width}
-      height={props.height}
-      poster={poster}
-      autoPlay={isPlaying}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={onMouseLeave}
-      muted
-    >
-      <source src={previewSrc} />
-    </video>
+    <div className="player">
+      <video src="#" className="player__video" poster="img/player-poster.jpg"></video>
+
+      <button type="button" className="player__exit">Exit</button>
+
+      <div className="player__controls">
+        <div className="player__controls-row">
+          <div className="player__time">
+            <progress className="player__progress" value="30" max="100"></progress>
+            <div className="player__toggler" style={{ left: '30%' }}>Toggler</div>
+          </div>
+          <div className="player__time-value">1:30:29</div>
+        </div>
+
+        <div className="player__controls-row">
+          <button type="button" className="player__play">
+            <svg viewBox="0 0 19 19" width="19" height="19">
+              <use xlinkHref="#play-s"></use>
+            </svg>
+            <span>Play</span>
+          </button>
+          <div className="player__name">Transpotting</div>
+
+          <button type="button" className="player__full-screen">
+            <svg viewBox="0 0 27 27" width="27" height="27">
+              <use xlinkHref="#full-screen"></use>
+            </svg>
+            <span>Full screen</span>
+          </button>
+        </div>
+      </div>
+    </div>
   );
 }
 

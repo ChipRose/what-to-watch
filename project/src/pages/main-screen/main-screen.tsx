@@ -7,9 +7,12 @@ import { getCatalogData } from '../../util/util';
 import { useAppSelector } from '../../hooks/use-app-selector';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
 
-import { getPromoFilm,getGroupedFilms } from '../../store/film-data/selectors';
+import { getPromoFilm, getGroupedFilms } from '../../store/film-data/selectors';
 import { loadMoreToCatalog, setCatalogData } from '../../store/film-process/film-process';
+import { setActiveFilm } from '../../store/film-data/film-data';
 import { getCatalog } from '../../store/film-process/selectors';
+
+import type { FilmIdType } from '../../types/film';
 
 import Header from '../../components/header/header';
 import Footer from '../../components/footer/footer';
@@ -27,6 +30,10 @@ function MainScreen(): JSX.Element {
 
   const handleShowMoreButtonClick = () => {
     dispatch(loadMoreToCatalog(activeFilmsList));
+  };
+
+  const onFilmClick = (filmId: FilmIdType) => {
+    dispatch(setActiveFilm(filmId));
   };
 
   useEffect(() => {
@@ -72,7 +79,7 @@ function MainScreen(): JSX.Element {
           <GenreList />
 
           {catalogFilms?.length ? (
-            <Catalog filmsList={catalogFilms} />
+            <Catalog filmsList={catalogFilms} onUpdate={onFilmClick} />
           ) : null}
 
           {
