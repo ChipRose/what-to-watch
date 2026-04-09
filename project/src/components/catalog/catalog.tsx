@@ -1,6 +1,5 @@
+import { memo } from 'react';
 import { useNavigate } from 'react-router-dom';
-
-import type { FilmIdType, FilmsType } from '../../types/film';
 
 import { AppRoute } from '../../const/const';
 
@@ -8,11 +7,13 @@ import useSetActiveFilm from '../../hooks/use-set-active-film';
 import withVideoPreview from '../../hocs/with-video-preview/with-video-preview';
 import SmallFilmCard from '../small-film-card/small-film-card';
 
+import type { FilmIdType, FilmsType } from '../../types/film';
+
 const FilmPreviewWrapped = withVideoPreview(SmallFilmCard);
 
 type CatalogProps = {
   filmsList: FilmsType;
-}
+};
 
 function Catalog({ filmsList }: CatalogProps): JSX.Element | null {
   const navigate = useNavigate();
@@ -46,4 +47,4 @@ function Catalog({ filmsList }: CatalogProps): JSX.Element | null {
   );
 }
 
-export default Catalog;
+export default memo(Catalog);

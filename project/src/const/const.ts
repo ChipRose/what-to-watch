@@ -2,6 +2,8 @@ import { GenreNameType, GenresTabsListType } from '../types/film';
 import { StatusCodes } from 'http-status-codes';
 
 import type { CatalogDataType } from '../types/film';
+import type { ReviewsType } from '../types/review';
+import type { TabsType } from '../types/tabs';
 
 export const BACKEND_URL = 'https://10.react.htmlacademy.pro/wtw';
 export const REQUEST_TIMEOUT = 5000;
@@ -135,9 +137,17 @@ export enum NameSpace {
   Data = 'DATA'
 }
 
-export const catalogInitialState: CatalogDataType = {
+export const EMPTY_CATALOG: CatalogDataType = {
   films: [],
   activeGenre: Genre.All,
   count: CatalogCount.Init,
   isAllShown: false,
 };
+
+export const EMPTY_REVIEWS: ReviewsType = [];
+
+export const TABS_LIST: TabsType = [
+  { id: 0, title: 'Overview' },
+  { id: 1, title: 'Details' },
+  { id: 2, title: 'Reviews' },
+];

@@ -8,7 +8,7 @@ import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { getPromoFilm, getGroupedFilms } from '../../store/film-data/selectors';
 import { loadMoreToCatalog } from '../../store/film-process/film-process';
 import { getCatalog } from '../../store/film-process/selectors';
-import { catalogInitialState } from '../../const/const';
+import { EMPTY_CATALOG } from '../../const/const';
 
 import { setCatalogData } from '../../store/film-process/film-process';
 
@@ -39,9 +39,9 @@ function MainScreen(): JSX.Element {
       const catalogData = getCatalogData(groupedFilms[genre], genre, CatalogCount.Init);
       dispatch(setCatalogData(catalogData));
     } else {
-      dispatch(setCatalogData(catalogInitialState));
+      dispatch(setCatalogData(EMPTY_CATALOG));
     }
-  }, [dispatch, groupedFilms, catalog.activeGenre]);
+  }, [dispatch, groupedFilms]);
 
   return (
     <>

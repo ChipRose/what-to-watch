@@ -1,10 +1,10 @@
 import { memo, useCallback } from 'react';
 import { Link, useParams } from 'react-router-dom';
 
+import { AppRoute } from '../../const/const';
+
 import { useAppSelector } from '../../hooks/use-app-selector';
 import { getFilms } from '../../store/film-data/selectors';
-
-import { AppRoute } from '../../const/const';
 
 import AddReviewForm from '../../components/add-review-form/add-review-form';
 import Header from '../../components/header/header';

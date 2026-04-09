@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { useAppSelector } from '../../hooks/use-app-selector';
-import { getActiveFilm } from '../../store/film-data/selectors';
+import { getSimilarFilms } from '../../store/film-data/selectors';
 
 import {
   fetchReviewsAction,
@@ -24,7 +24,7 @@ function FilmScreen(): JSX.Element {
   const pageId = Number(id);
 
   const dispatch = useAppDispatch();
-  const similarFilms = useAppSelector(getActiveFilm)?.similarFilms;
+  const similarFilms = useAppSelector(getSimilarFilms);
 
   useEffect(() => {
     dispatch(fetchFilmAction(pageId));
