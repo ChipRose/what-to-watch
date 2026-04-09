@@ -89,7 +89,12 @@ export const filmData = createSlice({
         state.myList = adaptFilmsDataToApp(action.payload) ?? [];
       })
       .addCase(fetchAddToWatchAction.fulfilled, (state, action) => {
-        state.activeFilm.film = adaptFilmToApp(action.payload) ?? null;
+        const updatedFilm = adaptFilmToApp(action.payload) ?? null;
+        state.activeFilm.film = updatedFilm;
+
+        if (updatedFilm && state.promoFilm?.id === updatedFilm.id) {
+          state.promoFilm = updatedFilm;
+        }
       });
   }
 });

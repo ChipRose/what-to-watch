@@ -1,4 +1,4 @@
-import { memo } from 'react';
+// import { memo } from 'react';
 
 import type { FilmType } from '../../types/film';
 
@@ -9,7 +9,7 @@ type PromoSectionProps = {
   film: FilmType | null;
 };
 
-function PromoFilm({ film }: PromoSectionProps): JSX.Element | null {
+function PromoCard({ film }: PromoSectionProps): JSX.Element | null {
   return film ? (
     <section className="film-card">
       <div className="film-card__bg">
@@ -41,9 +41,9 @@ function PromoFilm({ film }: PromoSectionProps): JSX.Element | null {
   ) : null;
 }
 
-const areEqual = (prevProps: PromoSectionProps, nextProps: PromoSectionProps): boolean => (
-  prevProps.film?.id === nextProps.film?.id &&
-  prevProps.film?.isFavorite === nextProps.film?.isFavorite
-);
+// const areEqual = (prevProps: PromoSectionProps, nextProps: PromoSectionProps): boolean => (
+//   prevProps.film?.id === nextProps.film?.id &&
+//   prevProps.film?.isFavorite === nextProps.film?.isFavorite
+// );
 
-export default memo(PromoFilm, areEqual);
+export default PromoCard;

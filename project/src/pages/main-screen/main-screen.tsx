@@ -12,7 +12,7 @@ import Footer from '../../components/footer/footer';
 import GenreList from '../../components/genre-list/genre-list';
 import Catalog from '../../components/catalog/catalog';
 import ShowMoreButton from '../../components/buttons/show-more-button/show-more-button';
-import PromoSection from '../../components/promo-section/promo-section';
+import PromoCard from '../../components/promo-card/promo-card';
 
 const CatalogWrapped = withCatalog(Catalog);
 
@@ -29,7 +29,7 @@ function MainScreen(): JSX.Element {
 
   return (
     <>
-      <PromoSection film={promoFilm} />
+      <PromoCard film={promoFilm} />
 
       <div className='page-content'>
         <section className='catalog'>
