@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
 
-import { TabsType } from '../../types/tabs';
+import type { TabsType } from '../../types/tabs';
+import type { ButtonEvent } from '../../types/form';
 
 type TabsListProps = {
   tabsList: TabsType;
@@ -15,7 +15,8 @@ function Tabs({ tabsList }: TabContentProps): JSX.Element {
 
   const [activeTab, setActiveTab] = useState<number>(0);
 
-  const handleClick = (tabId: number) => {
+  const handleClick = (evt: ButtonEvent) => {
+    const tabId = Number(evt.currentTarget.id);
     if (tabsList[tabId]) {
       setActiveTab(tabId);
     }
@@ -31,9 +32,8 @@ function Tabs({ tabsList }: TabContentProps): JSX.Element {
                 <li
                   key={tabId}
                   className={`film-nav__item${tabId === activeTab ? ' film-nav__item--active' : ''}`}
-                  onClick={() => handleClick(tabId)}
                 >
-                  <Link to="#" className="film-nav__link">{title}</Link>
+                  <button type="button" className="film-nav__link" id={tabId.toString()} onClick={handleClick}>{title}</button>
                 </li>
               ))
             }

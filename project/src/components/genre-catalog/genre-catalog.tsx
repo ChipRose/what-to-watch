@@ -1,6 +1,5 @@
 import { memo } from 'react';
 
-import withCatalog from '../../hocs/with-catalog/with-catalog';
 import GenreList from '../genre-list/genre-list';
 import Catalog from '../catalog/catalog';
 import ShowMoreButton from '../buttons/show-more-button/show-more-button';
@@ -14,8 +13,6 @@ type GenreCatalogProps = {
   onLoadMore: () => void;
   onGenreChange: (genre: GenreNameType) => void;
 }
-
-const CatalogWrapped = withCatalog(Catalog);
 
 function GenreCatalog({ catalog, genresList, onLoadMore, onGenreChange }: GenreCatalogProps): JSX.Element | null {
   const { films, activeGenre, isAllShown } = catalog;
@@ -34,7 +31,7 @@ function GenreCatalog({ catalog, genresList, onLoadMore, onGenreChange }: GenreC
 
       <GenreList genresList={genresList} activeGenre={activeGenre} onUpdate={handleGenreChange} />
 
-      <CatalogWrapped filmsList={films} />
+      <Catalog filmsList={films} />
 
       {
         !isAllShown ? (

@@ -4,6 +4,7 @@ import type { FilmIdType, FilmsType } from '../../types/film';
 
 import { AppRoute } from '../../const/const';
 
+import useSetActiveFilm from '../../hooks/use-set-active-film';
 import withVideoPreview from '../../hocs/with-video-preview/with-video-preview';
 import SmallFilmCard from '../small-film-card/small-film-card';
 
@@ -11,11 +12,11 @@ const FilmPreviewWrapped = withVideoPreview(SmallFilmCard);
 
 type CatalogProps = {
   filmsList: FilmsType;
-  onUpdate: (id: FilmIdType) => void;
 }
 
-function Catalog({ filmsList, onUpdate }: CatalogProps): JSX.Element | null {
+function Catalog({ filmsList }: CatalogProps): JSX.Element | null {
   const navigate = useNavigate();
+  const onUpdate = useSetActiveFilm();
 
   if (!filmsList || !filmsList?.length) {
     return null;

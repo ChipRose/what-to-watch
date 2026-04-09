@@ -869,10 +869,30 @@ main {
 
 .film-nav__link {
   display: block;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: transparent;
+  background-color: transparent;
+  border: none;
+  margin: 0;
+  padding: 0 0 19px;
+  border-radius: 0;
+  font: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  cursor: pointer;
+  text-align: left;
   color: #EEE5B5;
   text-decoration: none;
-  position: relative;
-  padding-bottom: 19px; }
+  position: relative; }
+  .film-nav__link:hover,
+  .film-nav__link:focus,
+  .film-nav__link:active {
+    background: transparent;
+    background-color: transparent; }
+  .film-nav__link:focus {
+    outline: none; }
   .film-nav__link::after {
     content: '';
     position: absolute;

@@ -7,9 +7,6 @@ import Header from '../../components/header/header';
 import Footer from '../../components/footer/footer';
 import Catalog from '../../components/catalog/catalog';
 import { fetchToWatchFilms } from '../../store/api-actions';
-import withCatalog from '../../hocs/with-catalog/with-catalog';
-
-const CatalogWrapped = withCatalog(Catalog);
 
 function MyListScreen(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -26,7 +23,7 @@ function MyListScreen(): JSX.Element {
       <section className='catalog'>
         <h2 className='catalog__title visually-hidden'>Catalog</h2>
 
-        <CatalogWrapped filmsList={myList} />
+        <Catalog filmsList={myList} />
 
       </section>
 

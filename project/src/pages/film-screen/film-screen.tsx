@@ -11,12 +11,9 @@ import {
   fetchSimilarFilmAction
 } from '../../store/api-actions';
 
-import withCatalog from '../../hocs/with-catalog/with-catalog';
 import Catalog from '../../components/catalog/catalog';
 import FilmCard from '../../components/film-card/film-card';
 import Footer from '../../components/footer/footer';
-
-const CatalogWrapped = withCatalog(Catalog);
 
 type RouteParams = {
   id: string;
@@ -45,7 +42,7 @@ function FilmScreen(): JSX.Element {
           {similarFilms?.length ? (
             <>
               <h2 className="catalog__title">More like this</h2>
-              <CatalogWrapped filmsList={similarFilms} />
+              <Catalog filmsList={similarFilms} />
             </>
           ) : null}
 

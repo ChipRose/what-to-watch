@@ -2,10 +2,6 @@
 import { useAppSelector } from '../../hooks/use-app-selector';
 import { getActiveFilm } from '../../store/film-data/selectors';
 
-import type { FilmDescriptionType, FilmDetailsType, FilmType } from '../../types/film';
-import type { TabsType } from '../../types/tabs';
-import type { ReviewsType } from '../../types/review';
-
 import { calcArraySumProps } from '../../util/util';
 
 import Header from '../header/header';
@@ -14,6 +10,10 @@ import TabDescription from '../tab-description/tab-description';
 import TabDetails from '../tab-details/tab-details';
 import TabReviews from '../tab-reviews/tab-reviews';
 import ControlButtonsList from '../control-buttons-list/control-buttons-list';
+
+import type { FilmDescriptionType, FilmDetailsType, FilmType } from '../../types/film';
+import type { TabsType } from '../../types/tabs';
+import type { ReviewsType } from '../../types/review';
 
 
 type FilmCardProps = {
