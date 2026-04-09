@@ -1,11 +1,7 @@
 import { genreMapping, TABS_COUNT, CatalogCount } from '../../const/const';
 import { getCatalogData } from '../../util/util';
 
-import { useAppDispatch } from '../../hooks/use-app-dispatch';
-import { useAppSelector } from '../../hooks/use-app-selector';
-import { getGroupedFilms } from '../../store/film-data/selectors';
-import { setCatalogData } from '../../store/film-process/film-process';
-import { getCatalog } from '../../store/film-process/selectors';
+import type { GenreNameType, GroupedFilmsType, CatalogDataType } from '../../types/film';
 
 type genreListType = Array<keyof typeof genreMapping>;
 type GenreType = keyof typeof genreMapping;
@@ -16,6 +12,13 @@ type GenreProps = {
   title: TabTitleType;
   isActive: boolean;
   onUpdate: (genre: GenreType) => void;
+}
+
+type GenreListProps = {
+  genresList: genreListType;
+  activeGenre: GenreNameType;
+  groupedFilms: GroupedFilmsType | null;
+  onUpdate: (catalogData: CatalogDataType) => void;
 }
 
 function GenreTab({ genre, title, isActive, onUpdate }: GenreProps): JSX.Element {
@@ -33,13 +36,7 @@ function GenreTab({ genre, title, isActive, onUpdate }: GenreProps): JSX.Element
   );
 }
 
-function GenreList(): JSX.Element {
-  const dispatch = useAppDispatch();
-  const activeGenre = useAppSelector(getCatalog).activeGenre;
-  const groupedFilms = useAppSelector(getGroupedFilms) || {};
-
-  const genresList = Object.keys(groupedFilms) as genreListType;
-
+function GenreList({ genresList, activeGenre, groupedFilms, onUpdate }: GenreListProps): JSX.Element {
   const tabs: { genre: GenreType; title: TabTitleType }[] = genresList.map((value) => ({
     title: genreMapping[value],
     genre: value,
@@ -47,14 +44,14 @@ function GenreList(): JSX.Element {
 
   const tabsList = tabs?.length > TABS_COUNT ? tabs.slice(0, TABS_COUNT) : tabs;
 
-  const onUpdate = (genre: GenreType) => {
+  const onGenreUpdate = (genre: GenreType) => {
     if (genre === activeGenre) {
       return;
     }
 
-    if (groupedFilms[genre]?.length) {
+    if (groupedFilms && groupedFilms[genre]?.length) {
       const catalogData = getCatalogData(groupedFilms[genre], genre, CatalogCount.Init);
-      dispatch(setCatalogData(catalogData));
+      onUpdate(catalogData);
     }
   };
 
@@ -62,7 +59,7 @@ function GenreList(): JSX.Element {
     <ul className="catalog__genres-list">
       {
         tabsList?.map(({ genre, title }) => (
-          <GenreTab key={genre} genre={genre} title={title} onUpdate={onUpdate} isActive={genre.toLowerCase() === activeGenre.toLowerCase()} />
+          <GenreTab key={genre} genre={genre} title={title} onUpdate={onGenreUpdate} isActive={genre.toLowerCase() === activeGenre.toLowerCase()} />
         ))
       }
     </ul>

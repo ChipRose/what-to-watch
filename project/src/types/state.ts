@@ -3,7 +3,7 @@ import { store } from '../store';
 
 import { AuthorizationStatus } from '../const/const';
 
-import type { GenreNameType, FilmsType, FilmType, GroupedFilmsType } from './film';
+import type { CatalogDataType, FilmsType, FilmType, GroupedFilmsType } from './film';
 import type { ReviewsType } from './review';
 
 export type StoreType = {
@@ -18,10 +18,10 @@ export type StoreType = {
     avatar: string | null;
   };
   catalog: {
-    count: number | null;
-    activeGenre: GenreNameType;
-    films: FilmsType|null;
-    isAllShown: boolean;
+    count: number;
+    activeGenre: CatalogDataType['activeGenre'];
+    films: CatalogDataType['films'];
+    isAllShown: CatalogDataType['isAllShown'];
   };
   groupedFilms: GroupedFilmsType | null;
   activeFilm: {
@@ -52,12 +52,7 @@ export type UserProcessType = {
 };
 
 export type FilmProcessType = {
-  catalog: {
-    count: number | null;
-    activeGenre: GenreNameType;
-    films: FilmsType|null;
-    isAllShown: boolean;
-  };
+  catalog: CatalogDataType;
 }
 
 export type StateType = ReturnType<typeof store.getState>;

@@ -1,4 +1,4 @@
-import type { FilmsType, GenreNameType, GroupedFilmsType } from '../types/film';
+import type { CatalogDataType, FilmsType, GenreNameType, GroupedFilmsType } from '../types/film';
 
 import { Estimation, months } from '../const/const';
 
@@ -86,7 +86,7 @@ export const groupByGenre = (
   };
 };
 
-export const getCatalogData = (films: FilmsType | null, activeGenre: GenreNameType, count: number): { films: FilmsType; activeGenre: GenreNameType; count: number; isAllShown: boolean } => {
+export const getCatalogData = (films: FilmsType | null, activeGenre: GenreNameType, count: number): CatalogDataType => {
   if (!films) {
     return { films: [], activeGenre, count: 0, isAllShown: false };
   }

@@ -6,7 +6,7 @@ import { adaptFilmsDataToApp } from '../../util/util-adapt-data';
 import { fetchFilmsAction } from '../api-actions';
 
 import type { FilmProcessType } from '../../types/state';
-import type { FilmsType } from '../../types/film';
+import type { FilmsType, CatalogDataType } from '../../types/film';
 
 const initialState: FilmProcessType = {
   catalog: {
@@ -21,10 +21,21 @@ export const filmProcess = createSlice({
   name: NameSpace.Film,
   initialState,
   reducers: {
-    setCatalogData: (state, action: PayloadAction<Partial<FilmProcessType['catalog']>>) => {
-      state.catalog = { ...state.catalog, ...action.payload };
+    setCatalogData: (state: FilmProcessType, action: PayloadAction<Partial<CatalogDataType>>) => {
+      if (action.payload.count !== undefined) {
+        state.catalog.count = action.payload.count;
+      }
+      if (action.payload.activeGenre !== undefined) {
+        state.catalog.activeGenre = action.payload.activeGenre;
+      }
+      if (action.payload.films !== undefined) {
+        state.catalog.films = action.payload.films;
+      }
+      if (action.payload.isAllShown !== undefined) {
+        state.catalog.isAllShown = action.payload.isAllShown;
+      }
     },
-    loadMoreToCatalog: (state, action: PayloadAction<FilmsType | null>) => {
+    loadMoreToCatalog: (state: FilmProcessType, action: PayloadAction<FilmsType | null>) => {
       const count = state.catalog.count || 0;
       const activeCatalog = state.catalog.films ?? [];
       const activeFilms = action.payload ?? [];
@@ -44,9 +55,9 @@ export const filmProcess = createSlice({
     }
   },
   extraReducers: (builder) => {
-    builder.addCase(fetchFilmsAction.fulfilled, (state, action) => {
+    builder.addCase(fetchFilmsAction.fulfilled, (state: FilmProcessType, action) => {
       const films = adaptFilmsDataToApp(action.payload) ?? [];
-      const catalogData = getCatalogData(films, Genre.All, CatalogCount.Init);
+      const catalogData: CatalogDataType = getCatalogData(films, Genre.All, CatalogCount.Init);
       state.catalog = {
         ...catalogData,
         activeGenre: Genre.All,

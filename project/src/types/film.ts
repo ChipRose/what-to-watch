@@ -40,3 +40,10 @@ export type FilmsType = FilmType[];
 export type GroupedFilmsType = Record<string, FilmsType>;
 export type GenreNameType = typeof genres[number];
 export type GenresTabsListType = typeof genresTabs[number];
+
+export type CatalogDataType = {
+  films: FilmsType;
+  activeGenre: GenreNameType;
+  count: number;
+  isAllShown: boolean;
+};

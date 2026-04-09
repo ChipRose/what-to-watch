@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
@@ -94,4 +95,4 @@ function Header({ titleRender, navRender, variant = 'film-card', isUserBlock = t
   );
 }
 
-export default Header;
+export default memo(Header);
