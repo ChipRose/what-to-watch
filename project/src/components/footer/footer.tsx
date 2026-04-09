@@ -6,7 +6,7 @@ function Footer(): JSX.Element {
     <footer className='page-footer'>
       <Logo variant='light' />
       <div className='copyright'>
-        <p>© 2019 What to watch Ltd.</p>
+        <p>© 2026 What to watch Ltd.</p>
       </div>
     </footer>
   );

@@ -2,9 +2,8 @@ import { genreMapping, TABS_COUNT, CatalogCount } from '../../const/const';
 import { getCatalogData } from '../../util/util';
 
 import type { GenreNameType, GroupedFilmsType, CatalogDataType } from '../../types/film';
+import type { genreListType, GenreType } from '../../types/genre';
 
-type genreListType = Array<keyof typeof genreMapping>;
-type GenreType = keyof typeof genreMapping;
 type TabTitleType = typeof genreMapping[GenreType];
 
 type GenreProps = {
