@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { Genre, CatalogCount } from '../../const/const';
 import { getCatalogData } from '../../util/util';
 
@@ -8,6 +8,7 @@ import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { getPromoFilm, getGroupedFilms } from '../../store/film-data/selectors';
 import { loadMoreToCatalog } from '../../store/film-process/film-process';
 import { getCatalog } from '../../store/film-process/selectors';
+import { catalogInitialState } from '../../const/const';
 
 import { setCatalogData } from '../../store/film-process/film-process';
 
@@ -23,9 +24,11 @@ function MainScreen(): JSX.Element {
   const promoFilm = useAppSelector(getPromoFilm);
   const groupedFilms = useAppSelector(getGroupedFilms);
   const catalog = useAppSelector(getCatalog);
-  const activeGenre = useAppSelector(getCatalog).activeGenre;
   const activeFilmsList = useAppSelector(getGroupedFilms)?.[Genre.All] ?? null;
-  const genresList = groupedFilms ? Object.keys(groupedFilms) as GenreListType : [];
+  const genresList = useMemo(
+    () => (groupedFilms ? Object.keys(groupedFilms) as GenreListType : []),
+    [groupedFilms]
+  );
 
   const handleShowMoreButtonClick = useCallback(() => {
     dispatch(loadMoreToCatalog(activeFilmsList));
@@ -36,10 +39,9 @@ function MainScreen(): JSX.Element {
       const catalogData = getCatalogData(groupedFilms[genre], genre, CatalogCount.Init);
       dispatch(setCatalogData(catalogData));
     } else {
-      dispatch(setCatalogData({ films: [], activeGenre, count: 0, isAllShown: false }));
+      dispatch(setCatalogData(catalogInitialState));
     }
-
-  }, [dispatch]);
+  }, [dispatch, groupedFilms, catalog.activeGenre]);
 
   return (
     <>

@@ -1,6 +1,8 @@
 import { GenreNameType, GenresTabsListType } from '../types/film';
 import { StatusCodes } from 'http-status-codes';
 
+import type { CatalogDataType } from '../types/film';
+
 export const BACKEND_URL = 'https://10.react.htmlacademy.pro/wtw';
 export const REQUEST_TIMEOUT = 5000;
 export const TIMEOUT_SHOW_ERROR = 3000;
@@ -131,3 +133,10 @@ export enum NameSpace {
   Film = 'FILM',
   Data = 'DATA'
 }
+
+export const catalogInitialState: CatalogDataType = {
+  films: [],
+  activeGenre: Genre.All,
+  count: CatalogCount.Init,
+  isAllShown: false,
+};

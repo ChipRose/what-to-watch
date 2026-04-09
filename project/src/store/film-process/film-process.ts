@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { NameSpace, CatalogCount, Genre } from '../../const/const';
+import { NameSpace, Genre, CatalogCount, catalogInitialState } from '../../const/const';
 import { getCatalogData } from '../../util/util';
 import { adaptFilmsDataToApp } from '../../util/util-adapt-data';
 import { fetchFilmsAction } from '../api-actions';
@@ -9,12 +9,7 @@ import type { FilmProcessType } from '../../types/state';
 import type { FilmsType, CatalogDataType } from '../../types/film';
 
 const initialState: FilmProcessType = {
-  catalog: {
-    count: CatalogCount.Init,
-    activeGenre: Genre.All,
-    films: [],
-    isAllShown: false,
-  },
+  catalog: catalogInitialState,
 };
 
 export const filmProcess = createSlice({
