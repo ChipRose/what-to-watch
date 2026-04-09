@@ -2,23 +2,26 @@ import { genreMapping, TABS_COUNT, CatalogCount } from '../../const/const';
 import { getCatalogData } from '../../util/util';
 
 import type { GenreNameType, GroupedFilmsType, CatalogDataType } from '../../types/film';
-import type { genreListType, GenreType } from '../../types/genre';
-
-type TabTitleType = typeof genreMapping[GenreType];
+import type { GenreListType, GenreType, GenreTitleType } from '../../types/genre';
 
 type GenreProps = {
   genre: GenreType;
-  title: TabTitleType;
+  title: GenreTitleType;
   isActive: boolean;
   onUpdate: (genre: GenreType) => void;
 }
 
 type GenreListProps = {
-  genresList: genreListType;
+  genresList: GenreListType;
   activeGenre: GenreNameType;
   groupedFilms: GroupedFilmsType | null;
   onUpdate: (catalogData: CatalogDataType) => void;
 }
+
+type GenreTabProps = Array<{
+  genre: GenreType;
+  title: GenreTitleType;
+}>
 
 function GenreTab({ genre, title, isActive, onUpdate }: GenreProps): JSX.Element {
   const handleClick = () => {
@@ -36,12 +39,12 @@ function GenreTab({ genre, title, isActive, onUpdate }: GenreProps): JSX.Element
 }
 
 function GenreList({ genresList, activeGenre, groupedFilms, onUpdate }: GenreListProps): JSX.Element {
-  const tabs: { genre: GenreType; title: TabTitleType }[] = genresList.map((value) => ({
+  const tabs: GenreTabProps = genresList.map((value) => ({
     title: genreMapping[value],
     genre: value,
   }));
 
-  const tabsList = tabs?.length > TABS_COUNT ? tabs.slice(0, TABS_COUNT) : tabs;
+  const tabsList: GenreTabProps = tabs.length > TABS_COUNT ? tabs.slice(0, TABS_COUNT) : tabs;
 
   const onGenreUpdate = (genre: GenreType) => {
     if (genre === activeGenre) {
@@ -57,8 +60,8 @@ function GenreList({ genresList, activeGenre, groupedFilms, onUpdate }: GenreLis
   return (
     <ul className="catalog__genres-list">
       {
-        tabsList?.map(({ genre, title }) => (
-          <GenreTab key={genre} genre={genre} title={title} onUpdate={onGenreUpdate} isActive={genre.toLowerCase() === activeGenre.toLowerCase()} />
+        tabsList.map((tab) => (
+          <GenreTab key={tab.genre} genre={tab.genre} title={tab.title} onUpdate={onGenreUpdate} isActive={tab.genre === activeGenre} />
         ))
       }
     </ul>

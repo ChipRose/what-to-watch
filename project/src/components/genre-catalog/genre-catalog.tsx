@@ -6,7 +6,7 @@ import Catalog from '../catalog/catalog';
 import ShowMoreButton from '../buttons/show-more-button/show-more-button';
 
 import type { FilmsType, GroupedFilmsType, GenreNameType, CatalogDataType } from '../../types/film';
-import type { genreListType } from '../../types/genre';
+import type { GenreListType } from '../../types/genre';
 
 type GenreCatalogProps = {
   catalogFilms: FilmsType | null;
@@ -20,7 +20,7 @@ type GenreCatalogProps = {
 const CatalogWrapped = withCatalog(Catalog);
 
 function GenreCatalog({ catalogFilms, isShowLoadMoreButton, groupedFilms, activeGenre, onLoadMore, onGenreChange }: GenreCatalogProps): JSX.Element | null {
-  const genresList = groupedFilms ? Object.keys(groupedFilms) as genreListType : [];
+  const genresList = groupedFilms ? Object.keys(groupedFilms) as GenreListType : [];
 
   const handleShowMoreButtonClick = () => {
     onLoadMore();
