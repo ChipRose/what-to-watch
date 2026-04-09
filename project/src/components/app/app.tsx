@@ -22,8 +22,9 @@ import Loader from '../loader/loader';
 function App(): JSX.Element {
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const isLoading = !useAppSelector(getIsFilmsLoaded);
+  const isAuthChecking = authorizationStatus === AuthorizationStatus.Unknown;
 
-  if (isLoading) {
+  if (isLoading || isAuthChecking) {
     return (<Loader />);
   }
 

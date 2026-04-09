@@ -1,4 +1,4 @@
-import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse, AxiosError } from 'axios';
+import axios, { AxiosInstance, AxiosResponse, AxiosError, AxiosRequestConfig } from 'axios';
 
 import { BACKEND_URL, REQUEST_TIMEOUT, StatusCodeMapping } from '../const/const';
 
@@ -16,8 +16,9 @@ export const createApi = (): AxiosInstance => {
   api.interceptors.request.use(
     (config: AxiosRequestConfig) => {
       const token = getUserProfile()?.token;
-      if (token && config.headers) {
-        config.headers['x-token'] = token;
+      if (token) {
+        config.headers = config.headers ?? {};
+        (config.headers as Record<string, string>)['X-Token'] = token;
       }
       return config;
     },

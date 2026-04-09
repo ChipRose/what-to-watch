@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, memo } from 'react';
 
 import type { TabsType } from '../../types/tabs';
 import type { ButtonEvent } from '../../types/form';
@@ -53,4 +53,4 @@ function TabsList({ tabsList }: TabsListProps): JSX.Element {
   );
 }
 
-export default TabsList;
+export default memo(TabsList);

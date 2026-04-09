@@ -1,8 +1,9 @@
+import { memo, useMemo } from 'react';
+
+import { calcArraySumProps } from '../../util/util';
 
 import { useAppSelector } from '../../hooks/use-app-selector';
 import { getActiveFilm } from '../../store/film-data/selectors';
-
-import { calcArraySumProps } from '../../util/util';
 
 import Header from '../header/header';
 import TabsList from '../tabs-list/tabs-list';
@@ -15,14 +16,19 @@ import type { FilmDescriptionType, FilmDetailsType, FilmType } from '../../types
 import type { TabsType } from '../../types/tabs';
 import type { ReviewsType } from '../../types/review';
 
-
-type FilmCardProps = {
-  isFull: boolean;
-};
-
 type TabsListProps = FilmType & {
   reviewsList: ReviewsType;
-}
+};
+
+type HeroSectionProps = {
+  film: FilmType;
+};
+
+type TabsSectionProps = {
+  cover: string;
+  title: string;
+  tabsList: TabsType;
+};
 
 const getTabsList = ({ reviewsList, ...film }: TabsListProps): TabsType => {
   const { director, description, starring, runTime, genre, releaseDate, rating } = film || {};
@@ -51,23 +57,11 @@ const getTabsList = ({ reviewsList, ...film }: TabsListProps): TabsType => {
   return tabsList;
 };
 
-function FilmCard({
-  isFull,
-}: FilmCardProps): JSX.Element | null {
+function HeroSection({ film }: HeroSectionProps): JSX.Element {
+  const { title, genre, releaseDate, backgroundColor, backgroundImage } = film;
 
-  const activeFilm = useAppSelector(getActiveFilm).film;
-  const activeReviews = useAppSelector(getActiveFilm).reviews ?? [];
-
-  if (!activeFilm) {
-    return null;
-  }
-
-  const { title, cover, genre, releaseDate, backgroundColor, backgroundImage } = activeFilm || {};
-
-  const mainClass = isFull ? 'film-card film-card--full' : 'film-card';
-
-  return activeFilm ? (
-    <section className={mainClass} style={{ background: backgroundColor }}>
+  return (
+    <section className="film-card" style={{ background: backgroundColor }}>
       <div className="film-card__hero">
         <div className="film-card__bg">
           <img src={backgroundImage} alt={title} />
@@ -84,22 +78,58 @@ function FilmCard({
               <span className="film-card__genre">{genre}</span>
               <span className="film-card__year">{releaseDate}</span>
             </p>
-            <ControlButtonsList film={activeFilm} />
+            <ControlButtonsList film={film} />
           </div>
-        </div>
-      </div>
-
-      <div className="film-card__wrap film-card__translate-top">
-        <div className="film-card__info">
-          <div className="film-card__poster film-card__poster--big">
-            <img src={cover} alt={title} width="218" height="327" />
-          </div>
-
-          <TabsList tabsList={getTabsList({ reviewsList: activeReviews, ...activeFilm })} />
         </div>
       </div>
     </section>
-  ) : null;
+  );
+}
+
+const MemoHeroSection = memo(HeroSection, (prevProps, nextProps) => (
+  prevProps.film.id === nextProps.film.id &&
+  prevProps.film.isFavorite === nextProps.film.isFavorite
+));
+
+function TabsSection({ cover, title, tabsList }: TabsSectionProps): JSX.Element {
+  return (
+    <div className="film-card__wrap film-card__translate-top">
+      <div className="film-card__info">
+        <div className="film-card__poster film-card__poster--big">
+          <img src={cover} alt={title} width="218" height="327" />
+        </div>
+
+        <TabsList tabsList={tabsList} />
+      </div>
+    </div>
+  );
+}
+
+function FilmCard(): JSX.Element | null {
+
+  const activeFilm = useAppSelector(getActiveFilm).film;
+  const activeReviews = useAppSelector(getActiveFilm).reviews ?? [];
+  const reviewsKey = activeReviews.map((review) => review.id).join('|');
+  const tabsList = useMemo(
+    () => (activeFilm ? getTabsList({ reviewsList: activeReviews, ...activeFilm }) : []),
+    [
+      activeFilm?.id,
+      reviewsKey,
+    ]
+  );
+
+  if (!activeFilm) {
+    return null;
+  }
+
+  const { title, cover } = activeFilm;
+
+  return (
+    <>
+      <MemoHeroSection film={activeFilm} />
+      <TabsSection cover={cover} title={title} tabsList={tabsList} />
+    </>
+  );
 }
 
 export default FilmCard;

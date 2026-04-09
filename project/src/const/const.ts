@@ -15,7 +15,7 @@ export enum AppRoute {
   MyList = '/mylist',
   Films = '/films',
   FilmPreviewType = ':id',
-  AddReview = ':id/review',
+  AddReview = '/films/:id/review',
   Player = '/player/:id',
   NotFound = '*',
 }
@@ -118,6 +118,7 @@ export enum APIRoute {
   Logout = '/logout',
   Favorite = '/favorite/',
   Reviews = '/reviews',
+  Review = '/review',
   Player = '/player',
 }
 

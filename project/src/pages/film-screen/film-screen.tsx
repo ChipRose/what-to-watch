@@ -20,7 +20,6 @@ type RouteParams = {
 }
 
 function FilmScreen(): JSX.Element {
-  const isFull = true;
   const { id } = useParams<RouteParams>();
   const pageId = Number(id);
 
@@ -35,7 +34,7 @@ function FilmScreen(): JSX.Element {
 
   return (
     <>
-      <FilmCard isFull={isFull} />
+      <FilmCard />
 
       <div className="page-content">
         <section className="catalog catalog--like-this">

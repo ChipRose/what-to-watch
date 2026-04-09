@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import { memo, useMemo } from 'react';
 import { AppRoute, APIRoute, AuthorizationStatus } from '../../const/const';
 import useControlButtons from '../../hooks/use-control-buttons';
 
@@ -16,12 +16,14 @@ type ControlButtonsListProps = {
 
 function ControlButtonsList({ hasReview = true, film }: ControlButtonsListProps) {
   const { authorizationStatus, isFavorite, filmId, handleFavoriteClick } = useControlButtons(film);
+  const playIcon = useMemo(() => ({ basic: <PlayIcon /> }), []);
+  const watchIcon = useMemo(() => ({ basic: <AddIcon />, checked: <DoneIcon /> }), []);
 
   return (
     <div className="film-card__buttons">
-      <ActionButton label={'Play'} icon={{ basic: <PlayIcon /> }} link={`${APIRoute.Player}/${String(filmId)}`} />
-      <ActionButton label={'My list'} onUpdate={handleFavoriteClick} isChecked={isFavorite} icon={{ basic: <AddIcon />, checked: <DoneIcon /> }} />
-      {hasReview && (<ActionButton link={authorizationStatus === AuthorizationStatus.Auth ? `${AppRoute.Films}/${String(filmId)}${AppRoute.AddReview}` : AppRoute.LogIn} label={'Add review'} />)}
+      <ActionButton label={'Play'} icon={playIcon} link={`${APIRoute.Player}/${String(filmId)}`} />
+      <ActionButton label={'My list'} onUpdate={handleFavoriteClick} isChecked={isFavorite} icon={watchIcon} />
+      {hasReview && (<ActionButton link={authorizationStatus === AuthorizationStatus.Auth ? `${APIRoute.Films}/${String(filmId)}${APIRoute.Review}` : AppRoute.LogIn} label={'Add review'} />)}
     </div>
   );
 }
