@@ -1,7 +1,6 @@
-import { genreMapping, TABS_COUNT, CatalogCount } from '../../const/const';
-import { getCatalogData } from '../../util/util';
+import { genreMapping, TABS_COUNT } from '../../const/const';
 
-import type { GenreNameType, GroupedFilmsType, CatalogDataType } from '../../types/film';
+import type { GenreNameType } from '../../types/film';
 import type { GenreListType, GenreType, GenreTitleType } from '../../types/genre';
 
 type GenreProps = {
@@ -14,8 +13,7 @@ type GenreProps = {
 type GenreListProps = {
   genresList: GenreListType;
   activeGenre: GenreNameType;
-  groupedFilms: GroupedFilmsType | null;
-  onUpdate: (catalogData: CatalogDataType) => void;
+  onUpdate: (genre: GenreNameType) => void;
 }
 
 type GenreTabProps = Array<{
@@ -38,7 +36,7 @@ function GenreTab({ genre, title, isActive, onUpdate }: GenreProps): JSX.Element
   );
 }
 
-function GenreList({ genresList, activeGenre, groupedFilms, onUpdate }: GenreListProps): JSX.Element {
+function GenreList({ genresList, activeGenre, onUpdate }: GenreListProps): JSX.Element {
   const tabs: GenreTabProps = genresList.map((value) => ({
     title: genreMapping[value],
     genre: value,
@@ -51,10 +49,7 @@ function GenreList({ genresList, activeGenre, groupedFilms, onUpdate }: GenreLis
       return;
     }
 
-    if (groupedFilms && groupedFilms[genre]?.length) {
-      const catalogData = getCatalogData(groupedFilms[genre], genre, CatalogCount.Init);
-      onUpdate(catalogData);
-    }
+    onUpdate(genre);
   };
 
   return (
