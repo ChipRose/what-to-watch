@@ -5,21 +5,20 @@ import GenreList from '../genre-list/genre-list';
 import Catalog from '../catalog/catalog';
 import ShowMoreButton from '../buttons/show-more-button/show-more-button';
 
-import type { FilmsType, GenreNameType } from '../../types/film';
+import type { CatalogDataType, GenreNameType } from '../../types/film';
 import type { GenreListType } from '../../types/genre';
 
 type GenreCatalogProps = {
-  catalogFilms: FilmsType | null;
+  catalog: CatalogDataType;
   genresList: GenreListType;
-  activeGenre: GenreNameType;
-  isShowLoadMoreButton: boolean;
   onLoadMore: () => void;
   onGenreChange: (genre: GenreNameType) => void;
 }
 
 const CatalogWrapped = withCatalog(Catalog);
 
-function GenreCatalog({ catalogFilms, isShowLoadMoreButton, genresList, activeGenre, onLoadMore, onGenreChange }: GenreCatalogProps): JSX.Element | null {
+function GenreCatalog({ catalog, genresList, onLoadMore, onGenreChange }: GenreCatalogProps): JSX.Element | null {
+  const { films, activeGenre, isAllShown } = catalog;
 
   const handleShowMoreButtonClick = () => {
     onLoadMore();
@@ -29,16 +28,16 @@ function GenreCatalog({ catalogFilms, isShowLoadMoreButton, genresList, activeGe
     onGenreChange(genre);
   };
 
-  return catalogFilms?.length ? (
+  return films?.length ? (
     <section className='catalog'>
       <h2 className='catalog__title visually-hidden'>Catalog</h2>
 
       <GenreList genresList={genresList} activeGenre={activeGenre} onUpdate={handleGenreChange} />
 
-      <CatalogWrapped filmsList={catalogFilms} />
+      <CatalogWrapped filmsList={films} />
 
       {
-        isShowLoadMoreButton ? (
+        !isAllShown ? (
           <div className='catalog__more'>
             <ShowMoreButton onUpdate={handleShowMoreButtonClick} />
           </div>

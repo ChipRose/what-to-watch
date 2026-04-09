@@ -22,12 +22,10 @@ function MainScreen(): JSX.Element {
   const dispatch = useAppDispatch();
   const promoFilm = useAppSelector(getPromoFilm);
   const groupedFilms = useAppSelector(getGroupedFilms);
-  const catalogFilms = useAppSelector(getCatalog).films;
+  const catalog = useAppSelector(getCatalog);
   const activeGenre = useAppSelector(getCatalog).activeGenre;
   const activeFilmsList = useAppSelector(getGroupedFilms)?.[Genre.All] ?? null;
-  const isShowLoadMoreButton = !useAppSelector(getCatalog).isAllShown;
   const genresList = groupedFilms ? Object.keys(groupedFilms) as GenreListType : [];
-
 
   const handleShowMoreButtonClick = useCallback(() => {
     dispatch(loadMoreToCatalog(activeFilmsList));
@@ -48,7 +46,7 @@ function MainScreen(): JSX.Element {
       <PromoCard film={promoFilm} />
 
       <div className='page-content'>
-        <GenreCatalog catalogFilms={catalogFilms} isShowLoadMoreButton={isShowLoadMoreButton} genresList={genresList} activeGenre={activeGenre} onLoadMore={handleShowMoreButtonClick} onGenreChange={handleGenreChange} />
+        <GenreCatalog catalog={catalog} genresList={genresList} onLoadMore={handleShowMoreButtonClick} onGenreChange={handleGenreChange} />
 
         <Footer />
       </div>
