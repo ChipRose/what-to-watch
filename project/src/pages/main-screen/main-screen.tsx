@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import { Genre } from '../../const/const';
 
 import { useAppSelector } from '../../hooks/use-app-selector';
@@ -8,11 +9,12 @@ import { loadMoreToCatalog } from '../../store/film-process/film-process';
 import { getCatalog } from '../../store/film-process/selectors';
 
 import { setCatalogData } from '../../store/film-process/film-process';
-import type { CatalogDataType } from '../../types/film';
 
 import Footer from '../../components/footer/footer';
 import PromoCard from '../../components/promo-card/promo-card';
 import GenreCatalog from '../../components/genre-catalog/genre-catalog';
+
+import type { CatalogDataType } from '../../types/film';
 
 function MainScreen(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -23,13 +25,13 @@ function MainScreen(): JSX.Element {
   const activeFilmsList = useAppSelector(getGroupedFilms)?.[Genre.All] ?? null;
   const isShowLoadMoreButton = !useAppSelector(getCatalog).isAllShown;
 
-  const handleShowMoreButtonClick = () => {
+  const handleShowMoreButtonClick = useCallback(() => {
     dispatch(loadMoreToCatalog(activeFilmsList));
-  };
+  }, [dispatch, activeFilmsList]);
 
-  const handleGenreChange = (catalogData: CatalogDataType) => {
+  const handleGenreChange = useCallback((catalogData: CatalogDataType) => {
     dispatch(setCatalogData(catalogData));
-  };
+  }, [dispatch]);
 
   return (
     <>
