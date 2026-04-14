@@ -13,14 +13,14 @@ import { fetchSimilarFilmAction, fetchFilmAction, fetchFilmsAction, fetchPromoFi
 
 const initialState: FilmDataType = {
   isFilmsLoaded: false,
-  films: [],
+  films: null,
   promoFilm: null,
   myList: null,
   groupedFilms: null,
   activeFilm: {
     film: null,
     reviews: null,
-    similarFilms: [],
+    similarFilms: null,
   },
 };
 
@@ -47,6 +47,7 @@ export const filmData = createSlice({
       })
       .addCase(fetchFilmsAction.pending, (state) => {
         state.films = null;
+        state.groupedFilms = null;
         state.isFilmsLoaded = false;
       })
       .addCase(fetchFilmsAction.fulfilled, (state, action) => {
@@ -58,6 +59,7 @@ export const filmData = createSlice({
       })
       .addCase(fetchFilmsAction.rejected, (state) => {
         state.films = null;
+        state.groupedFilms = null;
         state.isFilmsLoaded = true;
       })
       .addCase(fetchSimilarFilmAction.pending, (state) => {
@@ -68,7 +70,7 @@ export const filmData = createSlice({
         state.activeFilm.similarFilms = similarFilms?.slice(0, CatalogCount.Similar) ?? [];
       })
       .addCase(fetchSimilarFilmAction.rejected, (state) => {
-        state.activeFilm.similarFilms = [];
+        state.activeFilm.similarFilms = null;
       })
       .addCase(fetchReviewsAction.pending, (state) => {
         state.activeFilm.reviews = null;
