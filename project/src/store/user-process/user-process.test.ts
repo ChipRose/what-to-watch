@@ -20,6 +20,7 @@ describe('Reducer: userProcess', () => {
 
   beforeEach(() => {
     (getUserProfile as jest.Mock).mockClear();
+    (dropUserProfile as jest.Mock).mockClear();
     (getUserProfile as jest.Mock).mockReturnValue(mockUserProfile);
     initialState = {
       authorizationStatus: AuthorizationStatus.Unknown,
@@ -37,6 +38,7 @@ describe('Reducer: userProcess', () => {
     const result = userProcess.reducer(initialState, { type: checkAuthAction.fulfilled.type });
 
     expect(getUserProfile).toHaveBeenCalledTimes(1);
+    expect(dropUserProfile).not.toHaveBeenCalled();
     expect(result)
       .toEqual({
         authorizationStatus: AuthorizationStatus.Auth,
@@ -62,12 +64,14 @@ describe('Reducer: userProcess', () => {
         }
       });
     expect(getUserProfile).not.toHaveBeenCalled();
+    expect(dropUserProfile).not.toHaveBeenCalled();
   });
 
   it('should set Auth status and avatar by login fulfilled', () => {
     const result = userProcess.reducer(initialState, { type: loginAction.fulfilled.type });
 
     expect(getUserProfile).toHaveBeenCalledTimes(1);
+    expect(dropUserProfile).not.toHaveBeenCalled();
     expect(result)
       .toEqual({
         authorizationStatus: AuthorizationStatus.Auth,
