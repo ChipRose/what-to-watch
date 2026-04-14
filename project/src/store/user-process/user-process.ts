@@ -2,14 +2,14 @@ import { createSlice } from '@reduxjs/toolkit';
 
 import { NameSpace, AuthorizationStatus } from '../../const/const';
 import { checkAuthAction, loginAction, logoutAction } from '../api-actions';
-import { getUserProfile } from '../../services/user-profile';
+import { getUserProfile, dropUserProfile } from '../../services/user-profile';
 
 import type { UserProcessType } from '../../types/state';
 
 const initialState: UserProcessType = {
   authorizationStatus: AuthorizationStatus.Unknown,
   userInfo: {
-    avatar: '',
+    avatar: null,
   },
 };
 
@@ -32,10 +32,12 @@ export const userProcess = createSlice({
         state.userInfo.avatar = getUserProfile().avatarUrl;
       })
       .addCase(loginAction.rejected, (state) => {
+        dropUserProfile();
         state.authorizationStatus = AuthorizationStatus.NoAuth;
         state.userInfo.avatar = null;
       })
       .addCase(logoutAction.fulfilled, (state) => {
+        dropUserProfile();
         state.authorizationStatus = AuthorizationStatus.NoAuth;
         state.userInfo.avatar = null;
       });
