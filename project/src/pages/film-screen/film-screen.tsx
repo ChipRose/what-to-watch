@@ -38,13 +38,8 @@ function FilmScreen(): JSX.Element {
 
       <div className="page-content">
         <section className="catalog catalog--like-this">
-          {similarFilms?.length ? (
-            <>
-              <h2 className="catalog__title">More like this</h2>
-              <Catalog filmsList={similarFilms} />
-            </>
-          ) : null}
-
+          <h2 className="catalog__title">More like this</h2>
+          <Catalog filmsList={similarFilms ?? []} />
         </section>
 
         <Footer />

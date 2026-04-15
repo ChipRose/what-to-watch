@@ -1,8 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit';
 
 import { createApi } from '../services/api';
-import { redirect } from './middlewares/redirect';
-import { syncCatalog } from './middlewares/sync-catalog';
+import { redirect } from './middlewares/redirect/redirect';
+import { syncCatalog } from './middlewares/sync-catalog/sync-catalog';
 
 import { rootReducer } from './root-reducer';
 

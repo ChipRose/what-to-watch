@@ -1,9 +1,9 @@
 import { createListenerMiddleware } from '@reduxjs/toolkit';
 
-import { Genre, CatalogCount } from '../../const/const';
-import { getCatalogData } from '../../util/util';
-import { fetchFilmsAction } from '../api-actions';
-import { setCatalogData } from '../film-process/film-process';
+import { Genre, CatalogCount } from '../../../const/const';
+import { getCatalogData } from '../../../util/util';
+import { fetchFilmsAction } from '../../api-actions';
+import { setCatalogData } from '../../film-process/film-process';
 
 export const syncCatalog = createListenerMiddleware();
 
