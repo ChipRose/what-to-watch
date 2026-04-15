@@ -138,7 +138,7 @@ export enum NameSpace {
 }
 
 export const EMPTY_CATALOG: CatalogDataType = {
-  films: [],
+  films: null,
   activeGenre: Genre.All,
   count: CatalogCount.Init,
   isAllShown: false,

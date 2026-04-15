@@ -51,7 +51,7 @@ export const filmData = createSlice({
         state.isFilmsLoaded = false;
       })
       .addCase(fetchFilmsAction.fulfilled, (state, action) => {
-        const films = adaptFilmsDataToApp(action.payload) ?? [];
+        const films = action.payload;
         const groupedFilms = groupByGenre(films);
         state.films = films;
         state.isFilmsLoaded = true;

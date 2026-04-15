@@ -1,9 +1,10 @@
 import { userProcess } from './user-process';
+import { AuthorizationStatus } from '../../const/const';
+
 import { checkAuthAction, loginAction, logoutAction } from '../api-actions';
 import { getUserProfile, dropUserProfile } from '../../services/user-profile';
 
 import type { UserProcessType } from '../../types/state';
-import { AuthorizationStatus } from '../../const/const';
 
 jest.mock('../../services/user-profile', () => ({
   getUserProfile: jest.fn(),

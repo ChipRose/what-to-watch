@@ -79,7 +79,7 @@ describe('Reducer: filmData', () => {
   });
 
   it('should update FILMS by load films', () => {
-    expect(filmData.reducer(initialState, { type: fetchFilmsAction.fulfilled.type, payload: mockFilms }))
+    expect(filmData.reducer(initialState, { type: fetchFilmsAction.fulfilled.type, payload: mockAdaptedFilms }))
       .toEqual({ ...initialState, films: mockAdaptedFilms, isFilmsLoaded: true, groupedFilms: mockGroupedFilms });
   });
 

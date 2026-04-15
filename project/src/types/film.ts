@@ -42,7 +42,7 @@ export type GenreNameType = typeof genres[number];
 export type GenresTabsListType = typeof genresTabs[number];
 
 export type CatalogDataType = {
-  films: FilmsType;
+  films: FilmsType | null;
   activeGenre: GenreNameType;
   count: number;
   isAllShown: boolean;

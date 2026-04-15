@@ -5,23 +5,24 @@ import { StatusCodes } from 'http-status-codes';
 import type { AppDispatchType } from '../types/state';
 import type { UserDataType } from '../types/user-data';
 import type { AuthDataType } from '../types/auth-data';
-import type { FilmIdType } from '../types/film';
+import type { FilmsType, FilmIdType } from '../types/film';
 import type { NewReviewType } from '../components/add-review-form/add-review-form';
 
 import { Action, APIRoute, AppRoute } from '../const/const';
 
 import { redirectToRoute } from './actions';
 import { saveUserProfile, dropUserProfile } from '../services/user-profile';
+import { adaptFilmsDataToApp } from '../util/util-adapt-data';
 import { ServerFilmType, ServerFilmsType, ServerReviewsType } from '../types/server-data';
 
-export const fetchFilmsAction = createAsyncThunk<ServerFilmsType, undefined, {
+export const fetchFilmsAction = createAsyncThunk<FilmsType, undefined, {
   dispatch: AppDispatchType;
   extra: AxiosInstance;
 }>(
   Action.FETCH_FILMS,
   async (_arg, { dispatch, extra: api }) => {
     const { data } = await api.get<ServerFilmsType>(APIRoute.Films);
-    return data;
+    return adaptFilmsDataToApp(data) ?? [];
   },
 );
 
