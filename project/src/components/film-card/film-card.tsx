@@ -84,7 +84,6 @@ function FilmCard({ activeFilm }: FilmCardProps): JSX.Element | null {
     return null;
   }
 
-
   return (
     <section className="film-card film-card--full" style={{ backgroundColor: film.backgroundColor }}>
       <HeroSection film={film} />

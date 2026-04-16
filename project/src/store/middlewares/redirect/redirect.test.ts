@@ -15,7 +15,10 @@ const testHistory = {
   },
 };
 
-jest.mock('../../browser-history', () => testHistory);
+jest.mock('../../../browser-history', () => ({
+  __esModule: true,
+  default: testHistory,
+}));
 
 const middlewares = [redirect];
 const mockStore = configureMockStore<StoreType, AnyAction>(middlewares);
@@ -32,5 +35,10 @@ describe('Middleware: redirect', () => {
     expect(store.getActions()).toEqual([
       redirectToRoute(AppRoute.LogIn),
     ]);
+  });
+
+  it('should not to be redirect /lose because bad action', () => {
+    store.dispatch({type: 'UNKNOWN_ACTION', payload: AppRoute.Lose});
+    expect(testHistory.location.pathname).not.toBe(AppRoute.Lose);
   });
 });
