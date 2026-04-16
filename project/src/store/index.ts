@@ -3,6 +3,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import { createApi } from '../services/api';
 import { redirect } from './middlewares/redirect/redirect';
 import { syncCatalog } from './middlewares/sync-catalog/sync-catalog';
+import { syncFilmInfo } from './middlewares/sync-film-info/sync-film-info';
 
 import { rootReducer } from './root-reducer';
 
@@ -14,5 +15,5 @@ export const store = configureStore({
     thunk: {
       extraArgument: api,
     },
-  }).prepend(syncCatalog.middleware).concat(redirect),
+  }).prepend(syncFilmInfo.middleware, syncCatalog.middleware).concat(redirect),
 });

@@ -1,10 +1,7 @@
 import { memo } from 'react';
 
-import { TABS_LIST, EMPTY_REVIEWS } from '../../const/const';
+import { TABS_LIST } from '../../const/const';
 import { calcArraySumProps } from '../../util/util';
-
-import { useAppSelector } from '../../hooks/use-app-selector';
-import { getActiveFilmItem, getActiveReviews } from '../../store/film-data/selectors';
 
 import Header from '../header/header';
 import TabsList from '../tabs-list/tabs-list';
@@ -12,30 +9,19 @@ import ControlButtonsList from '../control-buttons-list/control-buttons-list';
 
 import type { FilmDescriptionType, FilmDetailsType, FilmType } from '../../types/film';
 import type { ReviewsType } from '../../types/review';
+import type { FilmDataType } from '../../types/state';
 
 type HeroSectionProps = {
   film: FilmType;
 };
 
-type TabsSectionProps = {
-  film: FilmType;
-  descriptionProps: FilmDescriptionType;
-  detailsProps: FilmDetailsType;
-  reviewsList: ReviewsType;
+type FilmCardProps = {
+  activeFilm: FilmDataType['activeFilm'];
 };
 
-const isTabsFilmEqual = (prevFilm: FilmType | null, nextFilm: FilmType | null): boolean => {
-  if (!prevFilm && !nextFilm) {
-    return true;
-  }
-
-  if (!prevFilm || !nextFilm) {
-    return false;
-  }
-
-  return (
-    prevFilm.id === nextFilm.id
-  );
+type TabsSectionProps = {
+  film: FilmType;
+  reviewsList: ReviewsType;
 };
 
 function HeroSection({ film }: HeroSectionProps): JSX.Element | null {
@@ -62,8 +48,13 @@ function HeroSection({ film }: HeroSectionProps): JSX.Element | null {
   );
 }
 
-function TabsSection({ film, descriptionProps, detailsProps, reviewsList }: TabsSectionProps): JSX.Element {
-  const { cover, title } = film;
+function TabsSection({ film, reviewsList }: TabsSectionProps): JSX.Element {
+  const { director, description, starring, rating, runTime, genre, releaseDate, cover, title } = film;
+  const ratingCount = calcArraySumProps(reviewsList ?? [], 'rating')?.length;
+
+  const descriptionProps = { director, description, starring, rating, ratingCount } as FilmDescriptionType;
+  const detailsProps = { director, starring, runTime, genre, releaseDate } as FilmDetailsType;
+
 
   return (
     <div className="film-card__wrap film-card__translate-top">
@@ -84,27 +75,23 @@ function TabsSection({ film, descriptionProps, detailsProps, reviewsList }: Tabs
 
 const MemoTabsSection = memo(TabsSection, (prevProps, nextProps) => (
   prevProps.film.id === nextProps.film.id
+  && prevProps.reviewsList === nextProps.reviewsList
 ));
 
-function FilmCard(): JSX.Element | null {
-  const activeFilm = useAppSelector(getActiveFilmItem, isTabsFilmEqual);
-  const activeReviews = useAppSelector(getActiveReviews) ?? EMPTY_REVIEWS;
-
-  if (!activeFilm) {
+function FilmCard({ activeFilm }: FilmCardProps): JSX.Element | null {
+  const { film, reviews } = activeFilm ?? {};
+  if (!film) {
     return null;
   }
 
-  const { director, description, starring, rating, runTime, genre, releaseDate } = activeFilm;
-  const ratingCount = calcArraySumProps(activeReviews, 'rating')?.length;
-  const descriptionProps = { director, description, starring, rating, ratingCount } as FilmDescriptionType;
-  const detailsProps = { director, starring, runTime, genre, releaseDate } as FilmDetailsType;
 
   return (
-    <section className="film-card film-card--full">
-      <HeroSection film={activeFilm} />
-      <MemoTabsSection film={activeFilm} descriptionProps={descriptionProps} detailsProps={detailsProps} reviewsList={activeReviews} />
+    <section className="film-card film-card--full" style={{ backgroundColor: film.backgroundColor }}>
+      <HeroSection film={film} />
+      <MemoTabsSection film={film} reviewsList={reviews} />
     </section>
   );
+
 }
 
 export default FilmCard;

@@ -3,13 +3,8 @@ import { useParams } from 'react-router-dom';
 
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { useAppSelector } from '../../hooks/use-app-selector';
-import { getSimilarFilms } from '../../store/film-data/selectors';
-
-import {
-  fetchReviewsAction,
-  fetchFilmAction,
-  fetchSimilarFilmAction
-} from '../../store/api-actions';
+import { getSimilarFilms, getActiveFilm } from '../../store/film-data/selectors';
+import { loadFilmInfoAction } from '../../store/actions';
 
 import Catalog from '../../components/catalog/catalog';
 import FilmCard from '../../components/film-card/film-card';
@@ -25,16 +20,18 @@ function FilmScreen(): JSX.Element {
 
   const dispatch = useAppDispatch();
   const similarFilms = useAppSelector(getSimilarFilms);
+  const activeFilm = useAppSelector(getActiveFilm);
 
   useEffect(() => {
-    dispatch(fetchFilmAction(pageId));
-    dispatch(fetchSimilarFilmAction(pageId));
-    dispatch(fetchReviewsAction(pageId));
+    if (!pageId) {
+      return;
+    }
+    dispatch(loadFilmInfoAction(pageId));
   }, [dispatch, pageId]);
 
   return (
     <>
-      <FilmCard />
+      <FilmCard activeFilm={activeFilm} />
 
       <div className="page-content">
         <section className="catalog catalog--like-this">

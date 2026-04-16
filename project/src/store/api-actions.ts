@@ -1,6 +1,7 @@
 import { AxiosInstance, AxiosError } from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { StatusCodes } from 'http-status-codes';
+import { toast } from 'react-toastify';
 
 import type { AppDispatchType } from '../types/state';
 import type { UserDataType } from '../types/user-data';
@@ -20,10 +21,16 @@ export const fetchFilmsAction = createAsyncThunk<FilmsType, undefined, {
   extra: AxiosInstance;
 }>(
   Action.FETCH_FILMS,
-  async (_arg, { dispatch, extra: api }) => {
-    const { data } = await api.get<ServerFilmsType>(APIRoute.Films);
-    return adaptFilmsDataToApp(data) ?? [];
-  },
+  async (_arg, { extra: api }) => {
+    try {
+      const { data } = await api.get<ServerFilmsType>(APIRoute.Films);
+      return adaptFilmsDataToApp(data) ?? [];
+    } catch (error) {
+      const axiosError = error as AxiosError;
+      toast.error(axiosError.response?.statusText ?? 'Failed to load films');
+      return [];
+    }
+  }
 );
 
 export const fetchFilmAction = createAsyncThunk<ServerFilmType, FilmIdType, {
@@ -51,9 +58,15 @@ export const fetchSimilarFilmAction = createAsyncThunk<ServerFilmsType, FilmIdTy
   extra: AxiosInstance;
 }>(
   Action.LOAD_SIMILAR_FILMS,
-  async (id, { dispatch, extra: api }) => {
-    const { data } = await api.get<ServerFilmsType>(`${APIRoute.Films}/${id}/similar`);
-    return data;
+  async (id, { extra: api }) => {
+    try {
+      const { data } = await api.get<ServerFilmsType>(`${APIRoute.Films}/${id}/similar`);
+      return data;
+    } catch (error) {
+      const axiosError = error as AxiosError;
+      toast.error(axiosError.response?.statusText ?? 'Failed to load similar films');
+      return [];
+    }
   },
 );
 
@@ -62,7 +75,7 @@ export const fetchPromoFilmAction = createAsyncThunk<ServerFilmType, undefined, 
   extra: AxiosInstance;
 }>(
   Action.FETCH_PROMO_FILM,
-  async (_arg, { dispatch, extra: api }) => {
+  async (_arg, { extra: api }) => {
     const { data } = await api.get<ServerFilmType>(APIRoute.Promo);
     return data;
   },
@@ -73,10 +86,16 @@ export const fetchReviewsAction = createAsyncThunk<ServerReviewsType, FilmIdType
   extra: AxiosInstance;
 }>(
   Action.FETCH_REVIEWS,
-  async (id, { dispatch, extra: api }) => {
-    const { data } = await api.get<ServerReviewsType>(`${APIRoute.Comments}${id}`);
-    return data;
-  },
+  async (id, { extra: api }) => {
+    try {
+      const { data } = await api.get<ServerReviewsType>(`${APIRoute.Comments}${id}`);
+      return data;
+    } catch (error) {
+      const axiosError = error as AxiosError;
+      toast.error(axiosError.response?.statusText ?? 'Failed to load reviews');
+      return [];
+    }
+  }
 );
 
 export const fetchNewReviewAction = createAsyncThunk<ServerReviewsType, NewReviewType & { id: FilmIdType }, {

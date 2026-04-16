@@ -7,7 +7,7 @@ type TabReviewsProps = {
 }
 
 function TabReviews({ reviewsList }: TabReviewsProps): JSX.Element {
-  const middleListCount: number = Math.round(reviewsList?.length / 2);
+  const middleListCount: number = Math.round((reviewsList?.length ?? 0) / 2);
   const firstColumn = reviewsList?.slice(0, middleListCount);
   const secondColumn = reviewsList?.slice(middleListCount, reviewsList?.length);
 
