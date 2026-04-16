@@ -14,5 +14,5 @@ export const getSimilarFilms = (state: StateType) =>
 export const getGroupedFilms = (state: StateType) =>
   state[NameSpace.Data].groupedFilms;
 export const getIsFilmsLoaded = (state: StateType) =>
-  state[NameSpace.Data].isFilmsLoaded;
+  state[NameSpace.Data].isDataLoaded;
 export const getMyList = (state: StateType) => state[NameSpace.Data].myList;

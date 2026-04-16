@@ -21,23 +21,41 @@ function PreviewPlayer({ playerIndex, previewSrc, poster, isPlaying, onMouseEnte
   };
 
   useEffect(() => {
-    const video = videoRef?.current;
+    const video = videoRef.current;
 
-    if (video === null) {
+    if (!video) {
       return;
     }
 
-    video?.addEventListener('loadeddata', () => setIsLoading(false));
+    const onLoadedData = () => setIsLoading(false);
+    video.addEventListener('loadeddata', onLoadedData);
+
+    return () => {
+      video.removeEventListener('loadeddata', onLoadedData);
+    };
+  }, []);
+
+  useEffect(() => {
+    const video = videoRef.current;
+
+    if (!video) {
+      return;
+    }
 
     if (!isLoading && isPlaying) {
-      video?.play();
+      video.play();
       return;
     }
 
-    video?.pause();
+    video.pause();
     video.currentTime = 0;
-    video?.load();
-
+    if (typeof video.load === 'function') {
+      try {
+        video.load();
+      } catch {
+        // jsdom не реализует загрузку media-элементов.
+      }
+    }
   }, [isPlaying, isLoading]);
 
   return (

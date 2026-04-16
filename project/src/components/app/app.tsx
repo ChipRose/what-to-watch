@@ -1,6 +1,4 @@
 import { Routes, Route } from 'react-router-dom';
-import HistoryRouter from '../history-route/history-route';
-import browserHistory from '../../browser-history';
 
 import { useAppSelector } from '../../hooks/use-app-selector';
 import { getAuthorizationStatus } from '../../store/user-process/selectors';
@@ -29,49 +27,47 @@ function App(): JSX.Element {
   }
 
   return (
-    <HistoryRouter history={browserHistory}>
-      <Routes>
-        <Route path={AppRoute.Main} element={<PageWrapper />}>
-          <Route path={AppRoute.Main} element={<MainScreen />} />
+    <Routes>
+      <Route path={AppRoute.Main} element={<PageWrapper />}>
+        <Route path={AppRoute.Main} element={<MainScreen />} />
 
-          <Route path={AppRoute.LogIn} element={<LoginScreen />} />
-          <Route path={AppRoute.Films}>
-            <Route path={AppRoute.FilmPreviewType}
-              element={
-                <FilmScreen />
-              }
-            />
-
-            <Route
-              path={AppRoute.AddReview}
-              element={
-                <PrivateRoute authorizationStatus={authorizationStatus}>
-                  <AddReviewScreen />
-                </PrivateRoute>
-              }
-            />
-          </Route>
-          <Route path={AppRoute.Player} element={<PlayerScreen />} />
-          <Route
-            path={AppRoute.MyList}
+        <Route path={AppRoute.LogIn} element={<LoginScreen />} />
+        <Route path={AppRoute.Films}>
+          <Route path={AppRoute.FilmPreviewType}
             element={
-              <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
-                <MyListScreen />
-              </PrivateRoute>
+              <FilmScreen />
             }
           />
+
           <Route
             path={AppRoute.AddReview}
             element={
-              <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
+              <PrivateRoute authorizationStatus={authorizationStatus}>
                 <AddReviewScreen />
               </PrivateRoute>
             }
           />
-          <Route path={AppRoute.NotFound} element={<NotFoundScreen />} />
         </Route>
-      </Routes>
-    </HistoryRouter>
+        <Route path={AppRoute.Player} element={<PlayerScreen />} />
+        <Route
+          path={AppRoute.MyList}
+          element={
+            <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
+              <MyListScreen />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path={AppRoute.AddReview}
+          element={
+            <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
+              <AddReviewScreen />
+            </PrivateRoute>
+          }
+        />
+        <Route path={AppRoute.NotFound} element={<NotFoundScreen />} />
+      </Route>
+    </Routes>
   );
 }
 

@@ -19,8 +19,22 @@ export enum AppRoute {
   FilmPreviewType = ':id',
   AddReview = '/films/:id/review',
   Player = '/player/:id',
-  NotFound = '*',
+  NotFound = '/not-found',
   Lose = '/lose',
+}
+
+export enum APIRoute {
+  Main = '/',
+  Films = '/films/',
+  Promo = '/promo/',
+  Comments = '/comments/',
+  Login = '/login/',
+  Logout = '/logout/',
+  Favorite = '/favorite/',
+  Reviews = '/reviews/',
+  Review = '/review/',
+  Player = '/player/',
+  MyList = '/mylist/',
 }
 
 export enum AuthorizationStatus {
@@ -112,18 +126,6 @@ export const Action = {
   RESET_APP: 'app/reset',
   REDIRECT_TO_ROUTE: 'toRoute/redirect'
 };
-
-export enum APIRoute {
-  Films = '/films',
-  Promo = '/promo',
-  Comments = '/comments/',
-  Login = '/login',
-  Logout = '/logout',
-  Favorite = '/favorite/',
-  Reviews = '/reviews',
-  Review = '/review',
-  Player = '/player',
-}
 
 export const StatusCodeMapping: Record<number, boolean> = {
   [StatusCodes.BAD_REQUEST]: true,

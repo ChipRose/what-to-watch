@@ -25,7 +25,7 @@ describe('Reducer: filmData', () => {
 
   beforeEach(() => {
     initialState = {
-      isFilmsLoaded: false,
+      isDataLoaded: false,
       films: null,
       promoFilm: null,
       myList: null,
@@ -42,7 +42,7 @@ describe('Reducer: filmData', () => {
 
   it('should return initial state when passed an empty action', () => {
     expect(filmData.reducer(undefined, { type: '' })).toEqual({
-      isFilmsLoaded: false,
+      isDataLoaded: false,
       films: null,
       promoFilm: null,
       myList: null,
@@ -75,22 +75,22 @@ describe('Reducer: filmData', () => {
 
   it('should update PROMO film by load promo film', () => {
     expect(filmData.reducer(initialState, { type: fetchPromoFilmAction.fulfilled.type, payload: mockFilm }))
-      .toEqual({ ...initialState, activeFilm: { film: mockAdaptedFilm, reviews: null, similarFilms: null }, promoFilm: mockAdaptedFilm });
+      .toEqual({ ...initialState, promoFilm: mockAdaptedFilm });
   });
 
   it('should update FILMS by load films', () => {
     expect(filmData.reducer(initialState, { type: fetchFilmsAction.fulfilled.type, payload: mockAdaptedFilms }))
-      .toEqual({ ...initialState, films: mockAdaptedFilms, isFilmsLoaded: true, groupedFilms: mockGroupedFilms });
+      .toEqual({ ...initialState, films: mockAdaptedFilms, isDataLoaded: true, groupedFilms: mockGroupedFilms });
   });
 
   it('should reset FILMS and loading status by load films pending', () => {
     expect(filmData.reducer(someNewState , { type: fetchFilmsAction.pending.type }))
-      .toEqual({ ...someNewState, films: null, groupedFilms: null, isFilmsLoaded: false });
+      .toEqual({ ...someNewState, films: null, groupedFilms: null, isDataLoaded: false });
   });
 
   it('should reset FILMS and set loading status by load films rejected', () => {
     expect(filmData.reducer(someNewState , { type: fetchFilmsAction.rejected.type }))
-      .toEqual({ ...someNewState, films: null, groupedFilms: null, isFilmsLoaded: true });
+      .toEqual({ ...someNewState, films: null, groupedFilms: null, isDataLoaded: true });
   });
 
   it('should update FILM by load film', () => {
@@ -101,6 +101,16 @@ describe('Reducer: filmData', () => {
   it('should set FILM to null by load film with null payload', () => {
     expect(filmData.reducer(someNewState, { type: fetchFilmAction.fulfilled.type, payload: null }))
       .toEqual({ ...someNewState, activeFilm: { ...someNewState.activeFilm, film: null } });
+  });
+
+  it('should reset ACTIVE FILM data by load film pending', () => {
+    expect(filmData.reducer(someNewState, { type: fetchFilmAction.pending.type }))
+      .toEqual({ ...someNewState, activeFilm: { film: null, reviews: null, similarFilms: null } });
+  });
+
+  it('should reset ACTIVE FILM data by load film rejected', () => {
+    expect(filmData.reducer(someNewState, { type: fetchFilmAction.rejected.type }))
+      .toEqual({ ...someNewState, activeFilm: { film: null, reviews: null, similarFilms: null } });
   });
 
   it('should update REVIEWS by load reviews', () => {

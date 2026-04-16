@@ -126,7 +126,7 @@ describe('Async actions', () => {
       const film = makeTestFilm();
 
       mockAPI
-        .onGet(`${APIRoute.Films}/1`)
+        .onGet(/\/films\/+1$/)
         .reply(200, film);
 
       await store.dispatch(fetchFilmAction(1));
@@ -143,7 +143,7 @@ describe('Async actions', () => {
       const store = mockStore();
 
       mockAPI
-        .onGet(`${APIRoute.Films}/1`)
+        .onGet(/\/films\/+1$/)
         .reply(404, []);
 
       await store.dispatch(fetchFilmAction(1));

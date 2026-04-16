@@ -40,7 +40,7 @@ export const fetchFilmAction = createAsyncThunk<ServerFilmType, FilmIdType, {
   Action.FETCH_FILM,
   async (id, { dispatch, extra: api }) => {
     try {
-      const { data } = await api.get<ServerFilmType>(`${APIRoute.Films}/${id}`);
+      const { data } = await api.get<ServerFilmType>(`${APIRoute.Films}${id}`);
       return data;
     } catch (error) {
       const axiosError = error as AxiosError;
@@ -60,7 +60,7 @@ export const fetchSimilarFilmAction = createAsyncThunk<ServerFilmsType, FilmIdTy
   Action.LOAD_SIMILAR_FILMS,
   async (id, { extra: api }) => {
     try {
-      const { data } = await api.get<ServerFilmsType>(`${APIRoute.Films}/${id}/similar`);
+      const { data } = await api.get<ServerFilmsType>(`${APIRoute.Films}${id}/similar`);
       return data;
     } catch (error) {
       const axiosError = error as AxiosError;

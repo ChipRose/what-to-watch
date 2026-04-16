@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
+import HistoryRouter from './components/history-route/history-route';
+import browserHistory from './browser-history';
 
 import { checkAuthAction, fetchFilmsAction, fetchPromoFilmAction } from './store/api-actions';
 
@@ -22,8 +24,10 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <ToastContainer position="bottom-left" />
-      <App />
+      <HistoryRouter history={browserHistory}>
+        <ToastContainer position="bottom-left" />
+        <App />
+      </HistoryRouter>
     </Provider>
   </React.StrictMode>
 );

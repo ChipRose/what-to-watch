@@ -12,7 +12,7 @@ import type { FilmDataType } from '../../types/state';
 import { fetchSimilarFilmAction, fetchFilmAction, fetchFilmsAction, fetchPromoFilmAction, fetchReviewsAction, fetchNewReviewAction, fetchToWatchFilms, fetchAddToWatchAction } from '../api-actions';
 
 const initialState: FilmDataType = {
-  isFilmsLoaded: false,
+  isDataLoaded: false,
   films: null,
   promoFilm: null,
   myList: null,
@@ -35,32 +35,41 @@ export const filmData = createSlice({
   },
   extraReducers(builder) {
     builder
+      .addCase(fetchFilmAction.pending, (state) => {
+        state.activeFilm.film = null;
+        state.activeFilm.reviews = null;
+        state.activeFilm.similarFilms = null;
+      })
       .addCase(fetchFilmAction.fulfilled, (state, action) => {
         state.activeFilm.film = action.payload ? adaptFilmToApp(action.payload) : null;
+      })
+      .addCase(fetchFilmAction.rejected, (state) => {
+        state.activeFilm.film = null;
+        state.activeFilm.reviews = null;
+        state.activeFilm.similarFilms = null;
       })
       .addCase(fetchPromoFilmAction.pending, (state) => {
         state.promoFilm = null;
       })
       .addCase(fetchPromoFilmAction.fulfilled, (state, action) => {
         state.promoFilm = adaptFilmToApp(action.payload);
-        state.activeFilm.film = state.promoFilm;
       })
       .addCase(fetchFilmsAction.pending, (state) => {
         state.films = null;
         state.groupedFilms = null;
-        state.isFilmsLoaded = false;
+        state.isDataLoaded = false;
       })
       .addCase(fetchFilmsAction.fulfilled, (state, action) => {
         const films = action.payload;
         const groupedFilms = groupByGenre(films);
         state.films = films;
-        state.isFilmsLoaded = true;
+        state.isDataLoaded = true;
         state.groupedFilms = groupedFilms;
       })
       .addCase(fetchFilmsAction.rejected, (state) => {
         state.films = null;
         state.groupedFilms = null;
-        state.isFilmsLoaded = true;
+        state.isDataLoaded = true;
       })
       .addCase(fetchSimilarFilmAction.pending, (state) => {
         state.activeFilm.similarFilms = null;

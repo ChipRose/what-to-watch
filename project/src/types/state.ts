@@ -8,7 +8,7 @@ import type { ReviewsType } from './review';
 
 export type StoreType = {
   error: string | null;
-  isFilmsLoaded: boolean;
+  isDataLoaded: boolean;
   films: FilmsType|null;
   promoFilm: FilmType | null;
   defaultFilmsList: FilmsType | null;
@@ -32,7 +32,7 @@ export type StoreType = {
 };
 
 export type FilmDataType={
-  isFilmsLoaded: boolean;
+  isDataLoaded: boolean;
   films: FilmsType | null;
   myList: FilmsType | null;
   promoFilm: FilmType | null;
