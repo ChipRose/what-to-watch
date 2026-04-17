@@ -25,16 +25,16 @@ export enum AppRoute {
 
 export enum APIRoute {
   Main = '/',
-  Films = '/films/',
-  Promo = '/promo/',
-  Comments = '/comments/',
-  Login = '/login/',
-  Logout = '/logout/',
-  Favorite = '/favorite/',
-  Reviews = '/reviews/',
-  Review = '/review/',
-  Player = '/player/',
-  MyList = '/mylist/',
+  Films = '/films',
+  Promo = '/promo',
+  Comments = '/comments',
+  Login = '/login',
+  Logout = '/logout',
+  Favorite = '/favorite',
+  Reviews = '/reviews',
+  Review = '/review',
+  Player = '/player',
+  MyList = '/mylist',
 }
 
 export enum AuthorizationStatus {

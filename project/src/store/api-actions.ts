@@ -40,7 +40,7 @@ export const fetchFilmAction = createAsyncThunk<ServerFilmType, FilmIdType, {
   Action.FETCH_FILM,
   async (id, { dispatch, extra: api }) => {
     try {
-      const { data } = await api.get<ServerFilmType>(`${APIRoute.Films}${id}`);
+      const { data } = await api.get<ServerFilmType>(`${APIRoute.Films}/${id}`);
       return data;
     } catch (error) {
       const axiosError = error as AxiosError;
@@ -60,7 +60,7 @@ export const fetchSimilarFilmAction = createAsyncThunk<ServerFilmsType, FilmIdTy
   Action.LOAD_SIMILAR_FILMS,
   async (id, { extra: api }) => {
     try {
-      const { data } = await api.get<ServerFilmsType>(`${APIRoute.Films}${id}/similar`);
+      const { data } = await api.get<ServerFilmsType>(`${APIRoute.Films}/${id}/similar`);
       return data;
     } catch (error) {
       const axiosError = error as AxiosError;
@@ -88,7 +88,7 @@ export const fetchReviewsAction = createAsyncThunk<ServerReviewsType, FilmIdType
   Action.FETCH_REVIEWS,
   async (id, { extra: api }) => {
     try {
-      const { data } = await api.get<ServerReviewsType>(`${APIRoute.Comments}${id}`);
+      const { data } = await api.get<ServerReviewsType>(`${APIRoute.Comments}/${id}`);
       return data;
     } catch (error) {
       const axiosError = error as AxiosError;
@@ -110,7 +110,7 @@ export const fetchNewReviewAction = createAsyncThunk<ServerReviewsType, NewRevie
     }
 
     try {
-      const { data } = await api.post<ServerReviewsType>(`${APIRoute.Comments}${id}`, {
+      const { data } = await api.post<ServerReviewsType>(`${APIRoute.Comments}/${id}`, {
         comment, rating
       });
       dispatch(redirectToRoute(`${AppRoute.Films}/${id}`));
@@ -136,7 +136,7 @@ export const fetchAddToWatchAction = createAsyncThunk<ServerFilmType | null, { i
       return null;
     }
 
-    const { data } = await api.post<ServerFilmType>(`${APIRoute.Favorite}${id}/${status}`);
+    const { data } = await api.post<ServerFilmType>(`${APIRoute.Favorite}/${id}/${status}`);
     return data;
   },
 );

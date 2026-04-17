@@ -40,13 +40,13 @@ describe('Async actions', () => {
       mockAPI
         .onGet(APIRoute.Login)
         .reply(200, []);
-  
+
       expect(store.getActions()).toEqual([]);
-  
+
       await store.dispatch(checkAuthAction());
-  
-      const actions = store.getActions().map(({type}) => type);
-  
+
+      const actions = store.getActions().map((action: { type: string }) => action.type);
+
       expect(actions).toEqual([
         checkAuthAction.pending.type,
         checkAuthAction.fulfilled.type
@@ -61,7 +61,7 @@ describe('Async actions', () => {
 
       await store.dispatch(checkAuthAction());
 
-      const actions = store.getActions().map(({type}) => type);
+      const actions = store.getActions().map((action: { type: string }) => action.type);
 
       expect(actions).toEqual([
         checkAuthAction.pending.type,
@@ -77,7 +77,7 @@ describe('Async actions', () => {
 
       await store.dispatch(checkAuthAction());
 
-      const actions = store.getActions().map(({type}) => type);
+      const actions = store.getActions().map((action: { type: string }) => action.type);
 
       expect(actions).toEqual([
         checkAuthAction.pending.type,
@@ -95,7 +95,7 @@ describe('Async actions', () => {
 
       await store.dispatch(fetchFilmsAction());
 
-      const actions = store.getActions().map(({ type }) => type);
+      const actions = store.getActions().map((action: { type: string }) => action.type);
 
       expect(actions).toEqual([
         fetchFilmsAction.pending.type,
@@ -111,7 +111,7 @@ describe('Async actions', () => {
 
       await store.dispatch(fetchFilmsAction());
 
-      const actions = store.getActions().map(({ type }) => type);
+      const actions = store.getActions().map((action: { type: string }) => action.type);
 
       expect(actions).toEqual([
         fetchFilmsAction.pending.type,
@@ -131,7 +131,7 @@ describe('Async actions', () => {
 
       await store.dispatch(fetchFilmAction(1));
 
-      const actions = store.getActions().map(({ type }) => type);
+      const actions = store.getActions().map((action: { type: string }) => action.type);
 
       expect(actions).toEqual([
         fetchFilmAction.pending.type,
@@ -148,7 +148,7 @@ describe('Async actions', () => {
 
       await store.dispatch(fetchFilmAction(1));
 
-      const actions = store.getActions().map(({ type }) => type);
+      const actions = store.getActions().map((action: { type: string }) => action.type);
 
       expect(actions).toEqual([
         fetchFilmAction.pending.type,
@@ -170,7 +170,7 @@ describe('Async actions', () => {
 
       await store.dispatch(fetchSimilarFilmAction(1));
 
-      const actions = store.getActions().map(({ type }) => type);
+      const actions = store.getActions().map((action: { type: string }) => action.type);
 
       expect(actions).toEqual([
         fetchSimilarFilmAction.pending.type,
@@ -187,7 +187,7 @@ describe('Async actions', () => {
 
       await store.dispatch(fetchSimilarFilmAction(1));
 
-      const actions = store.getActions().map(({ type }) => type);
+      const actions = store.getActions().map((action: { type: string }) => action.type);
 
       expect(actions).toEqual([
         fetchSimilarFilmAction.pending.type,
@@ -201,12 +201,12 @@ describe('Async actions', () => {
       const store = mockStore();
 
       mockAPI
-        .onGet(`${APIRoute.Comments}1`)
+        .onGet(`${APIRoute.Comments}/1`)
         .reply(200, []);
 
       await store.dispatch(fetchReviewsAction(1));
 
-      const actions = store.getActions().map(({ type }) => type);
+      const actions = store.getActions().map((action: { type: string }) => action.type);
 
       expect(actions).toEqual([
         fetchReviewsAction.pending.type,
@@ -218,12 +218,12 @@ describe('Async actions', () => {
       const store = mockStore();
 
       mockAPI
-        .onGet(`${APIRoute.Comments}1`)
+        .onGet(`${APIRoute.Comments}/1`)
         .reply(500, []);
 
       await store.dispatch(fetchReviewsAction(1));
 
-      const actions = store.getActions().map(({ type }) => type);
+      const actions = store.getActions().map((action: { type: string }) => action.type);
 
       expect(actions).toEqual([
         fetchReviewsAction.pending.type,
@@ -243,7 +243,7 @@ describe('Async actions', () => {
 
       await store.dispatch(fetchPromoFilmAction());
 
-      const actions = store.getActions().map(({ type }) => type);
+      const actions = store.getActions().map((action: { type: string }) => action.type);
 
       expect(actions).toEqual([
         fetchPromoFilmAction.pending.type,
@@ -262,7 +262,7 @@ describe('Async actions', () => {
 
       await store.dispatch(fetchToWatchFilms());
 
-      const actions = store.getActions().map(({ type }) => type);
+      const actions = store.getActions().map((action: { type: string }) => action.type);
 
       expect(actions).toEqual([
         fetchToWatchFilms.pending.type,
@@ -279,7 +279,7 @@ describe('Async actions', () => {
 
       await store.dispatch(fetchToWatchFilms());
 
-      const actions = store.getActions().map(({ type }) => type);
+      const actions = store.getActions().map((action: { type: string }) => action.type);
 
       expect(actions).toEqual([
         fetchToWatchFilms.pending.type,
