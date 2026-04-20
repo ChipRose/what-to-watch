@@ -127,4 +127,10 @@ describe('Application Routing', () => {
     render(testApp);
     expect(screen.getByText(/My List/i)).toBeInTheDocument();
   });
+
+  it('should render "NotFoundScreen"', () => {
+    testHistory.push('/unknown-route');
+    render(testApp);
+    expect(screen.getByText(/Страница не найдена/i)).toBeInTheDocument();
+  });
 });
