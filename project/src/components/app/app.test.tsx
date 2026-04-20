@@ -4,7 +4,6 @@ import { Provider } from 'react-redux';
 import { generatePath } from 'react-router-dom';
 import { configureMockStore } from '@jedmao/redux-mock-store';
 import thunk, { ThunkDispatch } from 'redux-thunk';
-import type { AnyAction } from 'redux';
 import MockAdapter from 'axios-mock-adapter';
 
 import { AuthorizationStatus, NameSpace, APIRoute, AppRoute } from '../../const/const';
@@ -14,6 +13,7 @@ import { makeTestFilm, makeTestFilms } from '../../util/mocks';
 import { adaptFilmToApp, adaptFilmsDataToApp } from '../../util/util-adapt-data';
 import HistoryRouter from '../history-route/history-route';
 
+import type { AnyAction } from 'redux';
 import type { FilmDataType, StateType } from '../../types/state';
 
 import App from './app';

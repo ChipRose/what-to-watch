@@ -1,5 +1,11 @@
 import { datatype, image, internet, lorem, name, random } from 'faker';
+import { genreMapping } from '../const/const';
+
+import { adaptFilmToApp } from './util-adapt-data';
+
 import type { ServerFilmType, ServerReviewType } from '../types/server-data';
+import type { GenreListType } from '../types/genre';
+import type { FilmDetailsType } from '../types/film';
 
 export const makeTestFilm = (): ServerFilmType => ({
   id: datatype.number(),
@@ -40,4 +46,19 @@ export const makeReview = (): ServerReviewType => ({
 export const makeReviews = (): ServerReviewType[] => {
   const REVIEWS_COUNT = 20;
   return Array.from({ length: REVIEWS_COUNT }, makeReview);
+};
+
+export const makeTestGenresList = (): GenreListType => {
+  return Object.keys(genreMapping) as GenreListType;
+};
+
+export  const makeTestDetailsProps = (): FilmDetailsType => {
+  const mockAdaptedFilm = adaptFilmToApp(makeTestFilm());
+  return {
+    director: mockAdaptedFilm?.director ?? '',
+    starring: mockAdaptedFilm?.starring ?? [],
+    runTime: mockAdaptedFilm?.runTime ?? 0,
+    genre: mockAdaptedFilm?.genre ?? '',
+    releaseDate: mockAdaptedFilm?.releaseDate ?? 0,
+  };
 };
