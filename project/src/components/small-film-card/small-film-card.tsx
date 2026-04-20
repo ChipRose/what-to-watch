@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom';
 
-import type { FilmPreviewType, FilmIdType } from '../../types/film';
+import type { FilmPreview, FilmIdType } from '../../types/film';
 
-type CardProps = FilmPreviewType & {
+type CardProps = FilmPreview & {
   playerIndex: number;
   onFilmClick: (id: FilmIdType) => void;
   renderPlayer: (previewSrc: string, playerIndex: number, previewImage: string) => JSX.Element;

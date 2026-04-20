@@ -2,14 +2,14 @@ import { genres, genresTabs } from '../const/const';
 
 export type FilmIdType = number;
 
-export type FilmPreviewType = {
+export type FilmPreview = {
   id: FilmIdType;
   previewSrc: string;
   previewImage: string;
   title: string;
 };
 
-export type FilmsPreviewType = FilmPreviewType[];
+export type FilmsPreviewType = FilmPreview[];
 
 export type FilmDescriptionType = {
   director: string;
@@ -27,7 +27,7 @@ export type FilmDetailsType = {
   releaseDate: number;
 };
 
-export type FilmType = FilmPreviewType & FilmDescriptionType & FilmDetailsType & {
+export type FilmType = FilmPreview & FilmDescriptionType & FilmDetailsType & {
   src: string;
   backgroundImage: string;
   backgroundColor: string;

@@ -101,9 +101,12 @@ function VideoPlayer({ film }: VideoPlayerProps): JSX.Element | null {
       return;
     }
 
-    video.play().catch(() => {
-      setIsPlaying(false);
-    });
+    const playPromise = video.play();
+    if (playPromise !== undefined) {
+      playPromise.catch(() => {
+        setIsPlaying(false);
+      });
+    }
   }, [film?.id]);
 
   return film ? (

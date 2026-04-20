@@ -33,7 +33,7 @@ function App(): JSX.Element {
 
         <Route path={AppRoute.LogIn} element={<LoginScreen />} />
         <Route path={AppRoute.Films}>
-          <Route path={AppRoute.FilmPreviewType}
+          <Route path={AppRoute.FilmPreview}
             element={
               <FilmScreen />
             }

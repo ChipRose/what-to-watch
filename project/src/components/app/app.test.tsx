@@ -83,6 +83,14 @@ describe('Application Routing', () => {
     mockAPI.resetHandlers();
   });
 
+  it('should render "AuthScreen"', () => {
+    testHistory.push(AppRoute.LogIn);
+    render(testApp);
+    expect(screen.getByRole('button', { name: /Sign in/i })).toBeInTheDocument();
+    expect(screen.getByPlaceholderText(/Email address/i)).toBeInTheDocument();
+    expect(screen.getByPlaceholderText(/Password/i)).toBeInTheDocument();
+  });
+
   it('should render "MainScreen"', () => {
     const promoFilm = (testStore.getState()[NameSpace.Data] as FilmDataType).promoFilm;
     testHistory.push(APIRoute.Main);
@@ -92,9 +100,19 @@ describe('Application Routing', () => {
 
   it('should render "FilmScreen"', () => {
     const activeFilm = (testStore.getState()[NameSpace.Data] as FilmDataType).activeFilm.film;
-    testHistory.push(generatePath(`${AppRoute.Films}/:id`, { id: String(activeFilm?.id ?? '') }));
+    testHistory.push(generatePath(AppRoute.Film, { id: String(activeFilm?.id ?? '') }));
     render(testApp);
     expect(screen.getByText(new RegExp(activeFilm?.title ?? '', 'i'))).toBeInTheDocument();
+    expect(screen.getByText(/More like this/i)).toBeInTheDocument();
+  });
+
+  it('should render "PlayerScreen"', () => {
+    const activeFilm = (testStore.getState()[NameSpace.Data] as FilmDataType).activeFilm.film;
+    testHistory.push(generatePath(AppRoute.Player, { id: String(activeFilm?.id ?? '') }));
+    render(testApp);
+    expect(screen.getByText(new RegExp(activeFilm?.title ?? '', 'i'))).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /^(pause|play)$/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /Full screen/i })).toBeInTheDocument();
   });
 
   it('should render "AddReviewScreen"', () => {
