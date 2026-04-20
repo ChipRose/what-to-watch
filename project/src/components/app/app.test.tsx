@@ -86,6 +86,7 @@ describe('Application Routing', () => {
   it('should render "AuthScreen"', () => {
     testHistory.push(AppRoute.LogIn);
     render(testApp);
+    expect(screen.getByRole('heading', { name: /Sign in/i })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /Sign in/i })).toBeInTheDocument();
     expect(screen.getByPlaceholderText(/Email address/i)).toBeInTheDocument();
     expect(screen.getByPlaceholderText(/Password/i)).toBeInTheDocument();
