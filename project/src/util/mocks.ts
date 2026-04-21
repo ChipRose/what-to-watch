@@ -5,7 +5,7 @@ import { adaptFilmToApp } from './util-adapt-data';
 
 import type { ServerFilmType, ServerReviewType } from '../types/server-data';
 import type { GenreListType } from '../types/genre';
-import type { FilmDetailsType } from '../types/film';
+import type { FilmDescriptionType, FilmDetailsType } from '../types/film';
 
 export const makeTestFilm = (): ServerFilmType => ({
   id: datatype.number(),
@@ -60,5 +60,16 @@ export  const makeTestDetailsProps = (): FilmDetailsType => {
     runTime: mockAdaptedFilm?.runTime ?? 0,
     genre: mockAdaptedFilm?.genre ?? '',
     releaseDate: mockAdaptedFilm?.releaseDate ?? 0,
+  };
+};
+
+export const makeTestDescriptionProps = (): FilmDescriptionType => {
+  const mockAdaptedFilm = adaptFilmToApp(makeTestFilm());
+  return {
+    rating: mockAdaptedFilm?.rating ?? 0,
+    ratingCount: mockAdaptedFilm?.ratingCount ?? 0,
+    description: mockAdaptedFilm?.description ?? '',
+    director: mockAdaptedFilm?.director ?? '',
+    starring: mockAdaptedFilm?.starring ?? [],
   };
 };

@@ -29,15 +29,13 @@ export const adaptFilmsDataToApp = (data: ServerFilmsType | null): FilmsType | n
   return films ? films.filter((film): film is FilmType => film !== null) : null;
 };
 
-export const adaptReviewsToApp = (data: ServerReviewsType): ReviewsType => {
+export const adaptReviewToApp = (review: ServerReviewType): ReviewType => ({
+  id: review?.id,
+  rating: review?.rating,
+  text: review?.comment,
+  author: review?.user?.name,
+  date: review?.date,
+});
 
-  const adaptReviewToApp = (review: ServerReviewType): ReviewType => ({
-    id: review?.id,
-    rating: review?.rating,
-    text: review?.comment,
-    author: review?.user?.name,
-    date: review?.date,
-  });
-
-  return Array.from(data, (review, _) => adaptReviewToApp(review));
-};
+export const adaptReviewsToApp = (data: ServerReviewsType): ReviewsType =>
+  Array.from(data, (review, _) => adaptReviewToApp(review));

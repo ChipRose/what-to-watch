@@ -21,24 +21,42 @@ const mockStore = configureMockStore<
 >(middlewares);
 const testHistory = createMemoryHistory();
 
+
+
+const testComponent = (testStore: ReturnType<typeof mockStore>)=>(
+  <Provider store={testStore}>
+    <HistoryRouter history={testHistory}>
+      <Header />
+    </HistoryRouter>
+  </Provider>
+);
+
 describe('Component: Header', () => {
-  it('should render correctly', () => {
+
+
+  it('should render correctly for unauth user', () => {
     const testStore = mockStore({
       [NameSpace.User]: {
         authorizationStatus: AuthorizationStatus.NoAuth,
         userInfo: { avatar: null },
       },
     });
-
-    render(
-      <Provider store={testStore}>
-        <HistoryRouter history={testHistory}>
-          <Header />
-        </HistoryRouter>
-      </Provider>
-    );
+    render(testComponent(testStore));
 
     expect(screen.getByRole('link', { name: /Sign in/i })).toBeInTheDocument();
     expect(screen.getByRole('link', { name: /w\s*t\s*w/i })).toBeInTheDocument();
+  });
+
+  it('should render correctly for auth user', () => {
+    const testStore = mockStore({
+      [NameSpace.User]: {
+        authorizationStatus: AuthorizationStatus.Auth,
+        userInfo: { avatar: 'https://example.com/avatar.png' },
+      },
+    });
+    render(testComponent(testStore));
+
+    expect(screen.getByRole('img', { name: /User avatar/i })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /Sign out/i })).toBeInTheDocument();
   });
 });

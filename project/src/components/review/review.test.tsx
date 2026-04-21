@@ -1,23 +1,27 @@
 import { render, screen } from '@testing-library/react';
 
+import { makeReview } from '../../util/mocks';
+import { adaptReviewToApp } from '../../util/util-adapt-data';
+import { getCustomFormat } from '../../util/util';
+
 import Review from './review';
+
+const testReview = makeReview();
+const testAdaptedReview = adaptReviewToApp(testReview);
+
+const testComponent = (
+  <Review
+    review={testAdaptedReview}
+  />
+);
 
 describe('Component: Review', () => {
   it('should render correctly', () => {
-    render(
-      <Review
-        review={{
-          id: 1,
-          text: 'Great movie',
-          author: 'John Doe',
-          date: '2026-01-01T00:00:00.000Z',
-          rating: 8,
-        }}
-      />
-    );
+    render(testComponent);
 
-    expect(screen.getByText(/Great movie/i)).toBeInTheDocument();
-    expect(screen.getByText(/John Doe/i)).toBeInTheDocument();
-    expect(screen.getByText(/8/i)).toBeInTheDocument();
+    expect(screen.getByText(new RegExp(testAdaptedReview.text, 'i'))).toBeInTheDocument();
+    expect(screen.getByText(new RegExp(testAdaptedReview.author, 'i'))).toBeInTheDocument();
+    expect(screen.getByText(new RegExp(getCustomFormat(testAdaptedReview.date), 'i'))).toBeInTheDocument();
+    expect(screen.getByText(String(testAdaptedReview.rating))).toBeInTheDocument();
   });
 });
