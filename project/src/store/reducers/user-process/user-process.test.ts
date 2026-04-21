@@ -1,12 +1,12 @@
 import { userProcess } from './user-process';
-import { AuthorizationStatus } from '../../const/const';
+import { AuthorizationStatus } from '../../../const/const';
 
-import { checkAuthAction, loginAction, logoutAction } from '../api-actions';
-import { getUserProfile, dropUserProfile } from '../../services/user-profile';
+import { checkAuthAction, loginAction, logoutAction } from '../../api-actions';
+import { getUserProfile, dropUserProfile } from '../../../services/user-profile';
 
-import type { UserProcessType } from '../../types/state';
+import type { UserProcessType } from '../../../types/state';
 
-jest.mock('../../services/user-profile', () => ({
+jest.mock('../../../services/user-profile', () => ({
   getUserProfile: jest.fn(),
   dropUserProfile: jest.fn(),
 }));

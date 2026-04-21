@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { useAppSelector } from './use-app-selector';
 import { useAppDispatch } from './use-app-dispatch';
-import { getAuthorizationStatus } from '../store/user-process/selectors';
+import { getAuthorizationStatus } from '../store/reducers/user-process/selectors';
 import { fetchAddToWatchAction } from '../store/api-actions';
 import { AppRoute, AuthorizationStatus } from '../const/const';
 

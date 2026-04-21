@@ -3,7 +3,7 @@ import { Middleware } from 'redux';
 
 import { Action } from '../../../const/const';
 
-import { rootReducer } from '../../root-reducer';
+import { rootReducer } from '../../reducers/root-reducer';
 
 type Reducer = ReturnType<typeof rootReducer>;
 

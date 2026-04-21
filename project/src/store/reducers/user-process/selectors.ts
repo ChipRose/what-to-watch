@@ -1,5 +1,5 @@
-import { NameSpace } from '../../const/const';
-import { StateType } from '../../types/state';
+import { NameSpace } from '../../../const/const';
+import { StateType } from '../../../types/state';
 
 export const getAuthorizationStatus = (state: StateType) =>
   state[NameSpace.User].authorizationStatus;

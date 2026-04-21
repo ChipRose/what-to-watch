@@ -1,6 +1,6 @@
 import { combineReducers } from '@reduxjs/toolkit';
 
-import { NameSpace } from '../const/const';
+import { NameSpace } from '../../const/const';
 
 import { filmData } from './film-data/film-data';
 import { filmProcess } from './film-process/film-process';

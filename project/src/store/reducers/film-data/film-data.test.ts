@@ -1,15 +1,15 @@
 import { filmData } from './film-data';
-import { CatalogCount } from '../../const/const';
+import { CatalogCount } from '../../../const/const';
 
-import { groupByGenre } from '../../util/util';
-import { adaptFilmToApp, adaptReviewsToApp } from '../../util/util-adapt-data';
+import { groupByGenre } from '../../../util/util';
+import { adaptFilmToApp, adaptReviewsToApp } from '../../../util/util-adapt-data';
 import { setActiveFilm } from './film-data';
-import { makeTestFilms, makeTestFilm, makeReviews } from '../../util/mocks';
+import { makeTestFilms, makeTestFilm, makeReviews } from '../../../util/mocks';
 
-import { fetchPromoFilmAction, fetchFilmsAction, fetchFilmAction, fetchReviewsAction, fetchSimilarFilmAction, fetchToWatchFilms, fetchAddToWatchAction, fetchNewReviewAction } from '../api-actions';
+import { fetchPromoFilmAction, fetchFilmsAction, fetchFilmAction, fetchReviewsAction, fetchSimilarFilmAction, fetchToWatchFilms, fetchAddToWatchAction, fetchNewReviewAction } from '../../api-actions';
 
-import type { FilmDataType } from '../../types/state';
-import type { FilmsType } from '../../types/film';
+import type { FilmDataType } from '../../../types/state';
+import type { FilmsType } from '../../../types/film';
 
 const mockFilm = makeTestFilm();
 const mockFilms = makeTestFilms();

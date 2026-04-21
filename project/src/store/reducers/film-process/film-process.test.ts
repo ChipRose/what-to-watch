@@ -1,11 +1,11 @@
 import { filmProcess } from './film-process';
 
-import { Genre, CatalogCount } from '../../const/const';
-import { makeTestFilms } from '../../util/mocks';
-import { adaptFilmsDataToApp } from '../../util/util-adapt-data';
+import { Genre, CatalogCount } from '../../../const/const';
+import { makeTestFilms } from '../../../util/mocks';
+import { adaptFilmsDataToApp } from '../../../util/util-adapt-data';
 
-import type { FilmProcessType } from '../../types/state';
-import type { FilmsType } from '../../types/film';
+import type { FilmProcessType } from '../../../types/state';
+import type { FilmsType } from '../../../types/film';
 
 const mockFilms = makeTestFilms();
 const mockAdaptedFilms: FilmsType = adaptFilmsDataToApp(mockFilms) ?? [];

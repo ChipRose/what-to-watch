@@ -6,7 +6,7 @@ import type { LinkEvent } from '../../types/form';
 
 import { useAppSelector } from '../../hooks/use-app-selector';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
-import { getAuthorizationStatus, getUserInfo } from '../../store/user-process/selectors';
+import { getAuthorizationStatus, getUserInfo } from '../../store/reducers/user-process/selectors';
 
 import { AuthorizationStatus, AppRoute } from '../../const/const';
 import { logoutAction } from '../../store/api-actions';

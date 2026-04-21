@@ -1,9 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { NameSpace, CatalogCount, EMPTY_CATALOG } from '../../const/const';
+import { NameSpace, CatalogCount, EMPTY_CATALOG } from '../../../const/const';
 
-import type { FilmProcessType } from '../../types/state';
-import type { FilmsType, CatalogDataType } from '../../types/film';
+import type { FilmProcessType } from '../../../types/state';
+import type { FilmsType, CatalogDataType } from '../../../types/film';
 
 const initialState: FilmProcessType = {
   catalog: EMPTY_CATALOG,

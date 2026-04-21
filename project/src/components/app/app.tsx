@@ -1,8 +1,8 @@
 import { Routes, Route } from 'react-router-dom';
 
 import { useAppSelector } from '../../hooks/use-app-selector';
-import { getAuthorizationStatus } from '../../store/user-process/selectors';
-import { getIsFilmsLoaded } from '../../store/film-data/selectors';
+import { getAuthorizationStatus } from '../../store/reducers/user-process/selectors';
+import { getIsFilmsLoaded } from '../../store/reducers/film-data/selectors';
 
 import { AppRoute, AuthorizationStatus } from '../../const/const';
 

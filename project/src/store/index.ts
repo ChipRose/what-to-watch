@@ -5,7 +5,7 @@ import { redirect } from './middlewares/redirect/redirect';
 import { syncCatalog } from './middlewares/sync-catalog/sync-catalog';
 import { syncFilmInfo } from './middlewares/sync-film-info/sync-film-info';
 
-import { rootReducer } from './root-reducer';
+import { rootReducer } from './reducers/root-reducer';
 
 const api = createApi();
 

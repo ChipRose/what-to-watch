@@ -5,12 +5,12 @@ import { getCatalogData } from '../../util/util';
 import { useAppSelector } from '../../hooks/use-app-selector';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
 
-import { getPromoFilm, getGroupedFilms } from '../../store/film-data/selectors';
-import { loadMoreToCatalog } from '../../store/film-process/film-process';
-import { getCatalog } from '../../store/film-process/selectors';
+import { getPromoFilm, getGroupedFilms } from '../../store/reducers/film-data/selectors';
+import { loadMoreToCatalog } from '../../store/reducers/film-process/film-process';
+import { getCatalog } from '../../store/reducers/film-process/selectors';
 import { EMPTY_CATALOG } from '../../const/const';
 
-import { setCatalogData } from '../../store/film-process/film-process';
+import { setCatalogData } from '../../store/reducers/film-process/film-process';
 
 import Footer from '../../components/footer/footer';
 import PromoCard from '../../components/promo-card/promo-card';

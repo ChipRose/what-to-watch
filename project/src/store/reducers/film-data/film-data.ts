@@ -1,15 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { NameSpace, CatalogCount } from '../../const/const';
+import { NameSpace, CatalogCount } from '../../../const/const';
 
-import { groupByGenre } from '../../util/util';
+import { groupByGenre } from '../../../util/util';
 import {
   adaptFilmToApp, adaptFilmsDataToApp, adaptReviewsToApp
-} from '../../util/util-adapt-data';
+} from '../../../util/util-adapt-data';
 
-import type { FilmDataType } from '../../types/state';
+import type { FilmDataType } from '../../../types/state';
 
-import { fetchSimilarFilmAction, fetchFilmAction, fetchFilmsAction, fetchPromoFilmAction, fetchReviewsAction, fetchNewReviewAction, fetchToWatchFilms, fetchAddToWatchAction } from '../api-actions';
+import { fetchSimilarFilmAction, fetchFilmAction, fetchFilmsAction, fetchPromoFilmAction, fetchReviewsAction, fetchNewReviewAction, fetchToWatchFilms, fetchAddToWatchAction } from '../../api-actions';
 
 const initialState: FilmDataType = {
   isDataLoaded: false,

@@ -3,8 +3,8 @@ import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { useParams } from 'react-router-dom';
 
 import { useAppSelector } from '../../hooks/use-app-selector';
-import { getActiveFilm } from '../../store/film-data/selectors';
-import { setActiveFilm } from '../../store/film-data/film-data';
+import { getActiveFilm } from '../../store/reducers/film-data/selectors';
+import { setActiveFilm } from '../../store/reducers/film-data/film-data';
 
 import VideoPlayer from '../../components/video-player/video-player';
 
