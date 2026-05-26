@@ -6,8 +6,10 @@ import { configureMockStore } from '@jedmao/redux-mock-store';
 import { createApi } from '../services/api';
 import {
   checkAuthAction,
+  fetchAddToWatchAction,
   fetchFilmAction,
   fetchFilmsAction,
+  fetchNewReviewAction,
   fetchPromoFilmAction,
   fetchReviewsAction,
   fetchSimilarFilmAction,
@@ -15,7 +17,7 @@ import {
 } from './api-actions';
 import { APIRoute, AppRoute } from '../const/const';
 import { redirectToRoute } from './actions';
-import { makeTestFilm } from '../util/mocks';
+import { makeReviews, makeTestFilm } from '../util/mocks';
 
 import type { StateType } from '../types/state';
 
@@ -248,6 +250,154 @@ describe('Async actions', () => {
       expect(actions).toEqual([
         fetchPromoFilmAction.pending.type,
         fetchPromoFilmAction.fulfilled.type,
+      ]);
+    });
+  });
+
+  describe('NEW REVIEW API', () => {
+    const reviewPayload = { id: 1, comment: 'Great film', rating: 8 };
+
+    it('should dispatch pending, redirect and fulfilled when server return 200', async () => {
+      const store = mockStore();
+      const reviews = makeReviews();
+
+      mockAPI
+        .onPost(`${APIRoute.Comments}/1`)
+        .reply(200, reviews);
+
+      await store.dispatch(fetchNewReviewAction(reviewPayload));
+
+      const actions = store.getActions().map((action: { type: string }) => action.type);
+
+      expect(actions).toEqual([
+        fetchNewReviewAction.pending.type,
+        redirectToRoute.type,
+        fetchNewReviewAction.fulfilled.type,
+      ]);
+
+      expect(store.getActions()[1]).toEqual(redirectToRoute(`${AppRoute.Films}/1`));
+    });
+
+    it('should redirect and dispatch fulfilled when id is missing', async () => {
+      const store = mockStore();
+
+      await store.dispatch(fetchNewReviewAction({ id: 0, comment: 'test', rating: 5 }));
+
+      const actions = store.getActions().map((action: { type: string }) => action.type);
+
+      expect(actions).toEqual([
+        fetchNewReviewAction.pending.type,
+        redirectToRoute.type,
+        fetchNewReviewAction.fulfilled.type,
+      ]);
+
+      expect(store.getActions()[1]).toEqual(redirectToRoute(`${AppRoute.Films}/0`));
+    });
+
+    it('should redirect and dispatch fulfilled when server return 400 (handled inside thunk)', async () => {
+      const store = mockStore();
+
+      mockAPI
+        .onPost(`${APIRoute.Comments}/1`)
+        .reply(400, []);
+
+      await store.dispatch(fetchNewReviewAction(reviewPayload));
+
+      const actions = store.getActions().map((action: { type: string }) => action.type);
+
+      expect(actions).toEqual([
+        fetchNewReviewAction.pending.type,
+        redirectToRoute.type,
+        fetchNewReviewAction.fulfilled.type,
+      ]);
+
+      expect(store.getActions()[1]).toEqual(redirectToRoute(`${AppRoute.Films}/1`));
+    });
+
+    it('should dispatch pending and fulfilled when server return 500 (handled inside thunk)', async () => {
+      const store = mockStore();
+
+      mockAPI
+        .onPost(`${APIRoute.Comments}/1`)
+        .reply(500, []);
+
+      await store.dispatch(fetchNewReviewAction(reviewPayload));
+
+      const actions = store.getActions().map((action: { type: string }) => action.type);
+
+      expect(actions).toEqual([
+        fetchNewReviewAction.pending.type,
+        fetchNewReviewAction.fulfilled.type,
+      ]);
+    });
+  });
+
+  describe('ADD TO WATCH API', () => {
+    it('should dispatch pending and fulfilled when server return 200', async () => {
+      const store = mockStore();
+      const film = makeTestFilm();
+
+      mockAPI
+        .onPost(`${APIRoute.Favorite}/1/1`)
+        .reply(200, film);
+
+      await store.dispatch(fetchAddToWatchAction({ id: 1, status: 1 }));
+
+      const actions = store.getActions().map((action: { type: string }) => action.type);
+
+      expect(actions).toEqual([
+        fetchAddToWatchAction.pending.type,
+        fetchAddToWatchAction.fulfilled.type,
+      ]);
+    });
+
+    it('should dispatch pending and fulfilled when removing from favorites', async () => {
+      const store = mockStore();
+      const film = makeTestFilm();
+
+      mockAPI
+        .onPost(`${APIRoute.Favorite}/1/0`)
+        .reply(200, film);
+
+      await store.dispatch(fetchAddToWatchAction({ id: 1, status: 0 }));
+
+      const actions = store.getActions().map((action: { type: string }) => action.type);
+
+      expect(actions).toEqual([
+        fetchAddToWatchAction.pending.type,
+        fetchAddToWatchAction.fulfilled.type,
+      ]);
+    });
+
+    it('should dispatch pending and fulfilled with null payload when id is missing', async () => {
+      const store = mockStore();
+
+      await store.dispatch(fetchAddToWatchAction({ id: 0, status: 1 }));
+
+      const actions = store.getActions().map((action: { type: string }) => action.type);
+
+      expect(actions).toEqual([
+        fetchAddToWatchAction.pending.type,
+        fetchAddToWatchAction.fulfilled.type,
+      ]);
+
+      expect(store.getActions()[1].payload).toBeNull();
+    });
+
+    it('should dispatch pending and rejected when server return 500', async () => {
+      const store = mockStore();
+
+      mockAPI
+        .onPost(`${APIRoute.Favorite}/1/1`)
+        .reply(500, []);
+
+      await store.dispatch(fetchAddToWatchAction({ id: 1, status: 1 }));
+
+      const actions = store.getActions().map((action: { type: string }) => action.type);
+
+      expect(actions).toEqual([
+        fetchAddToWatchAction.pending.type,
+        fetchAddToWatchAction.rejected.type,
       ]);
     });
   });
