@@ -17,7 +17,7 @@ import {
 } from './api-actions';
 import { APIRoute, AppRoute } from '../const/const';
 import { redirectToRoute } from './actions';
-import { makeReviews, makeTestFilm } from '../util/mocks';
+import { makeReview, makeReviews, makeTestFilm } from '../util/mocks';
 
 import type { StateType } from '../types/state';
 
@@ -255,14 +255,14 @@ describe('Async actions', () => {
   });
 
   describe('NEW REVIEW API', () => {
-    const reviewPayload = { id: 1, comment: 'Great film', rating: 8 };
+    const reviewPayload = makeReview();
 
     it('should dispatch pending, redirect and fulfilled when server return 200', async () => {
       const store = mockStore();
       const reviews = makeReviews();
 
       mockAPI
-        .onPost(`${APIRoute.Comments}/1`)
+        .onPost(`${APIRoute.Comments}/${reviewPayload.id}`)
         .reply(200, reviews);
 
       await store.dispatch(fetchNewReviewAction(reviewPayload));
@@ -275,7 +275,7 @@ describe('Async actions', () => {
         fetchNewReviewAction.fulfilled.type,
       ]);
 
-      expect(store.getActions()[1]).toEqual(redirectToRoute(`${AppRoute.Films}/1`));
+      expect(store.getActions()[1]).toEqual(redirectToRoute(`${AppRoute.Films}/${reviewPayload.id}`));
     });
 
     it('should redirect and dispatch fulfilled when id is missing', async () => {
@@ -298,7 +298,7 @@ describe('Async actions', () => {
       const store = mockStore();
 
       mockAPI
-        .onPost(`${APIRoute.Comments}/1`)
+        .onPost(`${APIRoute.Comments}/${reviewPayload.id}`)
         .reply(400, []);
 
       await store.dispatch(fetchNewReviewAction(reviewPayload));
@@ -311,7 +311,7 @@ describe('Async actions', () => {
         fetchNewReviewAction.fulfilled.type,
       ]);
 
-      expect(store.getActions()[1]).toEqual(redirectToRoute(`${AppRoute.Films}/1`));
+      expect(store.getActions()[1]).toEqual(redirectToRoute(`${AppRoute.Films}/${reviewPayload.id}`));
     });
 
     it('should dispatch pending and fulfilled when server return 500 (handled inside thunk)', async () => {
@@ -335,13 +335,13 @@ describe('Async actions', () => {
   describe('ADD TO WATCH API', () => {
     it('should dispatch pending and fulfilled when server return 200', async () => {
       const store = mockStore();
-      const film = makeTestFilm();
+      const film = { ...makeTestFilm(), isFavorite: true };
 
       mockAPI
-        .onPost(`${APIRoute.Favorite}/1/1`)
+        .onPost(`${APIRoute.Favorite}/${film.id}/1`)
         .reply(200, film);
 
-      await store.dispatch(fetchAddToWatchAction({ id: 1, status: 1 }));
+      await store.dispatch(fetchAddToWatchAction({ id: film.id, status: 1 }));
 
       const actions = store.getActions().map((action: { type: string }) => action.type);
 
@@ -349,17 +349,19 @@ describe('Async actions', () => {
         fetchAddToWatchAction.pending.type,
         fetchAddToWatchAction.fulfilled.type,
       ]);
+
+      expect(store.getActions()[1].payload).toEqual(film);
     });
 
     it('should dispatch pending and fulfilled when removing from favorites', async () => {
       const store = mockStore();
-      const film = makeTestFilm();
+      const film = { ...makeTestFilm(), isFavorite: false };
 
       mockAPI
-        .onPost(`${APIRoute.Favorite}/1/0`)
+        .onPost(`${APIRoute.Favorite}/${film.id}/0`)
         .reply(200, film);
 
-      await store.dispatch(fetchAddToWatchAction({ id: 1, status: 0 }));
+      await store.dispatch(fetchAddToWatchAction({ id: film.id, status: 0 }));
 
       const actions = store.getActions().map((action: { type: string }) => action.type);
 
@@ -367,6 +369,8 @@ describe('Async actions', () => {
         fetchAddToWatchAction.pending.type,
         fetchAddToWatchAction.fulfilled.type,
       ]);
+
+      expect(store.getActions()[1].payload).toEqual(film);
     });
 
     it('should dispatch pending and fulfilled with null payload when id is missing', async () => {
@@ -386,12 +390,13 @@ describe('Async actions', () => {
 
     it('should dispatch pending and rejected when server return 500', async () => {
       const store = mockStore();
+      const film = makeTestFilm();
 
       mockAPI
-        .onPost(`${APIRoute.Favorite}/1/1`)
+        .onPost(`${APIRoute.Favorite}/${film.id}/1`)
         .reply(500, []);
 
-      await store.dispatch(fetchAddToWatchAction({ id: 1, status: 1 }));
+      await store.dispatch(fetchAddToWatchAction({ id: film.id, status: 1 }));
 
       const actions = store.getActions().map((action: { type: string }) => action.type);
 
