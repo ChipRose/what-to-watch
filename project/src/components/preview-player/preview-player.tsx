@@ -60,6 +60,7 @@ function PreviewPlayer({ playerIndex, previewSrc, poster, isPlaying, onMouseEnte
 
   return (
     <video
+      data-testid="preview-player-video"
       ref={videoRef}
       width={props.width}
       height={props.height}
