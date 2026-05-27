@@ -14,7 +14,7 @@ import { adaptFilmToApp, adaptFilmsDataToApp } from '../../util/util-adapt-data'
 import HistoryRouter from '../history-route/history-route';
 
 import type { AnyAction } from 'redux';
-import type { FilmDataType, StateType } from '../../types/state';
+import type { StateType } from '../../types/state';
 
 import App from './app';
 
@@ -93,32 +93,31 @@ describe('Application Routing', () => {
   });
 
   it('should render "MainScreen"', () => {
-    const promoFilm = (testStore.getState()[NameSpace.Data] as FilmDataType).promoFilm;
     testHistory.push(AppRoute.Main);
     render(testApp);
-    expect(screen.getByText(new RegExp(promoFilm?.title ?? '', 'i'))).toBeInTheDocument();
+
+    expect(screen.getByRole('heading', { level: 2, name: mockAdaptedFilm?.title ?? '' })).toBeInTheDocument();
   });
 
   it('should render "FilmScreen"', () => {
-    const activeFilm = (testStore.getState()[NameSpace.Data] as FilmDataType).activeFilm.film;
-    testHistory.push(generatePath(AppRoute.Film, { id: String(activeFilm?.id ?? '') }));
+    testHistory.push(generatePath(AppRoute.Film, { id: String(mockAdaptedFilm?.id ?? '') }));
     render(testApp);
-    expect(screen.getByText(new RegExp(activeFilm?.title ?? '', 'i'))).toBeInTheDocument();
+
+    expect(screen.getByRole('heading', { level: 2, name: mockAdaptedFilm?.title ?? '' })).toBeInTheDocument();
     expect(screen.getByText(/More like this/i)).toBeInTheDocument();
   });
 
   it('should render "PlayerScreen"', () => {
-    const activeFilm = (testStore.getState()[NameSpace.Data] as FilmDataType).activeFilm.film;
-    testHistory.push(generatePath(AppRoute.Player, { id: String(activeFilm?.id ?? '') }));
+    testHistory.push(generatePath(AppRoute.Player, { id: String(mockAdaptedFilm?.id ?? '') }));
     render(testApp);
-    expect(screen.getByText(new RegExp(activeFilm?.title ?? '', 'i'))).toBeInTheDocument();
+
+    expect(screen.getByText(mockAdaptedFilm?.title ?? '')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /^(pause|play)$/i })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /Full screen/i })).toBeInTheDocument();
   });
 
   it('should render "AddReviewScreen"', () => {
-    const activeFilm = (testStore.getState()[NameSpace.Data] as FilmDataType).activeFilm.film;
-    testHistory.push(generatePath(AppRoute.AddReview, { id: String(activeFilm?.id ?? '') }));
+    testHistory.push(generatePath(AppRoute.AddReview, { id: String(mockAdaptedFilm?.id ?? '') }));
     render(testApp);
     expect(screen.getByPlaceholderText(/Review text/i)).toBeInTheDocument();
   });
