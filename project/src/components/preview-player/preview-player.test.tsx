@@ -1,4 +1,4 @@
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 
 import PreviewPlayer from './preview-player';
 
@@ -15,7 +15,7 @@ describe('Component: PreviewPlayer', () => {
   });
 
   it('should call hover handlers and pass player id', () => {
-    const { container } = render(
+    render(
       <PreviewPlayer
         playerIndex={5}
         previewSrc="preview.mp4"
@@ -26,11 +26,7 @@ describe('Component: PreviewPlayer', () => {
       />
     );
 
-    const video = container.querySelector('video');
-    expect(video).not.toBeNull();
-    if (!video) {
-      return;
-    }
+    const video = screen.getByTestId('preview-player-video');
 
     fireEvent.mouseEnter(video);
     fireEvent.mouseLeave(video);
@@ -40,7 +36,7 @@ describe('Component: PreviewPlayer', () => {
   });
 
   it('should play only after media loaded when isPlaying is true', () => {
-    const { container, rerender } = render(
+    const { rerender } = render(
       <PreviewPlayer
         playerIndex={1}
         previewSrc="preview.mp4"
@@ -51,11 +47,7 @@ describe('Component: PreviewPlayer', () => {
       />
     );
 
-    const video = container.querySelector('video');
-    expect(video).not.toBeNull();
-    if (!video) {
-      return;
-    }
+    const video = screen.getByTestId('preview-player-video');
 
     expect(HTMLMediaElement.prototype.pause).toHaveBeenCalled();
     expect(HTMLMediaElement.prototype.load).toHaveBeenCalled();

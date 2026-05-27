@@ -112,6 +112,7 @@ function VideoPlayer({ film }: VideoPlayerProps): JSX.Element | null {
   return film ? (
     <div className="player">
       <video
+        data-testid="player-video"
         ref={videoRef}
         src={film.src}
         className="player__video"

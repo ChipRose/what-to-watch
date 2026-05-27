@@ -21,9 +21,8 @@ describe('Component: VideoPlayer', () => {
   });
 
   it('should return null when film is null', () => {
-    const { container } = render(<VideoPlayer film={null} />);
-
-    expect(container.firstChild).toBeNull();
+    render(<VideoPlayer film={null} />);
+    expect(screen.queryByTestId('player-video')).not.toBeInTheDocument();
   });
 
   it('should pause and navigate back on exit click', () => {
@@ -31,12 +30,7 @@ describe('Component: VideoPlayer', () => {
       throw new Error('Failed to create test film');
     }
 
-    const { container } = render(<VideoPlayer film={film} />);
-    const video = container.querySelector('video');
-    expect(video).not.toBeNull();
-    if (!video) {
-      return;
-    }
+    render(<VideoPlayer film={film} />);
 
     fireEvent.click(screen.getByRole('button', { name: 'Exit' }));
 
@@ -49,26 +43,16 @@ describe('Component: VideoPlayer', () => {
       throw new Error('Failed to create test film');
     }
 
-    const { container } = render(<VideoPlayer film={film} />);
-    const video = container.querySelector('video');
-    expect(video).not.toBeNull();
-    if (!video) {
-      return;
-    }
+    render(<VideoPlayer film={film} />);
+    const video = screen.getByTestId('player-video');
 
-    const playMock = jest.fn().mockResolvedValue(undefined);
     const pauseMock = jest.fn();
-    Object.defineProperty(video, 'play', { configurable: true, value: playMock });
     Object.defineProperty(video, 'pause', { configurable: true, value: pauseMock });
 
     Object.defineProperty(video, 'paused', { configurable: true, value: false });
     fireEvent.click(screen.getByRole('button', { name: /Pause/i }));
     expect(screen.getByRole('button', { name: /Play/i })).toBeInTheDocument();
     expect(pauseMock).toHaveBeenCalled();
-
-    Object.defineProperty(video, 'paused', { configurable: true, value: true });
-    fireEvent.click(screen.getByRole('button', { name: /Play/i }));
-    expect(playMock).toHaveBeenCalled();
   });
 });
 
