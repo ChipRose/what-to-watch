@@ -3,10 +3,8 @@ import {createMemoryHistory} from 'history';
 import HistoryRouter from '../../components/history-route/history-route';
 import SmallFilmCard from '../../components/small-film-card/small-film-card';
 import {makeTestFilm} from '../../util/mocks';
-import {adaptFilmToApp} from '../../util/util-adapt-data';
 
 import withVideoPreview from './with-video-preview';
-
 
 jest.mock('../../components/preview-player/preview-player', () => {
   const mockPreviewPlayer = () => <>This is mock PreviewPlayer</>;
@@ -20,13 +18,13 @@ jest.mock('../../components/preview-player/preview-player', () => {
 describe('HOC: withVideoPreview', () => {
   it('base component should correct rendering when use with HOC', () => {
     const BaseComponentWrapped = withVideoPreview(() => <h1>withVideoPreview</h1>);
-    
+
     render(
       <BaseComponentWrapped />
     );
 
     expect(screen.getByText('withVideoPreview')).toBeInTheDocument();
-  })
+  });
 
   it('base component should correct rendering another component with render-prop', () => {
     const history = createMemoryHistory();
@@ -50,4 +48,4 @@ describe('HOC: withVideoPreview', () => {
     expect(screen.getByText(testFilm.name)).toBeInTheDocument();
     expect(screen.getByText('This is mock PreviewPlayer')).toBeInTheDocument();
   });
-})
+});
