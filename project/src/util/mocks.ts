@@ -48,11 +48,9 @@ export const makeReviews = (): ServerReviewType[] => {
   return Array.from({ length: REVIEWS_COUNT }, makeReview);
 };
 
-export const makeTestGenresList = (): GenreListType => {
-  return Object.keys(genreMapping) as GenreListType;
-};
+export const makeTestGenresList = (): GenreListType => Object.keys(genreMapping) as GenreListType;
 
-export  const makeTestDetailsProps = (): FilmDetailsType => {
+export const makeTestDetailsProps = (): FilmDetailsType => {
   const mockAdaptedFilm = adaptFilmToApp(makeTestFilm());
   return {
     director: mockAdaptedFilm?.director ?? '',

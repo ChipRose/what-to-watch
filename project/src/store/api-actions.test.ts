@@ -40,7 +40,7 @@ describe('Async actions', () => {
     it('should authorization status is «auth» when server return 200', async () => {
       const store = mockStore();
       mockAPI
-        .onGet(APIRoute.Login)
+        .onGet(`/${APIRoute.Login}`)
         .reply(200, []);
 
       expect(store.getActions()).toEqual([]);
@@ -58,7 +58,7 @@ describe('Async actions', () => {
     it('should dispatch rejected when server return 401', async () => {
       const store = mockStore();
       mockAPI
-        .onGet(APIRoute.Login)
+        .onGet(`/${APIRoute.Login}`)
         .reply(401, []);
 
       await store.dispatch(checkAuthAction());
@@ -74,7 +74,7 @@ describe('Async actions', () => {
     it('should dispatch rejected when server return 500', async () => {
       const store = mockStore();
       mockAPI
-        .onGet(APIRoute.Login)
+        .onGet(`/${APIRoute.Login}`)
         .reply(500, []);
 
       await store.dispatch(checkAuthAction());
@@ -92,7 +92,7 @@ describe('Async actions', () => {
     it('should dispatch pending and fulfilled when server return 200', async () => {
       const store = mockStore();
       mockAPI
-        .onGet(APIRoute.Films)
+        .onGet(`/${APIRoute.Films}`)
         .reply(200, []);
 
       await store.dispatch(fetchFilmsAction());
@@ -108,7 +108,7 @@ describe('Async actions', () => {
     it('should dispatch pending and fulfilled when server return 500 (handled inside thunk)', async () => {
       const store = mockStore();
       mockAPI
-        .onGet(APIRoute.Films)
+        .onGet(`/${APIRoute.Films}`)
         .reply(500, []);
 
       await store.dispatch(fetchFilmsAction());
@@ -167,7 +167,7 @@ describe('Async actions', () => {
       const store = mockStore();
 
       mockAPI
-        .onGet(`${APIRoute.Films}/1/similar`)
+        .onGet(`/${APIRoute.Films}/1/similar`)
         .reply(200, []);
 
       await store.dispatch(fetchSimilarFilmAction(1));
@@ -184,7 +184,7 @@ describe('Async actions', () => {
       const store = mockStore();
 
       mockAPI
-        .onGet(`${APIRoute.Films}/1/similar`)
+        .onGet(`/${APIRoute.Films}/1/similar`)
         .reply(500, []);
 
       await store.dispatch(fetchSimilarFilmAction(1));
@@ -203,7 +203,7 @@ describe('Async actions', () => {
       const store = mockStore();
 
       mockAPI
-        .onGet(`${APIRoute.Comments}/1`)
+        .onGet(`/${APIRoute.Comments}/1`)
         .reply(200, []);
 
       await store.dispatch(fetchReviewsAction(1));
@@ -220,7 +220,7 @@ describe('Async actions', () => {
       const store = mockStore();
 
       mockAPI
-        .onGet(`${APIRoute.Comments}/1`)
+        .onGet(`/${APIRoute.Comments}/1`)
         .reply(500, []);
 
       await store.dispatch(fetchReviewsAction(1));
@@ -240,7 +240,7 @@ describe('Async actions', () => {
       const film = makeTestFilm();
 
       mockAPI
-        .onGet(APIRoute.Promo)
+        .onGet(`/${APIRoute.Promo}`)
         .reply(200, film);
 
       await store.dispatch(fetchPromoFilmAction());
@@ -262,7 +262,7 @@ describe('Async actions', () => {
       const reviews = makeReviews();
 
       mockAPI
-        .onPost(`${APIRoute.Comments}/${reviewPayload.id}`)
+        .onPost(`/${APIRoute.Comments}/${reviewPayload.id}`)
         .reply(200, reviews);
 
       await store.dispatch(fetchNewReviewAction(reviewPayload));
@@ -298,7 +298,7 @@ describe('Async actions', () => {
       const store = mockStore();
 
       mockAPI
-        .onPost(`${APIRoute.Comments}/${reviewPayload.id}`)
+        .onPost(`/${APIRoute.Comments}/${reviewPayload.id}`)
         .reply(400, []);
 
       await store.dispatch(fetchNewReviewAction(reviewPayload));
@@ -318,7 +318,7 @@ describe('Async actions', () => {
       const store = mockStore();
 
       mockAPI
-        .onPost(`${APIRoute.Comments}/1`)
+        .onPost(`/${APIRoute.Comments}/1`)
         .reply(500, []);
 
       await store.dispatch(fetchNewReviewAction(reviewPayload));
@@ -343,7 +343,7 @@ describe('Async actions', () => {
       const store = mockStore();
 
       mockAPI
-        .onPost(`${APIRoute.Favorite}/${testFilm.id}/${favoriteStatus}`)
+        .onPost(`/${APIRoute.Favorite}/${testFilm.id}/${favoriteStatus}`)
         .reply(200, testFavoriteFilm);
 
       await store.dispatch(fetchAddToWatchAction({ id: testFilm.id, status: favoriteStatus }));
@@ -362,7 +362,7 @@ describe('Async actions', () => {
       const store = mockStore();
 
       mockAPI
-        .onPost(`${APIRoute.Favorite}/${testFavoriteFilm.id}/${unfavoriteStatus}`)
+        .onPost(`/${APIRoute.Favorite}/${testFavoriteFilm.id}/${unfavoriteStatus}`)
         .reply(200, testUnfavoriteFilm);
 
       await store.dispatch(fetchAddToWatchAction({ id: testFavoriteFilm.id, status: unfavoriteStatus }));
@@ -394,9 +394,9 @@ describe('Async actions', () => {
 
     it('should dispatch pending and rejected when server return 500', async () => {
       const store = mockStore();
-      
+
       mockAPI
-        .onPost(`${APIRoute.Favorite}/${testFilm.id}/${favoriteStatus}`)
+        .onPost(`/${APIRoute.Favorite}/${testFilm.id}/${favoriteStatus}`)
         .reply(500, []);
 
       await store.dispatch(fetchAddToWatchAction({ id: testFilm.id, status: favoriteStatus }));
@@ -415,7 +415,7 @@ describe('Async actions', () => {
       const store = mockStore();
 
       mockAPI
-        .onGet(APIRoute.Favorite)
+        .onGet(`/${APIRoute.Favorite}`)
         .reply(200, []);
 
       await store.dispatch(fetchToWatchFilms());
@@ -432,7 +432,7 @@ describe('Async actions', () => {
       const store = mockStore();
 
       mockAPI
-        .onGet(APIRoute.Favorite)
+        .onGet(`/${APIRoute.Favorite}`)
         .reply(500, []);
 
       await store.dispatch(fetchToWatchFilms());

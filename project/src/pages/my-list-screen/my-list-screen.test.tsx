@@ -72,7 +72,7 @@ const testApp = (
 describe('Component: MyListScreen', () => {
   beforeEach(() => {
     mockAPI.resetHandlers();
-    mockAPI.onGet(APIRoute.Favorite).reply(200, mockFilms);
+    mockAPI.onGet(`/${APIRoute.Favorite}`).reply(200, mockFilms);
   });
 
   afterEach(() => {

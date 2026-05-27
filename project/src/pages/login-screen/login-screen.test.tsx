@@ -3,7 +3,6 @@ import { Provider } from 'react-redux';
 import { Routes, Route } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 import { configureMockStore } from '@jedmao/redux-mock-store';
-import MockAdapter from 'axios-mock-adapter';
 import thunk, { ThunkDispatch } from 'redux-thunk';
 
 import { AppRoute, AuthorizationStatus, NameSpace} from '../../const/const';

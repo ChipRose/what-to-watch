@@ -15,7 +15,9 @@ const mockFilm = makeTestFilm();
 const mockFilms = makeTestFilms();
 const mockReviews = makeReviews();
 const mockAdaptedFilm = adaptFilmToApp(mockFilm);
-const mockAdaptedFilms: FilmsType = mockFilms.map((film) => adaptFilmToApp(film)!);
+const mockAdaptedFilms: FilmsType = mockFilms
+  .map((film) => adaptFilmToApp(film))
+  .filter((film): film is NonNullable<typeof film> => film !== null);
 const mockGroupedFilms = groupByGenre(mockAdaptedFilms);
 const mockAdaptedReviews = adaptReviewsToApp(mockReviews);
 

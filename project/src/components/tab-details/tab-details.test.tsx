@@ -8,9 +8,9 @@ import TabDetails from './tab-details';
 const testDetailsProps = makeTestDetailsProps();
 
 const makeTestComponent = () => (
-    <TabDetails
-      {...testDetailsProps}
-    />
+  <TabDetails
+    {...testDetailsProps}
+  />
 );
 
 describe('Component: TabDetails', () => {

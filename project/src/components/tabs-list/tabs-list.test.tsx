@@ -2,7 +2,6 @@ import { render, screen } from '@testing-library/react';
 
 import { TABS_LIST } from '../../const/const';
 import { makeTestDescriptionProps, makeTestDetailsProps } from '../../util/mocks';
-import { getEstimation } from '../../util/util';
 import { makeReviews } from '../../util/mocks';
 import { adaptReviewsToApp } from '../../util/util-adapt-data';
 

@@ -15,7 +15,7 @@ const createTestStore = () => {
   const actions: AnyAction[] = [];
   const observerMiddleware: Middleware = () => (next) => (action) => {
     actions.push(action as AnyAction);
-    return next(action);
+    return next(action) as unknown;
   };
 
   const store = configureStore({
@@ -50,7 +50,7 @@ describe('Middleware: syncFilmInfo', () => {
     const { store, actions } = createTestStore();
     const filmId = 1;
 
-    mockAPI.onGet(`${APIRoute.Films}/${filmId}`).reply(404);
+    mockAPI.onGet(`/${APIRoute.Films}/${filmId}`).reply(404);
 
     store.dispatch(loadFilmInfoAction(filmId));
     await new Promise((resolve) => setTimeout(resolve, 0));
@@ -63,9 +63,9 @@ describe('Middleware: syncFilmInfo', () => {
     const { store, actions } = createTestStore();
     const filmId = 1;
 
-    mockAPI.onGet(`${APIRoute.Films}/${filmId}`).reply(200, makeTestFilm());
-    mockAPI.onGet(`${APIRoute.Comments}/${filmId}`).reply(200, makeReviews());
-    mockAPI.onGet(`${APIRoute.Films}/${filmId}/similar`).reply(200, makeTestFilms());
+    mockAPI.onGet(`/${APIRoute.Films}/${filmId}`).reply(200, makeTestFilm());
+    mockAPI.onGet(`/${APIRoute.Comments}/${filmId}`).reply(200, makeReviews());
+    mockAPI.onGet(`/${APIRoute.Films}/${filmId}/similar`).reply(200, makeTestFilms());
 
     store.dispatch(loadFilmInfoAction(filmId));
     await new Promise((resolve) => setTimeout(resolve, 0));

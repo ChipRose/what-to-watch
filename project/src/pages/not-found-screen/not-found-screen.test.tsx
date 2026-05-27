@@ -19,4 +19,4 @@ describe('Component: NotFoundScreen', () => {
     expect(screen.getByText(/Извините, запрашиваемая страница не существует./i)).toBeInTheDocument();
     expect(screen.getByRole('link', { name: /Вернуться на главную/i })).toBeInTheDocument();
   });
-})
+});

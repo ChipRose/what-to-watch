@@ -9,9 +9,15 @@ import { adaptFilmToApp } from '../../util/util-adapt-data';
 import FilmCard from './film-card';
 import HistoryRouter from '../history-route/history-route';
 
-jest.mock('../header/header', () => () => <div>Header Mock</div>);
-jest.mock('../control-buttons-list/control-buttons-list', () => () => <div>Buttons Mock</div>);
-jest.mock('../tabs-list/tabs-list', () => () => <div>Tabs Mock</div>);
+jest.mock('../header/header', () => function HeaderMock() {
+  return <div>Header Mock</div>;
+});
+jest.mock('../control-buttons-list/control-buttons-list', () => function ControlButtonsListMock() {
+  return <div>Buttons Mock</div>;
+});
+jest.mock('../tabs-list/tabs-list', () => function TabsListMock() {
+  return <div>Tabs Mock</div>;
+});
 
 const testHistory = createMemoryHistory();
 

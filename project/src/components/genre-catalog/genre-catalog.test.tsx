@@ -9,9 +9,15 @@ import { adaptFilmsDataToApp } from '../../util/util-adapt-data';
 import GenreCatalog from './genre-catalog';
 import HistoryRouter from '../history-route/history-route';
 
-jest.mock('../genre-list/genre-list', () => () => <div>GenreList Mock</div>);
-jest.mock('../catalog/catalog', () => () => <div>Catalog Mock</div>);
-jest.mock('../buttons/show-more-button/show-more-button', () => () => <div>ShowMore Mock</div>);
+jest.mock('../genre-list/genre-list', () => function GenreListMock() {
+  return <div>GenreList Mock</div>;
+});
+jest.mock('../catalog/catalog', () => function CatalogMock() {
+  return <div>Catalog Mock</div>;
+});
+jest.mock('../buttons/show-more-button/show-more-button', () => function ShowMoreButtonMock() {
+  return <div>ShowMore Mock</div>;
+});
 const onLoadMore = jest.fn();
 const onGenreChange = jest.fn();
 

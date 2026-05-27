@@ -22,7 +22,6 @@ const mockStore = configureMockStore<
 const testHistory = createMemoryHistory();
 
 
-
 const testComponent = (testStore: ReturnType<typeof mockStore>)=>(
   <Provider store={testStore}>
     <HistoryRouter history={testHistory}>

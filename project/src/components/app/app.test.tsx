@@ -66,13 +66,13 @@ describe('Application Routing', () => {
   beforeEach(() => {
     mockAPI.resetHandlers();
 
-    mockAPI.onGet(APIRoute.Login).reply(200, []);
-    mockAPI.onGet(APIRoute.Films).reply(200, mockFilms);
-    mockAPI.onGet(APIRoute.Promo).reply(200, mockFilm);
-    mockAPI.onGet(new RegExp(`^${APIRoute.Films}/[^/]+/similar$`)).reply(200, []);
-    mockAPI.onGet(new RegExp(`^${APIRoute.Films}/[^/]+$`)).reply(200, mockFilm);
-    mockAPI.onGet(`${APIRoute.Comments}/1`).reply(200, []);
-    mockAPI.onGet(APIRoute.Favorite).reply(200, []);
+    mockAPI.onGet(`/${APIRoute.Login}`).reply(200, []);
+    mockAPI.onGet(`/${APIRoute.Films}`).reply(200, mockFilms);
+    mockAPI.onGet(`/${APIRoute.Promo}`).reply(200, mockFilm);
+    mockAPI.onGet(new RegExp(`^/${APIRoute.Films}/[^/]+/similar$`)).reply(200, []);
+    mockAPI.onGet(new RegExp(`^/${APIRoute.Films}/[^/]+$`)).reply(200, mockFilm);
+    mockAPI.onGet(`/${APIRoute.Comments}/1`).reply(200, []);
+    mockAPI.onGet(`/${APIRoute.Favorite}`).reply(200, []);
 
     mockAPI.onGet().reply(200, []);
 
@@ -94,7 +94,7 @@ describe('Application Routing', () => {
 
   it('should render "MainScreen"', () => {
     const promoFilm = (testStore.getState()[NameSpace.Data] as FilmDataType).promoFilm;
-    testHistory.push(APIRoute.Main);
+    testHistory.push(AppRoute.Main);
     render(testApp);
     expect(screen.getByText(new RegExp(promoFilm?.title ?? '', 'i'))).toBeInTheDocument();
   });
@@ -124,7 +124,7 @@ describe('Application Routing', () => {
   });
 
   it('should render "MyListScreen"', () => {
-    testHistory.push(APIRoute.MyList);
+    testHistory.push(AppRoute.MyList);
     render(testApp);
     expect(screen.getByText(/My List/i)).toBeInTheDocument();
   });

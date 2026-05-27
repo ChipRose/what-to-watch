@@ -3,7 +3,7 @@ import './style.css';
 
 function Loader(): JSX.Element {
   return (
-    <div id="loader" className="loader"></div>
+    <div id="loader" className="loader" data-testid="loader"></div>
   );
 }
 

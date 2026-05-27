@@ -11,6 +11,15 @@ export const TIMEOUT_SHOW_ERROR = 3000;
 
 export const TABS_COUNT = 9;
 
+export enum APIRoute {
+  Films = 'films',
+  Promo = 'promo',
+  Comments = 'comments',
+  Login = 'login',
+  Logout = 'logout',
+  Favorite = 'favorite',
+}
+
 export enum AppRoute {
   Main = '/',
   LogIn = '/login',
@@ -22,20 +31,6 @@ export enum AppRoute {
   Player = '/player/:id',
   NotFound = '*',
   Lose = '/lose',
-}
-
-export enum APIRoute {
-  Main = '/',
-  Films = '/films',
-  Promo = '/promo',
-  Comments = '/comments',
-  Login = '/login',
-  Logout = '/logout',
-  Favorite = '/favorite',
-  Reviews = '/reviews',
-  Review = '/review',
-  Player = '/player',
-  MyList = '/mylist',
 }
 
 export enum AuthorizationStatus {

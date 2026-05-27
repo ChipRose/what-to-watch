@@ -23,7 +23,7 @@ export const fetchFilmsAction = createAsyncThunk<FilmsType, undefined, {
   Action.FETCH_FILMS,
   async (_arg, { extra: api }) => {
     try {
-      const { data } = await api.get<ServerFilmsType>(APIRoute.Films);
+      const { data } = await api.get<ServerFilmsType>(`/${APIRoute.Films}`);
       return adaptFilmsDataToApp(data) ?? [];
     } catch (error) {
       const axiosError = error as AxiosError;
@@ -40,7 +40,7 @@ export const fetchFilmAction = createAsyncThunk<ServerFilmType, FilmIdType, {
   Action.FETCH_FILM,
   async (id, { dispatch, extra: api }) => {
     try {
-      const { data } = await api.get<ServerFilmType>(`${APIRoute.Films}/${id}`);
+      const { data } = await api.get<ServerFilmType>(`/${APIRoute.Films}/${id}`);
       return data;
     } catch (error) {
       const axiosError = error as AxiosError;
@@ -60,7 +60,7 @@ export const fetchSimilarFilmAction = createAsyncThunk<ServerFilmsType, FilmIdTy
   Action.LOAD_SIMILAR_FILMS,
   async (id, { extra: api }) => {
     try {
-      const { data } = await api.get<ServerFilmsType>(`${APIRoute.Films}/${id}/similar`);
+      const { data } = await api.get<ServerFilmsType>(`/${APIRoute.Films}/${id}/similar`);
       return data;
     } catch (error) {
       const axiosError = error as AxiosError;
@@ -76,7 +76,7 @@ export const fetchPromoFilmAction = createAsyncThunk<ServerFilmType, undefined, 
 }>(
   Action.FETCH_PROMO_FILM,
   async (_arg, { extra: api }) => {
-    const { data } = await api.get<ServerFilmType>(APIRoute.Promo);
+    const { data } = await api.get<ServerFilmType>(`/${APIRoute.Promo}`);
     return data;
   },
 );
@@ -88,7 +88,7 @@ export const fetchReviewsAction = createAsyncThunk<ServerReviewsType, FilmIdType
   Action.FETCH_REVIEWS,
   async (id, { extra: api }) => {
     try {
-      const { data } = await api.get<ServerReviewsType>(`${APIRoute.Comments}/${id}`);
+      const { data } = await api.get<ServerReviewsType>(`/${APIRoute.Comments}/${id}`);
       return data;
     } catch (error) {
       const axiosError = error as AxiosError;
@@ -110,7 +110,7 @@ export const fetchNewReviewAction = createAsyncThunk<ServerReviewsType, NewRevie
     }
 
     try {
-      const { data } = await api.post<ServerReviewsType>(`${APIRoute.Comments}/${id}`, {
+      const { data } = await api.post<ServerReviewsType>(`/${APIRoute.Comments}/${id}`, {
         comment, rating
       });
       dispatch(redirectToRoute(`${AppRoute.Films}/${id}`));
@@ -136,7 +136,7 @@ export const fetchAddToWatchAction = createAsyncThunk<ServerFilmType | null, { i
       return null;
     }
 
-    const { data } = await api.post<ServerFilmType>(`${APIRoute.Favorite}/${id}/${status}`);
+    const { data } = await api.post<ServerFilmType>(`/${APIRoute.Favorite}/${id}/${status}`);
     return data;
   },
 );
@@ -147,7 +147,7 @@ export const fetchToWatchFilms = createAsyncThunk<ServerFilmsType, undefined, {
 }>(
   Action.FETCH_TO_WATCH,
   async (_arg, { dispatch, extra: api }) => {
-    const { data } = await api.get<ServerFilmsType>(APIRoute.Favorite);
+    const { data } = await api.get<ServerFilmsType>(`/${APIRoute.Favorite}`);
     return data;
   }
 );
@@ -158,7 +158,7 @@ export const checkAuthAction = createAsyncThunk<void, undefined, {
 }>(
   Action.CHECK_USER_AUTH,
   async (_arg, { dispatch, extra: api }) => {
-    await api.get(APIRoute.Login);
+    await api.get(`/${APIRoute.Login}`);
   },
 );
 
@@ -168,7 +168,7 @@ export const loginAction = createAsyncThunk<void, AuthDataType, {
 }>(
   Action.LOGIN_USER,
   async ({ login: email, password }, { dispatch, extra: api }) => {
-    const { data } = await api.post<UserDataType>(APIRoute.Login, { email, password });
+    const { data } = await api.post<UserDataType>(`/${APIRoute.Login}`, { email, password });
     saveUserProfile(data);
     dispatch(redirectToRoute(AppRoute.Main));
   },
@@ -180,7 +180,7 @@ export const logoutAction = createAsyncThunk<void, undefined, {
 }>(
   Action.LOGOUT_USER,
   async (_arg, { dispatch, extra: api }) => {
-    await api.delete(APIRoute.Logout);
+    await api.delete(`/${APIRoute.Logout}`);
     dropUserProfile();
   },
 );
